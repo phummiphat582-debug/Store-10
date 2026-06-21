@@ -1,0 +1,25 @@
+{
+  "name": "สโตร์ 10",
+  "short_name": "สโตร์ 10",
+  "description": "ระบบจัดการสต็อกสโตร์ 10 — เบิกอุปกรณ์ ตรวจยอดคงเหลือ และสรุปยอด",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#edf1f7",
+  "theme_color": "#245a92",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
