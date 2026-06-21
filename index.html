@@ -302,7 +302,57 @@ tr:hover td{background:#f7f9fc;}
   .form-grid{grid-template-columns:1fr;}
 }
 
-/* PRINT */
+/* LIGHTBOX */
+.lightbox-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:99999;
+  display:none;align-items:center;justify-content:center;cursor:zoom-out;
+  animation:fadeIn .18s ease;
+}
+.lightbox-overlay.open{display:flex;}
+.lightbox-img{
+  max-width:92vw;max-height:88vh;border-radius:10px;
+  box-shadow:0 20px 60px rgba(0,0,0,.7);
+  object-fit:contain;cursor:default;
+  animation:popIn .18s ease-out;
+}
+.lightbox-close{
+  position:fixed;top:18px;right:22px;color:white;font-size:28px;
+  cursor:pointer;opacity:.8;line-height:1;z-index:100000;
+  background:rgba(0,0,0,.4);border-radius:50%;width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .15s;
+}
+.lightbox-close:hover{opacity:1;}
+
+/* THUMB */
+.img-thumb{
+  width:48px;height:48px;object-fit:cover;border-radius:8px;
+  border:1.5px solid var(--border);cursor:zoom-in;
+  transition:transform .15s,box-shadow .15s;vertical-align:middle;
+}
+.img-thumb:hover{transform:scale(1.08);box-shadow:0 4px 12px rgba(0,0,0,.25);}
+
+/* IMAGE UPLOAD AREA */
+.img-upload-area{
+  border:2px dashed var(--border);border-radius:10px;padding:12px;
+  text-align:center;cursor:pointer;transition:border-color .15s,background .15s;
+  background:var(--surface2);position:relative;
+}
+.img-upload-area:hover{border-color:var(--primary);background:var(--primary-soft);}
+.img-upload-area input[type=file]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
+}
+.img-preview-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+.img-preview-item{position:relative;display:inline-block;}
+.img-preview-item img{width:64px;height:64px;object-fit:cover;border-radius:8px;border:1.5px solid var(--border);cursor:zoom-in;}
+.img-preview-item .rm-img{
+  position:absolute;top:-6px;right:-6px;background:#ef4444;color:white;
+  border:none;border-radius:50%;width:18px;height:18px;padding:0;
+  font-size:11px;cursor:pointer;line-height:18px;text-align:center;
+}
+.upload-progress{height:4px;background:var(--border);border-radius:2px;margin-top:6px;display:none;}
+.upload-progress-bar{height:100%;background:var(--primary);border-radius:2px;width:0%;transition:width .2s;}
+
 @media print{
   header,.sidebar,#toast-container,.no-print{display:none!important;}
   .main{padding:0;}
@@ -469,7 +519,7 @@ tr:hover td{background:#f7f9fc;}
                 <th class="text-right">ยอดที่ต้องมี</th><th class="text-center">สถานะ</th>
                 <th class="text-right">ราคา/หน่วย</th><th class="text-right">มูลค่ารวม</th>
                 <th class="text-right">แจ้งเมื่อ≤</th><th>วันที่เพิ่มล่าสุด</th>
-                <th>หมายเหตุ</th><th class="text-center">การกระทำ</th>
+                <th>หมายเหตุ</th><th>รูปภาพ</th><th class="text-center">การกระทำ</th>
               </tr>
             </thead>
             <tbody id="stockBody"></tbody>
@@ -519,6 +569,16 @@ tr:hover td{background:#f7f9fc;}
           <div class="form-row" style="grid-column:1/-1;">
             <label>หมายเหตุ</label>
             <textarea id="note" placeholder="รุ่น, จุดใช้งาน, หรือข้อมูลอื่น ๆ"></textarea>
+          </div>
+          <div class="form-row" style="grid-column:1/-1;">
+            <label>รูปภาพสินค้า (ไม่บังคับ)</label>
+            <div class="img-upload-area" id="addImgArea">
+              <input type="file" id="addImgFile" accept="image/*" multiple onchange="previewAddImages(this)">
+              <div style="font-size:22px;margin-bottom:4px;">🖼️</div>
+              <div style="font-size:12px;color:var(--text2);">คลิกหรือลากรูปมาวางที่นี่</div>
+            </div>
+            <div class="img-preview-wrap" id="addImgPreview"></div>
+            <div class="upload-progress" id="addUploadProgress"><div class="upload-progress-bar" id="addUploadBar"></div></div>
           </div>
         </div>
         <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
@@ -590,6 +650,16 @@ tr:hover td{background:#f7f9fc;}
             <label>หมายเหตุ</label>
             <textarea id="use_note" placeholder="วัตถุประสงค์ จุดที่นำไปใช้ ฯลฯ"></textarea>
           </div>
+          <div class="form-row" style="grid-column:1/-1;">
+            <label>รูปภาพประกอบการเบิก (ไม่บังคับ)</label>
+            <div class="img-upload-area" id="issueImgArea">
+              <input type="file" id="issueImgFile" accept="image/*" multiple onchange="previewIssueImages(this)">
+              <div style="font-size:22px;margin-bottom:4px;">📷</div>
+              <div style="font-size:12px;color:var(--text2);">คลิกหรือลากรูปมาวางที่นี่</div>
+            </div>
+            <div class="img-preview-wrap" id="issueImgPreview"></div>
+            <div class="upload-progress" id="issueUploadProgress"><div class="upload-progress-bar" id="issueUploadBar"></div></div>
+          </div>
         </div>
         <div style="margin-top:14px;">
           <button class="btn-orange" id="btnUseItem">✔ บันทึกการเบิก</button>
@@ -618,6 +688,12 @@ tr:hover td{background:#f7f9fc;}
     </section>
 
   </main>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightboxOverlay" class="lightbox-overlay" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+  <img id="lightboxImg" class="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
 </div>
 
 <!-- TOAST CONTAINER -->
@@ -664,6 +740,17 @@ tr:hover td{background:#f7f9fc;}
         <label>หมายเหตุ</label>
         <textarea id="edit_note"></textarea>
       </div>
+      <div class="form-row" style="grid-column:1/-1;">
+        <label>รูปภาพสินค้า</label>
+        <div class="img-preview-wrap" id="editImgExisting"></div>
+        <div class="img-upload-area" style="margin-top:8px;" id="editImgArea">
+          <input type="file" id="editImgFile" accept="image/*" multiple onchange="previewEditImages(this)">
+          <div style="font-size:18px;margin-bottom:3px;">➕ เพิ่มรูป</div>
+          <div style="font-size:11px;color:var(--text2);">คลิกหรือลากรูปมาวางที่นี่</div>
+        </div>
+        <div class="img-preview-wrap" id="editImgPreview"></div>
+        <div class="upload-progress" id="editUploadProgress"><div class="upload-progress-bar" id="editUploadBar"></div></div>
+      </div>
     </div>
     <input type="hidden" id="edit_idx">
     <div class="popup-footer">
@@ -675,6 +762,7 @@ tr:hover td{background:#f7f9fc;}
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 <script>
 /* ════════════════ FIREBASE ════════════════ */
 const fbConfig = {
@@ -687,6 +775,7 @@ const fbConfig = {
 };
 if(!firebase.apps.length) firebase.initializeApp(fbConfig);
 const db = firebase.firestore();
+const storage = firebase.storage();
 
 /* ════════════════ STORE CONFIG ════════════════ */
 // อ่าน store จาก URL ?store=xxx  ถ้าไม่มีให้ใช้ค่า default ด้านล่าง
@@ -712,6 +801,12 @@ let historyData = [];
 let importRows = [];
 let lastIssuedSummary = null;
 let monthChart = null;
+
+// Image upload state
+let addImgFiles = [];      // pending files for add form
+let issueImgFiles = [];    // pending files for issue form
+let editImgFiles = [];     // pending new files for edit popup
+let editImgUrls = [];      // existing urls for edit popup (to keep/remove)
 
 /* ════════════════ UTILS ════════════════ */
 function todayStr(){ return new Date().toISOString().slice(0,10); }
@@ -757,6 +852,92 @@ function thaiDateTime(val){
 
 function fmt(n){ return Number(n||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function fmtInt(n){ return Number(n||0).toLocaleString('th-TH'); }
+
+/* ════════════════ LIGHTBOX ════════════════ */
+function openLightbox(url){
+  const lb=document.getElementById('lightboxOverlay');
+  document.getElementById('lightboxImg').src=url;
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightboxOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
+
+/* ════════════════ IMAGE UPLOAD ════════════════ */
+async function uploadImages(files, pathPrefix, progressBarId, progressWrapId){
+  if(!files||!files.length) return [];
+  const bar=document.getElementById(progressBarId);
+  const wrap=document.getElementById(progressWrapId);
+  wrap.style.display='block'; bar.style.width='0%';
+  const urls=[];
+  for(let i=0;i<files.length;i++){
+    const f=files[i];
+    const ref=storage.ref(`${STORE_ID}/${pathPrefix}/${Date.now()}_${f.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`);
+    await ref.put(f);
+    const url=await ref.getDownloadURL();
+    urls.push(url);
+    bar.style.width=((i+1)/files.length*100)+'%';
+  }
+  setTimeout(()=>{ wrap.style.display='none'; bar.style.width='0%'; },600);
+  return urls;
+}
+
+function renderImgPreviews(containerId, files, fileArrayRef, fileInputId){
+  const wrap=document.getElementById(containerId);
+  wrap.innerHTML='';
+  files.forEach((f,i)=>{
+    const url=URL.createObjectURL(f);
+    const div=document.createElement('div'); div.className='img-preview-item';
+    div.innerHTML=`<img src="${url}" onclick="openLightbox('${url}')">
+      <button class="rm-img" title="ลบ">✕</button>`;
+    div.querySelector('.rm-img').onclick=()=>{
+      fileArrayRef.splice(i,1);
+      renderImgPreviews(containerId, fileArrayRef, fileArrayRef, fileInputId);
+    };
+    wrap.appendChild(div);
+  });
+}
+
+function previewAddImages(input){
+  const newFiles=Array.from(input.files);
+  addImgFiles=[...addImgFiles,...newFiles];
+  renderImgPreviews('addImgPreview', addImgFiles, addImgFiles, 'addImgFile');
+}
+function previewIssueImages(input){
+  const newFiles=Array.from(input.files);
+  issueImgFiles=[...issueImgFiles,...newFiles];
+  renderImgPreviews('issueImgPreview', issueImgFiles, issueImgFiles, 'issueImgFile');
+}
+function previewEditImages(input){
+  const newFiles=Array.from(input.files);
+  editImgFiles=[...editImgFiles,...newFiles];
+  renderImgPreviews('editImgPreview', editImgFiles, editImgFiles, 'editImgFile');
+}
+
+function renderExistingImgs(urls, onRemove){
+  const wrap=document.getElementById('editImgExisting');
+  wrap.innerHTML='';
+  urls.forEach((url,i)=>{
+    const div=document.createElement('div'); div.className='img-preview-item';
+    const safeUrl=url.replace(/'/g,'%27');
+    div.innerHTML=`<img src="${url}" onclick="openLightbox('${safeUrl}')">
+      <button class="rm-img" title="ลบ">✕</button>`;
+    div.querySelector('.rm-img').onclick=()=>{ onRemove(i); };
+    wrap.appendChild(div);
+  });
+}
+
+/* ════════════════ RENDER THUMB (inline) ════════════════ */
+function renderThumb(urls){
+  if(!urls||!urls.length) return '<span class="text-muted">-</span>';
+  return urls.map(u=>{
+    const safe=u.replace(/'/g,'%27');
+    return `<img class="img-thumb" src="${u}" onclick="openLightbox('${safe}')" title="คลิกเพื่อขยาย">`;
+  }).join(' ');
+}
 
 /* ════════════════ TOAST ════════════════ */
 function toast(msg, type='', dur=3200){
@@ -910,6 +1091,7 @@ function renderStock(){
       <td class="text-right text-muted">${thr>0?fmtInt(thr):'-'}</td>
       <td class="text-muted">${thaiDate(x.date_add)}</td>
       <td class="text-muted" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(x.note||'-')}</td>
+      <td>${renderThumb(x.images)}</td>
       <td class="text-center">
         <button class="btn-primary btn-xs btn-edit-row" data-idx="${realIdx}">แก้ไข</button>
         <button class="btn-ghost btn-xs btn-del-row" data-idx="${realIdx}" style="color:var(--danger);border-color:var(--danger);">ลบ</button>
@@ -955,6 +1137,7 @@ function applyHistoryFilter(){
           ${x.note?`<br>หมายเหตุ: ${esc(x.note)}`:''}
           <br>บันทึกเมื่อ: ${ts}
         </div>
+        ${x.images&&x.images.length?`<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;">${x.images.map(u=>`<img class="img-thumb" src="${u}" onclick="openLightbox('${u.replace(/'/g,'%27')}')" title="คลิกเพื่อขยาย">`).join('')}</div>`:''}
       </div>
       <div class="hist-actions">
         <div style="text-align:right;"><div class="hist-qty">${fmtInt(x.qty)}</div><div class="hist-qty-label">ชิ้น</div></div>
@@ -1016,7 +1199,7 @@ function checkExistingName(){
 }
 
 /* ════════════════ SAVE ITEM ════════════════ */
-function saveItem(){
+async function saveItem(){
   const n=document.getElementById('name').value.trim();
   const q=+document.getElementById('qty').value||0;
   const p=+document.getElementById('price').value||0;
@@ -1026,18 +1209,25 @@ function saveItem(){
   const note=document.getElementById('note').value.trim();
   if(!n){ toast('กรุณากรอกชื่ออุปกรณ์','error'); return; }
   if(q<0){ toast('จำนวนต้องไม่ติดลบ','error'); return; }
-  const found=items.find(x=>x.name===n);
-  if(found){
-    col('items').doc(found.id).update({ qty:(+found.qty||0)+q, price:p, threshold:t, target_qty:target, date_add:d, note })
-      .then(()=>{ clearAddForm(); toast(`เพิ่มจำนวน '${n}' เรียบร้อย ✔`,'success'); });
-  } else {
-    col('items').add({ name:n, qty:q, price:p, threshold:t, target_qty:target, date_add:d, note })
-      .then(()=>{ clearAddForm(); toast(`เพิ่มสินค้าใหม่ '${n}' เรียบร้อย ✔`,'success'); });
-  }
+  const btn=document.getElementById('btnSaveItem');
+  btn.disabled=true; btn.textContent='⏳ กำลังบันทึก...';
+  try{
+    const newUrls=await uploadImages(addImgFiles,'items','addUploadBar','addUploadProgress');
+    const found=items.find(x=>x.name===n);
+    if(found){
+      const merged=[...(found.images||[]),...newUrls];
+      await col('items').doc(found.id).update({ qty:(+found.qty||0)+q, price:p, threshold:t, target_qty:target, date_add:d, note, images:merged });
+    } else {
+      await col('items').add({ name:n, qty:q, price:p, threshold:t, target_qty:target, date_add:d, note, images:newUrls });
+    }
+    clearAddForm();
+    toast(`บันทึก '${n}' เรียบร้อย ✔`,'success');
+  } catch(err){ toast('เกิดข้อผิดพลาด: '+err.message,'error'); }
+  btn.disabled=false; btn.textContent='💾 บันทึก';
 }
 
 /* ════════════════ USE ITEM ════════════════ */
-function useItem(){
+async function useItem(){
   const name=document.getElementById('use_name').value;
   const qty=+document.getElementById('use_qty').value||0;
   const by=document.getElementById('use_by').value.trim();
@@ -1048,13 +1238,21 @@ function useItem(){
   const item=items.find(x=>x.name===name);
   if(!item){ toast('ไม่พบสินค้าในสต็อก','error'); return; }
   if((+item.qty||0)<qty){ toast(`สินค้าไม่พอ (คงเหลือ ${item.qty} ชิ้น)`,'error'); return; }
-  col('items').doc(item.id).update({ qty:(+item.qty||0)-qty })
-    .then(()=>col('history').add({
+  const btn=document.getElementById('btnUseItem');
+  btn.disabled=true; btn.textContent='⏳ กำลังบันทึก...';
+  try{
+    const imgUrls=await uploadImages(issueImgFiles,'history','issueUploadBar','issueUploadProgress');
+    await col('items').doc(item.id).update({ qty:(+item.qty||0)-qty });
+    await col('history').add({
       name, qty, by, date:normalizeDate(date)||date, note,
+      images:imgUrls,
       time:new Date().toISOString(),
       time_ts:firebase.firestore.FieldValue.serverTimestamp()
-    }))
-    .then(()=>{ clearIssueForm(); toast('บันทึกการเบิกเรียบร้อย ✔','success'); });
+    });
+    clearIssueForm();
+    toast('บันทึกการเบิกเรียบร้อย ✔','success');
+  } catch(err){ toast('เกิดข้อผิดพลาด: '+err.message,'error'); }
+  btn.disabled=false; btn.textContent='✔ บันทึกการเบิก';
 }
 
 /* ════════════════ UNDO ISSUE ════════════════ */
@@ -1204,7 +1402,20 @@ function openEditPopup(idx){
   document.getElementById('edit_target').value=x.target_qty||0;
   document.getElementById('edit_note').value=x.note||'';
   document.getElementById('edit_idx').value=idx;
+  // reset new image files
+  editImgFiles=[];
+  document.getElementById('editImgPreview').innerHTML='';
+  document.getElementById('editImgFile').value='';
+  // load existing images
+  editImgUrls=[...(x.images||[])];
+  refreshEditExisting();
   document.getElementById('popupEdit').style.display='flex';
+}
+function refreshEditExisting(){
+  renderExistingImgs(editImgUrls, (i)=>{
+    editImgUrls.splice(i,1);
+    refreshEditExisting();
+  });
 }
 
 /* ════════════════ CLEAR ════════════════ */
@@ -1212,10 +1423,16 @@ function clearAddForm(){
   ['name','qty','price','threshold','target_qty','date_add','note'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('date_add').value=todayStr();
   document.getElementById('nameHint').textContent='';
+  addImgFiles=[];
+  document.getElementById('addImgPreview').innerHTML='';
+  document.getElementById('addImgFile').value='';
 }
 function clearIssueForm(){
   ['use_qty','use_by','use_date','use_note'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('use_date').value=todayStr();
+  issueImgFiles=[];
+  document.getElementById('issueImgPreview').innerHTML='';
+  document.getElementById('issueImgFile').value='';
 }
 
 /* ════════════════ ESCAPE ════════════════ */
@@ -1348,16 +1565,26 @@ document.addEventListener('DOMContentLoaded',()=>{
   // edit popup
   document.getElementById('btnCloseEdit').onclick=()=>document.getElementById('popupEdit').style.display='none';
   document.getElementById('popupEdit').onclick=function(e){ if(e.target===this) this.style.display='none'; };
-  document.getElementById('btnSaveEdit').onclick=()=>{
+  document.getElementById('btnSaveEdit').onclick=async ()=>{
     const idx=+document.getElementById('edit_idx').value;
     const x=items[idx]; if(!x) return;
-    col('items').doc(x.id).update({
-      name:document.getElementById('edit_name').value.trim(),
-      price:+document.getElementById('edit_price').value||0,
-      threshold:+document.getElementById('edit_threshold').value||0,
-      target_qty:+document.getElementById('edit_target').value||0,
-      note:document.getElementById('edit_note').value.trim()
-    }).then(()=>{ document.getElementById('popupEdit').style.display='none'; toast('แก้ไขเรียบร้อย ✔','success'); });
+    const btn=document.getElementById('btnSaveEdit');
+    btn.disabled=true; btn.textContent='⏳ กำลังบันทึก...';
+    try{
+      const newUrls=await uploadImages(editImgFiles,'items','editUploadBar','editUploadProgress');
+      const allUrls=[...editImgUrls,...newUrls];
+      await col('items').doc(x.id).update({
+        name:document.getElementById('edit_name').value.trim(),
+        price:+document.getElementById('edit_price').value||0,
+        threshold:+document.getElementById('edit_threshold').value||0,
+        target_qty:+document.getElementById('edit_target').value||0,
+        note:document.getElementById('edit_note').value.trim(),
+        images:allUrls
+      });
+      document.getElementById('popupEdit').style.display='none';
+      toast('แก้ไขเรียบร้อย ✔','success');
+    } catch(err){ toast('เกิดข้อผิดพลาด: '+err.message,'error'); }
+    btn.disabled=false; btn.textContent='💾 บันทึก';
   };
 
   // import
