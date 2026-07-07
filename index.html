@@ -508,6 +508,9 @@ tr:hover td{background:#f7f9fc;}
           <option value="under">ต่ำกว่ายอดที่ต้องมี 📉</option>
           <option value="ok">สต็อกพอ ✅</option>
         </select>
+        <select id="filterCategory" style="width:180px;">
+          <option value="">ทุกหมวดหมู่</option>
+        </select>
         <button class="btn-outline btn-sm" id="btnExportStock">⬇ Export CSV</button>
       </div>
       <div class="card" style="padding:0;overflow:hidden;">
@@ -515,7 +518,7 @@ tr:hover td{background:#f7f9fc;}
           <table>
             <thead>
               <tr>
-                <th>#</th><th>ชื่ออุปกรณ์</th><th class="text-right">คงเหลือ</th>
+                <th>#</th><th>ชื่ออุปกรณ์</th><th>หมวดหมู่</th><th class="text-right">คงเหลือ</th>
                 <th class="text-right">ยอดที่ต้องมี</th><th class="text-center">สถานะ</th>
                 <th class="text-right">ราคา/หน่วย</th><th class="text-right">มูลค่ารวม</th>
                 <th class="text-right">แจ้งเมื่อ≤</th><th>วันที่เพิ่มล่าสุด</th>
@@ -544,6 +547,22 @@ tr:hover td{background:#f7f9fc;}
             <input id="name" list="nameList" placeholder="พิมพ์ชื่อใหม่ หรือเลือกจากรายการ" autocomplete="off">
             <datalist id="nameList"></datalist>
             <div id="nameHint" class="hint"></div>
+          </div>
+          <div class="form-row">
+            <label>หมวดหมู่</label>
+            <select id="category">
+              <option value="">-- เลือกหมวดหมู่ --</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>ซื้อจากร้าน</label>
+            <input id="shop" list="shopList" placeholder="เช่น ร้าน ก. วัสดุภัณฑ์" autocomplete="off">
+            <datalist id="shopList"></datalist>
+          </div>
+          <div class="form-row">
+            <label>ยี่ห้อ / รุ่น</label>
+            <input id="brand" list="brandList" placeholder="เช่น Bosch GSB 13 RE" autocomplete="off">
+            <datalist id="brandList"></datalist>
           </div>
           <div class="form-row">
             <label>จำนวนที่เพิ่ม (ชิ้น) <span style="color:var(--danger)">*</span></label>
@@ -721,6 +740,20 @@ tr:hover td{background:#f7f9fc;}
         <input id="edit_name">
       </div>
       <div class="form-row">
+        <label>หมวดหมู่</label>
+        <select id="edit_category">
+          <option value="">-- เลือกหมวดหมู่ --</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>ซื้อจากร้าน</label>
+        <input id="edit_shop" list="shopList" autocomplete="off">
+      </div>
+      <div class="form-row">
+        <label>ยี่ห้อ / รุ่น</label>
+        <input id="edit_brand" list="brandList" autocomplete="off">
+      </div>
+      <div class="form-row">
         <label>จำนวน (อ่านอย่างเดียว)</label>
         <input id="edit_qty" type="number" disabled>
       </div>
@@ -801,6 +834,11 @@ let historyData = [];
 let importRows = [];
 let lastIssuedSummary = null;
 let monthChart = null;
+
+// Categories: fixed base list + custom ones added later (saved in Firestore, shared across devices)
+const DEFAULT_CATEGORIES = ['งานซ่อม','งานศิลป์','งานก่อสร้าง','สุขภัณฑ์','อุปกรณ์ไฟฟ้า','เครื่องใช้ไฟฟ้า','อุปกรณ์สำนักงาน','อุปกรณ์ไอที','อุปกรณ์ทำความสะอาด','อุปกรณ์เครื่องกรองน้ำ','งานระบบท่อและสุขาภิบาล','น้ำมัน','อุปกรณ์ยานยนต์'];
+let customCategories = [];
+const CATEGORY_ADD_NEW = '__add_new__';
 
 // Image upload state
 let addImgFiles = [];      // pending files for add form
@@ -1047,9 +1085,11 @@ function renderChart(){
 function renderStock(){
   const kw=(document.getElementById('search').value||'').toLowerCase().trim();
   const fs=document.getElementById('filterStatus').value;
+  const fc=document.getElementById('filterCategory').value;
   const tb=document.getElementById('stockBody');
   let filtered=items.filter(x=>{
     if(kw && !x.name.toLowerCase().includes(kw)) return false;
+    if(fc && (x.category||'')!==fc) return false;
     const qty=+x.qty||0, thr=+x.threshold||0, target=+x.target_qty||0;
     if(fs==='out') return qty===0;
     if(fs==='low') return thr>0&&qty>0&&qty<=thr;
@@ -1080,9 +1120,11 @@ function renderStock(){
       else statusCell=`<span class="tag tag-ok">เกิน ${fmtInt(diff)}</span>`;
     }
 
+    const shopBrand=[x.shop?`ร้าน: ${x.shop}`:'',x.brand?`ยี่ห้อ/รุ่น: ${x.brand}`:''].filter(Boolean).join(' | ');
     tr.innerHTML=`
       <td class="text-muted">${i+1}</td>
-      <td><strong>${esc(x.name)}</strong></td>
+      <td><strong${shopBrand?` title="${esc(shopBrand)}"`:''}>${esc(x.name)}</strong></td>
+      <td class="text-muted">${x.category?esc(x.category):'-'}</td>
       <td class="text-right">${qtyBadge}</td>
       <td class="text-right">${targetCell}</td>
       <td class="text-center">${statusCell}</td>
@@ -1179,6 +1221,55 @@ function updateStockHint(){
 function updateNameDatalist(){
   const dl=document.getElementById('nameList'); dl.innerHTML='';
   items.forEach(x=>{ const o=document.createElement('option');o.value=x.name;dl.appendChild(o); });
+  const shopSet=new Set(items.map(x=>x.shop).filter(Boolean));
+  const sl=document.getElementById('shopList'); sl.innerHTML='';
+  shopSet.forEach(v=>{ const o=document.createElement('option');o.value=v;sl.appendChild(o); });
+  const brandSet=new Set(items.map(x=>x.brand).filter(Boolean));
+  const bl=document.getElementById('brandList'); bl.innerHTML='';
+  brandSet.forEach(v=>{ const o=document.createElement('option');o.value=v;bl.appendChild(o); });
+}
+
+/* ════════════════ CATEGORIES ════════════════ */
+function allCategories(){
+  const extra=customCategories.filter(c=>c && !DEFAULT_CATEGORIES.includes(c));
+  return [...DEFAULT_CATEGORIES, ...extra];
+}
+function populateCategorySelects(){
+  ['category','edit_category'].forEach(id=>{
+    const sel=document.getElementById(id); if(!sel) return;
+    const current=sel.value;
+    sel.innerHTML='<option value="">-- เลือกหมวดหมู่ --</option>'
+      + allCategories().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('')
+      + `<option value="${CATEGORY_ADD_NEW}">➕ เพิ่มหมวดหมู่ใหม่...</option>`;
+    if(current && current!==CATEGORY_ADD_NEW) sel.value=current;
+  });
+  const fc=document.getElementById('filterCategory');
+  if(fc){
+    const current=fc.value;
+    fc.innerHTML='<option value="">ทุกหมวดหมู่</option>'+allCategories().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+    fc.value=current;
+  }
+}
+async function handleCategorySelectChange(selectId){
+  const sel=document.getElementById(selectId);
+  if(sel.value!==CATEGORY_ADD_NEW) return;
+  const name=prompt('ชื่อหมวดหมู่ใหม่:');
+  const trimmed=(name||'').trim();
+  if(!trimmed){ sel.value=''; return; }
+  if(!allCategories().includes(trimmed)){
+    customCategories=[...customCategories, trimmed];
+    try{
+      await col('meta').doc('categories').set({ list: customCategories }, { merge:true });
+    } catch(err){ toast('บันทึกหมวดหมู่ใหม่ไม่สำเร็จ: '+err.message,'error'); }
+  }
+  populateCategorySelects();
+  sel.value=trimmed;
+}
+function listenCategories(){
+  col('meta').doc('categories').onSnapshot(doc=>{
+    customCategories = (doc.exists && Array.isArray(doc.data().list)) ? doc.data().list : [];
+    populateCategorySelects();
+  }, ()=>{ /* ถ้าอ่านไม่ได้ ใช้ค่าเริ่มต้นไปก่อน */ });
 }
 function checkExistingName(){
   const val=document.getElementById('name').value.trim();
@@ -1192,6 +1283,9 @@ function checkExistingName(){
     if(!document.getElementById('threshold').value) document.getElementById('threshold').value=found.threshold||'';
     if(!document.getElementById('target_qty').value) document.getElementById('target_qty').value=found.target_qty||'';
     if(!document.getElementById('note').value) document.getElementById('note').value=found.note||'';
+    if(!document.getElementById('shop').value) document.getElementById('shop').value=found.shop||'';
+    if(!document.getElementById('brand').value) document.getElementById('brand').value=found.brand||'';
+    if(!document.getElementById('category').value) document.getElementById('category').value=found.category||'';
   } else {
     hint.textContent='✨ สินค้าใหม่ — จะเพิ่มเข้าระบบ';
     hint.className='hint hint-ok';
@@ -1207,6 +1301,9 @@ async function saveItem(){
   const target=+document.getElementById('target_qty').value||0;
   const d=document.getElementById('date_add').value;
   const note=document.getElementById('note').value.trim();
+  const shop=document.getElementById('shop').value.trim();
+  const brand=document.getElementById('brand').value.trim();
+  const category=document.getElementById('category').value;
   if(!n){ toast('กรุณากรอกชื่ออุปกรณ์','error'); return; }
   if(q<0){ toast('จำนวนต้องไม่ติดลบ','error'); return; }
   const btn=document.getElementById('btnSaveItem');
@@ -1216,9 +1313,14 @@ async function saveItem(){
     const found=items.find(x=>x.name===n);
     if(found){
       const merged=[...(found.images||[]),...newUrls];
-      await col('items').doc(found.id).update({ qty:(+found.qty||0)+q, price:p, threshold:t, target_qty:target, date_add:d, note, images:merged });
+      // เก็บข้อมูลเดิมไว้ ถ้าไม่ได้กรอกค่าใหม่มาทับ
+      await col('items').doc(found.id).update({
+        qty:(+found.qty||0)+q, price:p, threshold:t, target_qty:target, date_add:d, note,
+        shop: shop||found.shop||'', brand: brand||found.brand||'', category: category||found.category||'',
+        images:merged
+      });
     } else {
-      await col('items').add({ name:n, qty:q, price:p, threshold:t, target_qty:target, date_add:d, note, images:newUrls });
+      await col('items').add({ name:n, qty:q, price:p, threshold:t, target_qty:target, date_add:d, note, shop, brand, category, images:newUrls });
     }
     clearAddForm();
     toast(`บันทึก '${n}' เรียบร้อย ✔`,'success');
@@ -1401,6 +1503,10 @@ function openEditPopup(idx){
   document.getElementById('edit_threshold').value=x.threshold||0;
   document.getElementById('edit_target').value=x.target_qty||0;
   document.getElementById('edit_note').value=x.note||'';
+  document.getElementById('edit_shop').value=x.shop||'';
+  document.getElementById('edit_brand').value=x.brand||'';
+  populateCategorySelects();
+  document.getElementById('edit_category').value=x.category||'';
   document.getElementById('edit_idx').value=idx;
   // reset new image files
   editImgFiles=[];
@@ -1420,7 +1526,7 @@ function refreshEditExisting(){
 
 /* ════════════════ CLEAR ════════════════ */
 function clearAddForm(){
-  ['name','qty','price','threshold','target_qty','date_add','note'].forEach(id=>document.getElementById(id).value='');
+  ['name','qty','price','threshold','target_qty','date_add','note','shop','brand','category'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('date_add').value=todayStr();
   document.getElementById('nameHint').textContent='';
   addImgFiles=[];
@@ -1546,6 +1652,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   // search/filter stock
   document.getElementById('search').addEventListener('input',renderStock);
   document.getElementById('filterStatus').addEventListener('change',renderStock);
+  document.getElementById('filterCategory').addEventListener('change',renderStock);
 
   // history actions (delegate)
   document.getElementById('histBody').addEventListener('click',e=>{
@@ -1556,6 +1663,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('btnHistFilter').onclick=applyHistoryFilter;
   document.getElementById('btnHistClear').onclick=()=>renderHistory(true);
   document.getElementById('btnExportHistory').onclick=()=>exportHistoryCSV();
+
+  // category add-new
+  document.getElementById('category').addEventListener('change',()=>handleCategorySelectChange('category'));
+  document.getElementById('edit_category').addEventListener('change',()=>handleCategorySelectChange('edit_category'));
 
   // name hint
   document.getElementById('name').addEventListener('input',checkExistingName);
@@ -1579,6 +1690,9 @@ document.addEventListener('DOMContentLoaded',()=>{
         threshold:+document.getElementById('edit_threshold').value||0,
         target_qty:+document.getElementById('edit_target').value||0,
         note:document.getElementById('edit_note').value.trim(),
+        shop:document.getElementById('edit_shop').value.trim(),
+        brand:document.getElementById('edit_brand').value.trim(),
+        category:document.getElementById('edit_category').value,
         images:allUrls
       });
       document.getElementById('popupEdit').style.display='none';
@@ -1601,6 +1715,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   };
 
   listenRealtime();
+  listenCategories();
 });
 
 function switchSumBtn(activeId){
