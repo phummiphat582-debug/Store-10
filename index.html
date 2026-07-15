@@ -13,7 +13,6 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 *{box-sizing:border-box;font-family:'Segoe UI','Prompt',sans-serif;margin:0;padding:0;}
 :root{
@@ -512,7 +511,6 @@ tr:hover td{background:#f7f9fc;}
           <button class="btn-primary btn-sm" id="btnDay">📅 วันนี้</button>
           <button class="btn-outline btn-sm" id="btnMonth">🗓️ เดือนนี้</button>
           <button class="btn-outline btn-sm" id="btnPickMonth">📆 เลือกเดือน</button>
-          <button class="btn-ghost btn-sm no-print" id="btnPrintSummary">🖨️ พิมพ์</button>
           <button class="btn-success btn-sm no-print" id="btnExportSumPDF">📄 ส่งออก PDF</button>
         </div>
         <div id="monthPickWrap" style="display:none;margin-bottom:12px;">
@@ -1773,29 +1771,33 @@ function exportSummaryPDF(summary){
   if(!summary || !summary.filtered || !summary.filtered.length){
     toast('ยังไม่มีข้อมูลสรุปให้ส่งออก','warn'); return;
   }
-  if(typeof html2pdf!=='function'){
-    toast('ยังโหลดตัวส่งออก PDF ไม่เสร็จ กรุณาลองใหม่อีกครั้ง','error'); return;
+  const printWindow=window.open('','_blank','width=1100,height=850');
+  if(!printWindow){
+    toast('เบราว์เซอร์บล็อกหน้าต่าง PDF กรุณาอนุญาต Popup แล้วลองใหม่','error'); return;
   }
-  const source=document.createElement('div');
-  source.style.cssText='position:fixed;left:0;top:0;width:190mm;background:#fff;color:#1f2933;padding:8mm;z-index:-1;font-family:Tahoma,Arial,sans-serif;';
-  const title=document.createElement('div');
-  title.innerHTML=`<h1 style="font-size:20px;margin:0 0 4px;color:#245a92;">รายงานสรุปการเบิกสินค้า</h1><div style="font-size:13px;margin-bottom:12px;">${esc(summary.label)} · ${esc(STORE_ID)}</div>`;
+  const styles=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n');
   const report=document.getElementById('summaryWrap').cloneNode(true);
   report.style.display='block';
   report.querySelectorAll('.no-print').forEach(el=>el.remove());
-  source.append(title,report);
-  document.body.appendChild(source);
-  html2pdf().set({
-    margin:0,
-    filename:`summary_issue_${STORE_ID}_${todayStr()}.pdf`,
-    image:{type:'jpeg',quality:0.98},
-    html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},
-    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
-    pagebreak:{mode:['css','legacy']}
-  }).from(source).save().then(()=>source.remove()).catch(err=>{
-    source.remove();
-    toast('ส่งออก PDF ไม่สำเร็จ: '+err.message,'error');
-  });
+  printWindow.document.open();
+  printWindow.document.write(`<!doctype html><html lang="th"><head><meta charset="UTF-8"><title>รายงานสรุปการเบิก ${esc(summary.label)}</title><style>${styles}</style><style>
+    @page{size:A4;margin:12mm;}
+    body{background:#fff!important;color:#1f2933;padding:0!important;font-family:Tahoma,Arial,sans-serif;}
+    .summary-pdf-page{width:100%;}
+    .summary-pdf-page h1{font-size:20px;color:#245a92;margin:0 0 4px;}
+    .summary-pdf-page .report-meta{font-size:13px;margin-bottom:12px;}
+    .summary-pdf-page .table-wrap{overflow:visible!important;}
+    .summary-pdf-page table{font-size:11px;}
+    .summary-pdf-page tr{break-inside:avoid;}
+  </style></head><body><div class="summary-pdf-page"><h1>รายงานสรุปการเบิกสินค้า</h1><div class="report-meta">${esc(summary.label)} · ${esc(STORE_ID)}</div>${report.outerHTML}</div></body></html>`);
+  printWindow.document.close();
+  printWindow.focus();
+  const printNow=()=>{
+    printWindow.print();
+    setTimeout(()=>printWindow.close(),1000);
+  };
+  if(printWindow.document.fonts&&printWindow.document.fonts.ready) printWindow.document.fonts.ready.then(()=>setTimeout(printNow,250));
+  else setTimeout(printNow,500);
 }
 
 /* ════════════════ CSV IMPORT ════════════════ */
@@ -2014,8 +2016,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     const yy=document.getElementById('pickYear').value;
     showSummary('month',yy+'-'+mm);
   };
-  document.getElementById('btnPrintSummary').onclick=()=>window.print();
-
   // export summary csv
   document.getElementById('btnExportSumCSV').onclick=()=>{
     exportSummaryCSV(lastIssuedSummary);
