@@ -13,6 +13,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 *{box-sizing:border-box;font-family:'Segoe UI','Prompt',sans-serif;margin:0;padding:0;}
 :root{
@@ -174,6 +175,49 @@ tr:hover td{background:#f7f9fc;}
 .text-right{text-align:right;}
 .text-center{text-align:center;}
 .text-muted{color:var(--text2);}
+
+/* STOCK TABLE: fit the complete table to the available screen width */
+.stock-table-wrap{overflow:hidden;}
+.stock-table{table-layout:fixed;width:100%;font-size:11px;}
+.stock-table th{font-size:10px;padding:7px 6px;white-space:normal;}
+.stock-table td{padding:7px 6px;white-space:normal;overflow-wrap:anywhere;}
+.stock-table th:nth-child(1),.stock-table td:nth-child(1){width:3%;}
+.stock-table th:nth-child(2),.stock-table td:nth-child(2){width:14%;}
+.stock-table th:nth-child(3),.stock-table td:nth-child(3){width:8%;}
+.stock-table th:nth-child(4),.stock-table td:nth-child(4){width:6%;}
+.stock-table th:nth-child(5),.stock-table td:nth-child(5){width:7%;}
+.stock-table th:nth-child(6),.stock-table td:nth-child(6){width:8%;}
+.stock-table th:nth-child(7),.stock-table td:nth-child(7){width:7%;}
+.stock-table th:nth-child(8),.stock-table td:nth-child(8){width:8%;}
+.stock-table th:nth-child(9),.stock-table td:nth-child(9){width:6%;}
+.stock-table th:nth-child(10),.stock-table td:nth-child(10){width:8%;}
+.stock-table th:nth-child(11),.stock-table td:nth-child(11){width:10%;}
+.stock-table th:nth-child(12),.stock-table td:nth-child(12){width:5%;}
+.stock-table th:nth-child(13),.stock-table td:nth-child(13){width:10%;}
+.stock-table .img-thumb{width:32px;height:32px;}
+.stock-table .tag{font-size:10px;padding:2px 5px;}
+.stock-table .btn-xs{padding:3px 5px;font-size:10px;white-space:nowrap;}
+@media(max-width:1100px){
+  .stock-table th:nth-child(9),.stock-table td:nth-child(9),
+  .stock-table th:nth-child(10),.stock-table td:nth-child(10),
+  .stock-table th:nth-child(11),.stock-table td:nth-child(11),
+  .stock-table th:nth-child(12),.stock-table td:nth-child(12){display:none;}
+  .stock-table th:nth-child(2),.stock-table td:nth-child(2){width:24%;}
+  .stock-table th:nth-child(3),.stock-table td:nth-child(3){width:14%;}
+  .stock-table th:nth-child(13),.stock-table td:nth-child(13){width:15%;}
+}
+@media(max-width:760px){
+  .stock-table th:nth-child(5),.stock-table td:nth-child(5),
+  .stock-table th:nth-child(6),.stock-table td:nth-child(6),
+  .stock-table th:nth-child(7),.stock-table td:nth-child(7),
+  .stock-table th:nth-child(8),.stock-table td:nth-child(8){display:none;}
+  .stock-table th:nth-child(1),.stock-table td:nth-child(1){width:8%;}
+  .stock-table th:nth-child(2),.stock-table td:nth-child(2){width:42%;}
+  .stock-table th:nth-child(3),.stock-table td:nth-child(3){width:25%;}
+  .stock-table th:nth-child(4),.stock-table td:nth-child(4){width:13%;}
+  .stock-table th:nth-child(13),.stock-table td:nth-child(13){width:12%;}
+  .stock-table .btn-xs{display:block;width:100%;margin:2px 0;padding:3px 2px;font-size:9px;}
+}
 
 /* HISTORY CARD */
 .hist-card{
@@ -469,6 +513,7 @@ tr:hover td{background:#f7f9fc;}
           <button class="btn-outline btn-sm" id="btnMonth">🗓️ เดือนนี้</button>
           <button class="btn-outline btn-sm" id="btnPickMonth">📆 เลือกเดือน</button>
           <button class="btn-ghost btn-sm no-print" id="btnPrintSummary">🖨️ พิมพ์</button>
+          <button class="btn-success btn-sm no-print" id="btnExportSumPDF">📄 ส่งออก PDF</button>
         </div>
         <div id="monthPickWrap" style="display:none;margin-bottom:12px;">
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
@@ -487,12 +532,14 @@ tr:hover td{background:#f7f9fc;}
         <div id="summaryWrap" style="display:none;">
           <div style="font-weight:600;font-size:13px;margin-bottom:10px;color:var(--text3);" id="sumLabel"></div>
           <div class="sum-boxes" id="sumBoxes"></div>
+          <div class="card-title" style="margin-top:4px;">แยกตามแผนก</div>
+          <div class="table-wrap"><table><thead><tr><th>แผนก</th><th class="text-right">จำนวน (ชิ้น)</th><th class="text-right">จำนวนครั้ง</th></tr></thead><tbody id="sumDepartmentBody"></tbody></table></div>
           <div class="card-title" style="margin-top:4px;">แยกตามหมวดหมู่</div>
           <div class="table-wrap"><table><thead><tr><th>หมวดหมู่</th><th class="text-right">จำนวน (ชิ้น)</th><th class="text-right">จำนวนครั้ง</th></tr></thead><tbody id="sumCategoryBody"></tbody></table></div>
           <div class="card-title" style="margin-top:4px;">แยกตามอุปกรณ์</div>
           <div class="table-wrap" style="margin-top:10px;"><table><thead><tr><th>อุปกรณ์</th><th>หมวดหมู่</th><th class="text-right">จำนวน (ชิ้น)</th><th class="text-right">จำนวนครั้ง</th></tr></thead><tbody id="sumItemBody"></tbody></table></div>
           <div class="card-title" style="margin-top:14px;">รายการทั้งหมด</div>
-          <div class="table-wrap"><table><thead><tr><th>วันที่เบิก</th><th>หมวดหมู่</th><th>อุปกรณ์</th><th class="text-right">จำนวน</th><th>ผู้เบิก</th><th>หมายเหตุ</th></tr></thead><tbody id="sumDetailBody"></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>วันที่เบิก</th><th>แผนก</th><th>หมวดหมู่</th><th>อุปกรณ์</th><th class="text-right">จำนวน</th><th>ผู้เบิก</th><th>หมายเหตุ</th></tr></thead><tbody id="sumDetailBody"></tbody></table></div>
           <div style="margin-top:10px;text-align:right;" class="no-print">
             <button class="btn-ghost btn-sm" id="btnExportSumCSV">⬇ Export CSV</button>
           </div>
@@ -525,8 +572,8 @@ tr:hover td{background:#f7f9fc;}
         <button class="btn-outline btn-sm" id="btnExportStock">⬇ Export CSV</button>
       </div>
       <div class="card" style="padding:0;overflow:hidden;">
-        <div class="table-wrap">
-          <table>
+        <div class="table-wrap stock-table-wrap">
+          <table class="stock-table">
             <thead>
               <tr>
                 <th>#</th><th>ชื่ออุปกรณ์</th><th>หมวดหมู่</th><th class="text-right">คงเหลือ</th>
@@ -1625,20 +1672,25 @@ function showSummary(mode, ym){
     <div class="sum-box" style="background:#eff6ff;border:1px solid #bfdbfe;"><div class="lbl">จำนวนครั้ง</div><div class="val" style="color:var(--primary);">${fmtInt(filtered.length)}</div></div>
     <div class="sum-box" style="background:#f0fdf4;border:1px solid #bbf7d0;"><div class="lbl">ชิ้นที่เบิกรวม</div><div class="val" style="color:var(--success);">${fmtInt(totalQty)}</div></div>
     <div class="sum-box" style="background:#fffbeb;border:1px solid #fde68a;"><div class="lbl">สต็อกคงเหลือตอนนี้</div><div class="val" style="color:var(--warning);">${fmtInt(totalNow)}</div></div>`;
-  const byCategory={}, byItem={};
+  const byDepartment={}, byCategory={}, byItem={};
   filtered.forEach(x=>{
     const meta=itemMetaByName(x.name,x);
+    const department=x.department_name||departmentLabel(x.department)||'ไม่ระบุแผนก';
+    if(!byDepartment[department]) byDepartment[department]={qty:0,count:0};
+    byDepartment[department].qty+=(+x.qty||0); byDepartment[department].count++;
     if(!byCategory[meta.category]) byCategory[meta.category]={qty:0,count:0};
     byCategory[meta.category].qty+=(+x.qty||0); byCategory[meta.category].count++;
     if(!byItem[x.name]) byItem[x.name]={qty:0,count:0,category:meta.category};
     byItem[x.name].qty+=(+x.qty||0); byItem[x.name].count++;
   });
+  document.getElementById('sumDepartmentBody').innerHTML=Object.keys(byDepartment).sort().map(d=>`<tr><td>${esc(d)}</td><td class="text-right"><b>${fmtInt(byDepartment[d].qty)}</b></td><td class="text-right">${byDepartment[d].count}</td></tr>`).join('');
   document.getElementById('sumCategoryBody').innerHTML=Object.keys(byCategory).sort().map(c=>`<tr><td>${esc(c)}</td><td class="text-right"><b>${fmtInt(byCategory[c].qty)}</b></td><td class="text-right">${byCategory[c].count}</td></tr>`).join('');
   document.getElementById('sumItemBody').innerHTML=Object.keys(byItem).sort().map(n=>`<tr><td>${esc(n)}</td><td>${esc(byItem[n].category)}</td><td class="text-right"><b>${fmtInt(byItem[n].qty)}</b></td><td class="text-right">${byItem[n].count}</td></tr>`).join('');
   const sorted=filtered.slice().sort((a,b)=>((normalizeDate(a.date)||'')+(a.time||'')).localeCompare((normalizeDate(b.date)||'')+(b.time||'')));
   document.getElementById('sumDetailBody').innerHTML=sorted.map(x=>{
     const meta=itemMetaByName(x.name,x);
-    return `<tr><td>${thaiDate(normalizeDate(x.date))}</td><td>${esc(meta.category)}</td><td>${esc(x.name)}</td><td class="text-right"><b>${fmtInt(x.qty)}</b></td><td>${esc(x.by)}</td><td class="text-muted">${esc(x.note||'-')}</td></tr>`;
+    const department=x.department_name||departmentLabel(x.department)||'ไม่ระบุแผนก';
+    return `<tr><td>${thaiDate(normalizeDate(x.date))}</td><td>${esc(department)}</td><td>${esc(meta.category)}</td><td>${esc(x.name)}</td><td class="text-right"><b>${fmtInt(x.qty)}</b></td><td>${esc(x.by)}</td><td class="text-muted">${esc(x.note||'-')}</td></tr>`;
   }).join('');
 }
 
@@ -1675,9 +1727,12 @@ function exportSummaryCSV(summary){
   if(!summary || !summary.filtered || !summary.filtered.length){ toast('ยังไม่มีข้อมูลสรุปให้ส่งออก','warn'); return; }
   const filtered=summary.filtered;
   const totalQty=filtered.reduce((s,x)=>s+(+x.qty||0),0);
-  const byCategory={}, byItem={};
+  const byDepartment={}, byCategory={}, byItem={};
   filtered.forEach(x=>{
     const meta=itemMetaByName(x.name,x);
+    const department=x.department_name||departmentLabel(x.department)||'ไม่ระบุแผนก';
+    if(!byDepartment[department]) byDepartment[department]={qty:0,count:0};
+    byDepartment[department].qty+=(+x.qty||0); byDepartment[department].count++;
     if(!byCategory[meta.category]) byCategory[meta.category]={qty:0,count:0};
     byCategory[meta.category].qty+=(+x.qty||0); byCategory[meta.category].count++;
     if(!byItem[x.name]) byItem[x.name]={qty:0,count:0,category:meta.category};
@@ -1688,6 +1743,10 @@ function exportSummaryCSV(summary){
     ['ช่วงเวลา',summary.label],
     ['จำนวนครั้ง',filtered.length],
     ['ชิ้นที่เบิกรวม',totalQty],
+    [],
+    ['สรุปตามแผนก'],
+    ['แผนก','จำนวนที่เบิก','จำนวนครั้ง'],
+    ...Object.keys(byDepartment).sort().map(d=>[d,byDepartment[d].qty,byDepartment[d].count]),
     [],
     ['สรุปตามหมวดหมู่'],
     ['หมวดหมู่','จำนวนที่เบิก','จำนวนครั้ง'],
@@ -1708,6 +1767,35 @@ function exportSummaryCSV(summary){
     })
   ];
   exportCSV(rows, ['รายงานสรุปการเบิก'], 'summary_export_'+todayStr()+'.csv');
+}
+
+function exportSummaryPDF(summary){
+  if(!summary || !summary.filtered || !summary.filtered.length){
+    toast('ยังไม่มีข้อมูลสรุปให้ส่งออก','warn'); return;
+  }
+  if(typeof html2pdf!=='function'){
+    toast('ยังโหลดตัวส่งออก PDF ไม่เสร็จ กรุณาลองใหม่อีกครั้ง','error'); return;
+  }
+  const source=document.createElement('div');
+  source.style.cssText='position:fixed;left:0;top:0;width:190mm;background:#fff;color:#1f2933;padding:8mm;z-index:-1;font-family:Tahoma,Arial,sans-serif;';
+  const title=document.createElement('div');
+  title.innerHTML=`<h1 style="font-size:20px;margin:0 0 4px;color:#245a92;">รายงานสรุปการเบิกสินค้า</h1><div style="font-size:13px;margin-bottom:12px;">${esc(summary.label)} · ${esc(STORE_ID)}</div>`;
+  const report=document.getElementById('summaryWrap').cloneNode(true);
+  report.style.display='block';
+  report.querySelectorAll('.no-print').forEach(el=>el.remove());
+  source.append(title,report);
+  document.body.appendChild(source);
+  html2pdf().set({
+    margin:0,
+    filename:`summary_issue_${STORE_ID}_${todayStr()}.pdf`,
+    image:{type:'jpeg',quality:0.98},
+    html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+    pagebreak:{mode:['css','legacy']}
+  }).from(source).save().then(()=>source.remove()).catch(err=>{
+    source.remove();
+    toast('ส่งออก PDF ไม่สำเร็จ: '+err.message,'error');
+  });
 }
 
 /* ════════════════ CSV IMPORT ════════════════ */
@@ -1931,6 +2019,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   // export summary csv
   document.getElementById('btnExportSumCSV').onclick=()=>{
     exportSummaryCSV(lastIssuedSummary);
+  };
+  document.getElementById('btnExportSumPDF').onclick=()=>{
+    exportSummaryPDF(lastIssuedSummary);
   };
 
   // stock actions (delegate)
