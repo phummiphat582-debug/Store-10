@@ -511,6 +511,7 @@ tr:hover td{background:#f7f9fc;}
           <button class="btn-primary btn-sm" id="btnDay">📅 วันนี้</button>
           <button class="btn-outline btn-sm" id="btnMonth">🗓️ เดือนนี้</button>
           <button class="btn-outline btn-sm" id="btnPickMonth">📆 เลือกเดือน</button>
+          <select id="pdfDepartmentSelect" class="no-print" style="width:230px;" aria-label="เลือกแผนกสำหรับส่งออก PDF"></select>
           <button class="btn-success btn-sm no-print" id="btnExportSumPDF">📄 ส่งออก PDF</button>
         </div>
         <div id="monthPickWrap" style="display:none;margin-bottom:12px;">
@@ -935,10 +936,25 @@ function departmentLabel(code){
   const dept=DEPARTMENTS.find(x=>x.code===code);
   return dept ? `${dept.code} ${dept.name}` : code||'';
 }
+function departmentText(record){
+  return record&& (record.department_name||departmentLabel(record.department)) || 'ไม่ระบุแผนก';
+}
 function populateDepartments(){
   const select=document.getElementById('use_department');
   if(!select) return;
   select.innerHTML='<option value="">-- เลือกแผนก --</option>'+DEPARTMENTS.map(x=>`<option value="${esc(x.code)}">${esc(x.code+' '+x.name)}</option>`).join('');
+}
+function populatePDFDepartmentSelect(){
+  const select=document.getElementById('pdfDepartmentSelect');
+  if(!select) return;
+  select.innerHTML='<option value="">-- เลือกแผนกสำหรับ PDF --</option><option value="__all__">ทุกแผนก</option>'+
+    DEPARTMENTS.map(x=>`<option value="${esc(x.code)}">${esc(x.code+' '+x.name)}</option>`).join('')+
+    '<option value="__unassigned__">ไม่ระบุแผนก</option>';
+}
+function matchesDepartment(record, code){
+  if(code==='__all__') return true;
+  if(code==='__unassigned__') return !record.department&&!record.department_name;
+  return record.department===code || record.department_name===departmentLabel(code);
 }
 
 // Image upload state
@@ -1595,7 +1611,7 @@ async function useItem(){
       batch.update(col('items').doc(item.id), { qty:(+item.qty||0)-(+row.qty||0) });
       batch.set(col('history').doc(), {
         name:row.name, qty:+row.qty||0, department, department_name:departmentLabel(department), by, date:normalizeDate(date)||date, note,
-        category:item.category||'', shop:item.shop||'', brand:item.brand||'',
+        category:item.category||'', shop:item.shop||'', brand:item.brand||'', unit_price:+item.price||0,
         images:imgUrls,
         batch_id:now,
         time:now,
@@ -1636,7 +1652,7 @@ function itemMetaByName(name, record){
     category:(record&&record.category)||item.category||'ไม่ระบุหมวดหมู่',
     shop:(record&&record.shop)||item.shop||'',
     brand:(record&&record.brand)||item.brand||'',
-    price:+item.price||0,
+    price:(record&&record.unit_price!=null)?(+record.unit_price||0):(+item.price||0),
     threshold:+item.threshold||0,
     target_qty:+item.target_qty||0,
     stock_qty:+item.qty||0,
@@ -1659,6 +1675,8 @@ function showSummary(mode, ym){
     filtered=historyData.filter(x=>normalizeDate(x.date)?.slice(0,7)===targetYM);
   }
   lastIssuedSummary={filtered, label};
+  const pdfDepartmentSelect=document.getElementById('pdfDepartmentSelect');
+  if(pdfDepartmentSelect) pdfDepartmentSelect.value='';
   document.getElementById('sumLabel').textContent='📋 สรุปยอด — '+label;
   const wrap=document.getElementById('summaryWrap');
   const empty=document.getElementById('sumEmpty');
@@ -1767,35 +1785,61 @@ function exportSummaryCSV(summary){
   exportCSV(rows, ['รายงานสรุปการเบิก'], 'summary_export_'+todayStr()+'.csv');
 }
 
-function exportSummaryPDF(summary){
+function exportSummaryPDF(summary, departmentCode){
   if(!summary || !summary.filtered || !summary.filtered.length){
     toast('ยังไม่มีข้อมูลสรุปให้ส่งออก','warn'); return;
   }
-  const printWindow=window.open('','_blank','width=1100,height=850');
+  if(!departmentCode){
+    toast('กรุณาเลือกแผนกก่อนส่งออก PDF','warn'); return;
+  }
+  const selected=summary.filtered.filter(x=>matchesDepartment(x,departmentCode));
+  if(!selected.length){
+    toast('ไม่พบรายการเบิกของแผนกที่เลือกในช่วงเวลานี้','warn'); return;
+  }
+  const grouped={};
+  selected.forEach(x=>{
+    const meta=itemMetaByName(x.name,x);
+    const price=meta.price;
+    if(!grouped[x.name]) grouped[x.name]={name:x.name,qty:0,price,total:0};
+    grouped[x.name].qty+=(+x.qty||0);
+    grouped[x.name].total+=(+x.qty||0)*price;
+    if(grouped[x.name].price!==price) grouped[x.name].price=null;
+  });
+  const rows=Object.values(grouped).sort((a,b)=>a.name.localeCompare(b.name,'th'));
+  const totalQty=rows.reduce((sum,x)=>sum+x.qty,0);
+  const grandTotal=rows.reduce((sum,x)=>sum+x.total,0);
+  const selectedDepartment=departmentCode==='__all__'?'ทุกแผนก':departmentCode==='__unassigned__'?'ไม่ระบุแผนก':departmentLabel(departmentCode);
+  const printWindow=window.open('','_blank','width=900,height=800');
   if(!printWindow){
     toast('เบราว์เซอร์บล็อกหน้าต่าง PDF กรุณาอนุญาต Popup แล้วลองใหม่','error'); return;
   }
+  const rowsHtml=rows.map(x=>`<tr><td>${esc(x.name)}</td><td class="num">${fmtInt(x.qty)}</td><td class="num">${x.price==null?'-':fmt(x.price)}</td><td class="num">${fmt(x.total)}</td></tr>`).join('');
   const styles=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n');
-  const report=document.getElementById('summaryWrap').cloneNode(true);
-  report.style.display='block';
-  report.querySelectorAll('.no-print').forEach(el=>el.remove());
   printWindow.document.open();
-  printWindow.document.write(`<!doctype html><html lang="th"><head><meta charset="UTF-8"><title>รายงานสรุปการเบิก ${esc(summary.label)}</title><style>${styles}</style><style>
-    @page{size:A4;margin:12mm;}
-    body{background:#fff!important;color:#1f2933;padding:0!important;font-family:Tahoma,Arial,sans-serif;}
-    .summary-pdf-page{width:100%;}
-    .summary-pdf-page h1{font-size:20px;color:#245a92;margin:0 0 4px;}
-    .summary-pdf-page .report-meta{font-size:13px;margin-bottom:12px;}
-    .summary-pdf-page .table-wrap{overflow:visible!important;}
-    .summary-pdf-page table{font-size:11px;}
-    .summary-pdf-page tr{break-inside:avoid;}
-  </style></head><body><div class="summary-pdf-page"><h1>รายงานสรุปการเบิกสินค้า</h1><div class="report-meta">${esc(summary.label)} · ${esc(STORE_ID)}</div>${report.outerHTML}</div></body></html>`);
+  printWindow.document.write(`<!doctype html><html lang="th"><head><meta charset="UTF-8"><title>ใบสรุปการเบิก ${esc(selectedDepartment)}</title><style>${styles}</style><style>
+    @page{size:A4;margin:14mm;}
+    body{background:#fff!important;color:#111827;padding:0!important;font-family:Tahoma,Arial,sans-serif;}
+    .receipt{max-width:180mm;margin:0 auto;}
+    .receipt h1{text-align:center;font-size:20px;margin:0 0 14px;color:#245a92;}
+    .receipt-meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 20px;border:1px solid #cbd5e1;padding:10px;margin-bottom:14px;font-size:12px;}
+    .receipt table{width:100%;border-collapse:collapse;font-size:12px;}
+    .receipt th{background:#edf2f7;border:1px solid #cbd5e1;padding:8px;text-align:left;}
+    .receipt td{border:1px solid #cbd5e1;padding:8px;}
+    .receipt .num{text-align:right;white-space:nowrap;}
+    .receipt-total{margin-top:12px;margin-left:auto;width:260px;border-top:2px solid #111827;padding-top:8px;font-size:14px;}
+    .receipt-total div{display:flex;justify-content:space-between;padding:3px 0;}
+    .receipt-total .grand{font-size:17px;font-weight:700;color:#245a92;}
+    .receipt-foot{margin-top:24px;text-align:center;color:#6b7280;font-size:10px;}
+  </style></head><body><main class="receipt">
+    <h1>ใบสรุปการเบิกสินค้า</h1>
+    <div class="receipt-meta"><div><b>แผนก:</b> ${esc(selectedDepartment)}</div><div><b>สาขา:</b> ${esc(STORE_ID)}</div><div><b>ช่วงเวลา:</b> ${esc(summary.label)}</div><div><b>วันที่ออกเอกสาร:</b> ${esc(thaiDate(todayStr()))}</div></div>
+    <table><thead><tr><th>รายการสินค้า</th><th class="num">จำนวน</th><th class="num">ราคา/หน่วย</th><th class="num">รวมเงิน</th></tr></thead><tbody>${rowsHtml}</tbody></table>
+    <div class="receipt-total"><div><span>รวมจำนวน</span><b>${fmtInt(totalQty)} ชิ้น</b></div><div class="grand"><span>ยอดรวมทั้งสิ้น</span><b>${fmt(grandTotal)} บาท</b></div></div>
+    <div class="receipt-foot">เอกสารสรุปจากระบบ Store-10</div>
+  </main></body></html>`);
   printWindow.document.close();
   printWindow.focus();
-  const printNow=()=>{
-    printWindow.print();
-    setTimeout(()=>printWindow.close(),1000);
-  };
+  const printNow=()=>{ printWindow.print(); setTimeout(()=>printWindow.close(),1000); };
   if(printWindow.document.fonts&&printWindow.document.fonts.ready) printWindow.document.fonts.ready.then(()=>setTimeout(printNow,250));
   else setTimeout(printNow,500);
 }
@@ -1987,6 +2031,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   setupNav();
   populateYearSelect();
   populateDepartments();
+  populatePDFDepartmentSelect();
   const today=todayStr();
   document.getElementById('date_add').value=today;
   document.getElementById('use_date').value=today;
@@ -2021,7 +2066,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     exportSummaryCSV(lastIssuedSummary);
   };
   document.getElementById('btnExportSumPDF').onclick=()=>{
-    exportSummaryPDF(lastIssuedSummary);
+    exportSummaryPDF(lastIssuedSummary,document.getElementById('pdfDepartmentSelect').value);
   };
 
   // stock actions (delegate)
