@@ -683,6 +683,12 @@ tr:hover td{background:#f7f9fc;}
             </div>
           </div>
           <div class="form-row">
+            <label>แผนกที่เบิก <span style="color:var(--danger)">*</span></label>
+            <select id="use_department" required>
+              <option value="">-- เลือกแผนก --</option>
+            </select>
+          </div>
+          <div class="form-row">
             <label>ผู้เบิก <span style="color:var(--danger)">*</span></label>
             <input id="use_by" list="byList" placeholder="ชื่อผู้เบิก" autocomplete="off">
             <datalist id="byList"></datalist>
@@ -866,6 +872,29 @@ let monthChart = null;
 const DEFAULT_CATEGORIES = ['งานซ่อม','งานศิลป์','งานก่อสร้าง','สุขภัณฑ์','อุปกรณ์ไฟฟ้า','เครื่องใช้ไฟฟ้า','อุปกรณ์สำนักงาน','อุปกรณ์ไอที','อุปกรณ์ทำความสะอาด','อุปกรณ์เครื่องกรองน้ำ','งานระบบท่อและสุขาภิบาล','น้ำมัน','อุปกรณ์ยานยนต์'];
 let customCategories = [];
 const CATEGORY_ADD_NEW = '__add_new__';
+
+// Add new departments here; the code is stored with each issue record.
+const DEPARTMENTS = [
+  {code:'0',name:'ฟร้อน'},{code:'10',name:'สโตร์SC'},{code:'11',name:'บุคคล'},
+  {code:'13',name:'ไอศกรีม'},{code:'14',name:'รปภ'},{code:'16',name:'บัญชี'},
+  {code:'17',name:'ลำธาร'},{code:'19',name:'คนสวน'},{code:'20',name:'ซุ้มเกม'},
+  {code:'21',name:'เบเกอรี่ (แกรนด์มา ลำธาร บูธน้ำ)'},{code:'22',name:'ร้านอาหาร'},
+  {code:'23',name:'ขายของที่ระลึก (สโตร์+SPS3)'},{code:'24',name:'แม่บ้าน'},
+  {code:'25',name:'การตลาด'},{code:'33',name:'มอลทาเดล'},{code:'34',name:'ผู้บริหาร'},
+  {code:'84',name:'ซ่อมบำรุง'},{code:'85',name:'ก่อสร้าง'},{code:'86',name:'ศิลป์'},
+  {code:'91',name:'ดูแลสัตว์'},{code:'92',name:'โชว์'},{code:'123',name:'ไร่'},
+  {code:'H0',name:'บ้านพัก'},{code:'H12',name:'สวนผึ้งอิกลู'},{code:'H13',name:'หอพักพนักงาน'},
+  {code:'H17',name:'ชิชญา'},{code:'H18',name:'แคนทีน'},{code:'H19',name:'แพราชบุรี'}
+];
+function departmentLabel(code){
+  const dept=DEPARTMENTS.find(x=>x.code===code);
+  return dept ? `${dept.code} ${dept.name}` : code||'';
+}
+function populateDepartments(){
+  const select=document.getElementById('use_department');
+  if(!select) return;
+  select.innerHTML='<option value="">-- เลือกแผนก --</option>'+DEPARTMENTS.map(x=>`<option value="${esc(x.code)}">${esc(x.code+' '+x.name)}</option>`).join('');
+}
 
 // Image upload state
 let addImgFiles = [];      // pending files for add form
@@ -1245,7 +1274,10 @@ function applyHistoryFilter(){
     const kb=(normalizeDate(b.date)||'')+'|'+(b.time||'');
     return kb.localeCompare(ka);
   });
-  if(kw) filtered=filtered.filter(x=>(x.name||'').toLowerCase().includes(kw)||(x.by||'').toLowerCase().includes(kw));
+  if(kw) filtered=filtered.filter(x=>{
+    const dept=x.department_name||departmentLabel(x.department);
+    return (x.name||'').toLowerCase().includes(kw)||(x.by||'').toLowerCase().includes(kw)||dept.toLowerCase().includes(kw);
+  });
   if(from) filtered=filtered.filter(x=>(normalizeDate(x.date)||'')>=from);
   if(to) filtered=filtered.filter(x=>(normalizeDate(x.date)||'')<=to);
   const div=document.getElementById('histBody');
@@ -1260,7 +1292,7 @@ function applyHistoryFilter(){
       <div class="hist-info">
         <div class="hist-name">${esc(x.name)}</div>
         <div class="hist-meta">
-          ผู้เบิก: <b>${esc(x.by)}</b> · วันที่เบิก: ${thaiDate(nd)}
+          แผนก: <b>${esc(x.department_name||departmentLabel(x.department)||'ไม่ระบุ')}</b> · ผู้เบิก: <b>${esc(x.by)}</b> · วันที่เบิก: ${thaiDate(nd)}
           ${x.note?`<br>หมายเหตุ: ${esc(x.note)}`:''}
           <br>บันทึกเมื่อ: ${ts}
         </div>
@@ -1500,10 +1532,11 @@ function validateIssueRows(rows){
 }
 async function useItem(){
   const rows=collectIssueRows();
+  const department=document.getElementById('use_department').value;
   const by=document.getElementById('use_by').value.trim();
   const date=document.getElementById('use_date').value;
   const note=document.getElementById('use_note').value.trim();
-  if(!by||!date){ toast('กรุณากรอกผู้เบิกและวันที่เบิก','error'); return; }
+  if(!department||!by||!date){ toast('กรุณาเลือกแผนก พร้อมกรอกผู้เบิกและวันที่เบิก','error'); return; }
   const rowError=validateIssueRows(rows);
   if(rowError){ toast(rowError,'error'); return; }
   const btn=document.getElementById('btnUseItem');
@@ -1516,7 +1549,7 @@ async function useItem(){
       const item=getIssueItem(row.name);
       batch.update(col('items').doc(item.id), { qty:(+item.qty||0)-(+row.qty||0) });
       batch.set(col('history').doc(), {
-        name:row.name, qty:+row.qty||0, by, date:normalizeDate(date)||date, note,
+        name:row.name, qty:+row.qty||0, department, department_name:departmentLabel(department), by, date:normalizeDate(date)||date, note,
         category:item.category||'', shop:item.shop||'', brand:item.brand||'',
         images:imgUrls,
         batch_id:now,
@@ -1633,9 +1666,9 @@ function exportHistoryCSV(data){
   });
   exportCSV(sorted.map(x=>{
       const meta=itemMetaByName(x.name,x);
-      return [meta.category,x.name,x.qty,x.by,normalizeDate(x.date),x.time||'',x.note,meta.shop,meta.brand,meta.stock_qty,meta.price,(x.images||[]).join(' | ')];
+      return [meta.category,x.name,x.qty,x.department_name||departmentLabel(x.department),x.by,normalizeDate(x.date),x.time||'',x.note,meta.shop,meta.brand,meta.stock_qty,meta.price,(x.images||[]).join(' | ')];
     }),
-    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุการเบิก','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
+    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนก','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุการเบิก','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
     'history_export_'+todayStr()+'.csv');
 }
 function exportSummaryCSV(summary){
@@ -1665,13 +1698,13 @@ function exportSummaryCSV(summary){
     ...Object.keys(byItem).sort().map(n=>[byItem[n].category,n,byItem[n].qty,byItem[n].count]),
     [],
     ['รายการทั้งหมด'],
-    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุ','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
+    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนก','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุ','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
     ...filtered.slice().sort((a,b)=>{
       const ma=itemMetaByName(a.name,a), mb=itemMetaByName(b.name,b);
       return (ma.category+'|'+(normalizeDate(a.date)||'')+'|'+(a.name||'')).localeCompare(mb.category+'|'+(normalizeDate(b.date)||'')+'|'+(b.name||''));
     }).map(x=>{
       const meta=itemMetaByName(x.name,x);
-      return [meta.category,x.name,x.qty,x.by,normalizeDate(x.date),x.time||'',x.note,meta.shop,meta.brand,meta.stock_qty,meta.price,(x.images||[]).join(' | ')];
+      return [meta.category,x.name,x.qty,x.department_name||departmentLabel(x.department),x.by,normalizeDate(x.date),x.time||'',x.note,meta.shop,meta.brand,meta.stock_qty,meta.price,(x.images||[]).join(' | ')];
     })
   ];
   exportCSV(rows, ['รายงานสรุปการเบิก'], 'summary_export_'+todayStr()+'.csv');
@@ -1782,7 +1815,7 @@ function clearAddForm(){
   document.getElementById('addImgFile').value='';
 }
 function clearIssueForm(){
-  ['issue_name','issue_qty','use_by','use_date','use_note'].forEach(id=>document.getElementById(id).value='');
+  ['issue_name','issue_qty','use_department','use_by','use_date','use_note'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('use_date').value=todayStr();
   issueRows=[];
   renderIssueRows();
@@ -1863,6 +1896,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   setupPWA();
   setupNav();
   populateYearSelect();
+  populateDepartments();
   const today=todayStr();
   document.getElementById('date_add').value=today;
   document.getElementById('use_date').value=today;
