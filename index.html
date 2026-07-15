@@ -896,6 +896,34 @@ const _urlStore = new URLSearchParams(location.search).get('store');
 const STORE_ID = (_urlStore || DEFAULT_STORE_ID).replace(/[^a-zA-Z0-9_\-]/g,'');
 // helper: ชี้ไปยัง subcollection ของสาขานี้
 function col(name){ return db.collection('stores').doc(STORE_ID).collection(name); }
+// Keep Firestore's local cache enabled so a refresh can render before the network sync finishes.
+try{ db.enablePersistence({synchronizeTabs:true}).catch(()=>{}); }catch(e){}
+
+const LOCAL_CACHE_PREFIX='store10_cache_v2_';
+function localCacheKey(name){ return LOCAL_CACHE_PREFIX+STORE_ID+'_'+name; }
+function readLocalCache(name){
+  try{
+    const raw=localStorage.getItem(localCacheKey(name));
+    return raw?JSON.parse(raw):null;
+  }catch(e){ return null; }
+}
+function writeLocalCache(name,data){
+  try{
+    localStorage.setItem(localCacheKey(name),JSON.stringify(data,(key,value)=>key==='time_ts'?undefined:value));
+  }catch(e){}
+}
+function restoreLocalCache(){
+  const cachedItems=readLocalCache('items');
+  const cachedHistory=readLocalCache('history');
+  const cachedCategories=readLocalCache('categories');
+  if(Array.isArray(cachedItems)) items=cachedItems;
+  if(Array.isArray(cachedHistory)) historyData=cachedHistory;
+  if(Array.isArray(cachedCategories)) customCategories=cachedCategories;
+  if(Array.isArray(cachedItems)||Array.isArray(cachedHistory)||Array.isArray(cachedCategories)){
+    populateCategorySelects();
+    updateDropdown(); updateNameDatalist(); renderStock(); renderDashboard(); renderChart();
+  }
+}
 // อัปเดต header / title ให้แสดงชื่อสาขา
 document.addEventListener('DOMContentLoaded', ()=>{
   const label = STORE_ID.replace(/_/g,' ');
@@ -1450,6 +1478,7 @@ async function handleCategorySelectChange(selectId){
 function listenCategories(){
   col('meta').doc('categories').onSnapshot(doc=>{
     customCategories = (doc.exists && Array.isArray(doc.data().list)) ? doc.data().list : [];
+    writeLocalCache('categories',customCategories);
     populateCategorySelects();
   }, ()=>{ /* ถ้าอ่านไม่ได้ ใช้ค่าเริ่มต้นไปก่อน */ });
 }
@@ -1973,21 +2002,24 @@ function populateYearSelect(){
 
 /* ════════════════ REALTIME ════════════════ */
 function listenRealtime(){
-  col('items').onSnapshot(snap=>{
+  col('items').onSnapshot({includeMetadataChanges:true},snap=>{
     items=[];
     snap.forEach(d=>items.push({id:d.id,...d.data()}));
+    writeLocalCache('items',items);
     updateDropdown(); updateNameDatalist(); renderStock(); renderDashboard();
     renderChart();
-    document.getElementById('connDot').className='badge-dot';
-    document.getElementById('connText').textContent='เชื่อมต่อแล้ว';
+    const fromCache=snap.metadata&&snap.metadata.fromCache;
+    document.getElementById('connDot').className=fromCache?'badge-dot warn':'badge-dot';
+    document.getElementById('connText').textContent=fromCache?'กำลังซิงค์...':'เชื่อมต่อแล้ว';
   }, ()=>{
     document.getElementById('connDot').className='badge-dot warn';
     document.getElementById('connText').textContent='ออฟไลน์';
   });
-  col('history').onSnapshot(snap=>{
+  col('history').onSnapshot({includeMetadataChanges:true},snap=>{
     historyData=[];
     snap.forEach(d=>historyData.push({id:d.id,...d.data()}));
     historyData.sort((a,b)=>((a.date||'')+'|'+(a.time||'')).localeCompare((b.date||'')+'|'+(b.time||'')));
+    writeLocalCache('history',historyData);
     renderDashboard(); renderChart();
     if(document.getElementById('view-history').classList.contains('active')) applyHistoryFilter();
   });
@@ -2036,6 +2068,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('date_add').value=today;
   document.getElementById('use_date').value=today;
   setupImageDropAreas();
+  restoreLocalCache();
 
   // form buttons
   document.getElementById('btnSaveItem').onclick=saveItem;
