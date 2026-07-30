@@ -3,7 +3,7 @@
    และทำให้เบราว์เซอร์อนุญาตให้ "ติดตั้งแอป" (PWA installable)
 */
 
-const CACHE_NAME = 'store10-app-cache-v1';
+const CACHE_NAME = 'store10-app-cache-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

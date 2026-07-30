@@ -510,6 +510,8 @@ tr:hover td{background:#f7f9fc;}
         <div class="toolbar" style="margin-bottom:14px;">
           <button class="btn-primary btn-sm" id="btnDay">📅 วันนี้</button>
           <button class="btn-outline btn-sm" id="btnMonth">🗓️ เดือนนี้</button>
+          <button class="btn-outline btn-sm" id="btnYear">📆 ปีนี้</button>
+          <button class="btn-outline btn-sm" id="btnPickDay">🗓️ เลือกวัน</button>
           <button class="btn-outline btn-sm" id="btnPickMonth">📆 เลือกเดือน</button>
           <select id="pdfDepartmentSelect" class="no-print" style="width:230px;" aria-label="เลือกแผนกสำหรับส่งออก PDF"></select>
           <button class="btn-success btn-sm no-print" id="btnExportSumPDF">📄 ส่งออก PDF</button>
@@ -528,6 +530,20 @@ tr:hover td{background:#f7f9fc;}
             <button class="btn-primary btn-sm" id="btnGoMonth">ดูสรุป</button>
           </div>
         </div>
+        <div id="dayPickWrap" style="display:none;margin-bottom:12px;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <label for="pickDay" style="font-size:13px;color:var(--text3);">วันที่ต้องการดู</label>
+            <input id="pickDay" type="date" style="width:170px;">
+            <button class="btn-primary btn-sm" id="btnGoDay">ดูสรุป</button>
+          </div>
+        </div>
+        <div id="yearPickWrap" style="display:none;margin-bottom:12px;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <label for="pickSummaryYear" style="font-size:13px;color:var(--text3);">ปีที่ต้องการดู</label>
+            <select id="pickSummaryYear" style="width:100px;"></select>
+            <button class="btn-primary btn-sm" id="btnGoYear">ดูสรุป</button>
+          </div>
+        </div>
         <div id="summaryWrap" style="display:none;">
           <div style="font-weight:600;font-size:13px;margin-bottom:10px;color:var(--text3);" id="sumLabel"></div>
           <div class="sum-boxes" id="sumBoxes"></div>
@@ -535,9 +551,9 @@ tr:hover td{background:#f7f9fc;}
           <div class="table-wrap"><table><thead><tr><th>แผนก</th><th class="text-right">จำนวน (ชิ้น)</th><th class="text-right">จำนวนครั้ง</th></tr></thead><tbody id="sumDepartmentBody"></tbody></table></div>
           <div class="card-title" style="margin-top:4px;">แยกตามหมวดหมู่</div>
           <div class="table-wrap"><table><thead><tr><th>หมวดหมู่</th><th class="text-right">จำนวน (ชิ้น)</th><th class="text-right">จำนวนครั้ง</th></tr></thead><tbody id="sumCategoryBody"></tbody></table></div>
-          <div class="card-title" style="margin-top:4px;">แยกตามอุปกรณ์</div>
+          <div class="card-title" style="margin-top:4px;">เบิกอะไรบ้าง (รวมตามอุปกรณ์)</div>
           <div class="table-wrap" style="margin-top:10px;"><table><thead><tr><th>อุปกรณ์</th><th>หมวดหมู่</th><th class="text-right">จำนวน (ชิ้น)</th><th class="text-right">จำนวนครั้ง</th></tr></thead><tbody id="sumItemBody"></tbody></table></div>
-          <div class="card-title" style="margin-top:14px;">รายการทั้งหมด</div>
+          <div class="card-title" style="margin-top:14px;">รายการเบิกของวัน/ช่วงเวลาที่เลือก</div>
           <div class="table-wrap"><table><thead><tr><th>วันที่เบิก</th><th>แผนก</th><th>หมวดหมู่</th><th>อุปกรณ์</th><th class="text-right">จำนวน</th><th>ผู้เบิก</th><th>หมายเหตุ</th></tr></thead><tbody id="sumDetailBody"></tbody></table></div>
           <div style="margin-top:10px;text-align:right;" class="no-print">
             <button class="btn-ghost btn-sm" id="btnExportSumCSV">⬇ Export CSV</button>
@@ -896,8 +912,16 @@ const _urlStore = new URLSearchParams(location.search).get('store');
 const STORE_ID = (_urlStore || DEFAULT_STORE_ID).replace(/[^a-zA-Z0-9_\-]/g,'');
 // helper: ชี้ไปยัง subcollection ของสาขานี้
 function col(name){ return db.collection('stores').doc(STORE_ID).collection(name); }
-// Keep Firestore's local cache enabled so a refresh can render before the network sync finishes.
-try{ db.enablePersistence({synchronizeTabs:true}).catch(()=>{}); }catch(e){}
+// Keep a durable Firestore queue on this device. Local writes are uploaded automatically when the network returns.
+let persistenceStatus='starting';
+try{
+  db.enablePersistence({synchronizeTabs:true})
+    .then(()=>{ persistenceStatus='ready'; updateConnectionBadge(); })
+    .catch(err=>{ persistenceStatus='unavailable'; console.warn('Firestore offline persistence unavailable',err); updateConnectionBadge(); });
+}catch(err){
+  persistenceStatus='unavailable';
+  console.warn('Firestore offline persistence unavailable',err);
+}
 
 const LOCAL_CACHE_PREFIX='store10_cache_v2_';
 function localCacheKey(name){ return LOCAL_CACHE_PREFIX+STORE_ID+'_'+name; }
@@ -941,6 +965,75 @@ let issueRows = [];
 let importRows = [];
 let lastIssuedSummary = null;
 let monthChart = null;
+let realtimeSource='loading';
+const pendingWriteCounts={items:0,history:0};
+
+function updateConnectionBadge(){
+  const dot=document.getElementById('connDot');
+  const text=document.getElementById('connText');
+  if(!dot||!text)return;
+  const pending=pendingWriteCounts.items+pendingWriteCounts.history;
+  if(!navigator.onLine||realtimeSource==='offline'){
+    dot.className='badge-dot warn';
+    text.textContent=persistenceStatus==='ready'?'ออฟไลน์ · เก็บไว้รอซิงค์':'ออฟไลน์ · กรุณาอย่าปิดหน้านี้';
+    return;
+  }
+  if(pending>0){
+    dot.className='badge-dot warn';
+    text.textContent=`กำลังซิงค์ ${pending} รายการ...`;
+    return;
+  }
+  if(realtimeSource==='cache'){
+    dot.className='badge-dot warn';
+    text.textContent='ข้อมูลในเครื่อง · กำลังซิงค์...';
+    return;
+  }
+  if(persistenceStatus==='unavailable'){
+    dot.className='badge-dot warn';
+    text.textContent='ออนไลน์ · สำรองออฟไลน์ไม่พร้อม';
+    return;
+  }
+  dot.className='badge-dot';
+  text.textContent=realtimeSource==='server'?'เชื่อมต่อแล้ว':'กำลังเชื่อมต่อ...';
+}
+
+function updateRealtimeSnapshot(name,snap){
+  const docs=snap.docs||[];
+  pendingWriteCounts[name]=docs.filter(d=>d.metadata&&d.metadata.hasPendingWrites).length;
+  realtimeSource=snap.metadata&&snap.metadata.fromCache?'cache':'server';
+  updateConnectionBadge();
+}
+
+function markRealtimeOffline(){
+  realtimeSource='offline';
+  updateConnectionBadge();
+}
+
+function waitForOfflineWrites(){
+  if(!navigator.onLine||typeof db.waitForPendingWrites!=='function')return;
+  const hadPending=pendingWriteCounts.items+pendingWriteCounts.history>0;
+  db.waitForPendingWrites().then(()=>{
+    pendingWriteCounts.items=0;
+    pendingWriteCounts.history=0;
+    realtimeSource='server';
+    updateConnectionBadge();
+    if(hadPending)toast('ซิงค์ข้อมูลออฟไลน์ขึ้น Firebase แล้ว','success');
+  }).catch(err=>{
+    console.warn('Pending Firestore writes are still waiting',err);
+    updateConnectionBadge();
+  });
+}
+
+window.addEventListener('offline',()=>{
+  markRealtimeOffline();
+  toast('เน็ตขาด · รายการใหม่จะถูกเก็บไว้และส่งอัตโนมัติเมื่อเน็ตกลับมา','warn');
+});
+window.addEventListener('online',()=>{
+  realtimeSource='cache';
+  updateConnectionBadge();
+  toast('เน็ตกลับมาแล้ว · กำลังซิงค์ข้อมูลอัตโนมัติ','success');
+  waitForOfflineWrites();
+});
 
 // Categories: fixed base list + custom ones added later (saved in Firestore, shared across devices)
 const DEFAULT_CATEGORIES = ['งานซ่อม','งานศิลป์','งานก่อสร้าง','สุขภัณฑ์','อุปกรณ์ไฟฟ้า','เครื่องใช้ไฟฟ้า','อุปกรณ์สำนักงาน','อุปกรณ์ไอที','อุปกรณ์ทำความสะอาด','อุปกรณ์เครื่องกรองน้ำ','งานระบบท่อและสุขาภิบาล','น้ำมัน','อุปกรณ์ยานยนต์'];
@@ -1182,6 +1275,7 @@ function renderThumb(urls){
 
 /* ════════════════ TOAST ════════════════ */
 function toast(msg, type='', dur=3200){
+  if(type==='success'&&(!navigator.onLine||pendingWriteCounts.items+pendingWriteCounts.history>0)) msg+=' · รอซิงค์';
   const c=document.getElementById('toast-container');
   const t=document.createElement('div');
   t.className='toast'+(type?' '+type:'');
@@ -1692,12 +1786,17 @@ function itemMetaByName(name, record){
 }
 function showSummary(mode, ym){
   const today=todayStr(), thisM=thisMonthStr();
-  const targetYM=ym||thisM;
   let label, filtered;
   if(mode==='day'){
-    label='วันนี้ ('+thaiDate(today)+')';
-    filtered=historyData.filter(x=>normalizeDate(x.date)===today);
+    const targetDay=ym||today;
+    label=(targetDay===today?'วันนี้':'วันที่')+' ('+thaiDate(targetDay)+')';
+    filtered=historyData.filter(x=>normalizeDate(x.date)===targetDay);
+  } else if(mode==='year'){
+    const targetYear=String(ym||new Date().getFullYear());
+    label='ปี '+((+targetYear||new Date().getFullYear())+543);
+    filtered=historyData.filter(x=>normalizeDate(x.date)?.slice(0,4)===targetYear);
   } else {
+    const targetYM=ym||thisM;
     const mm=targetYM.slice(5,7);
     const yy=+targetYM.slice(0,4);
     label=MONTHS_FULL_TH[+mm]+' '+(yy+543);
@@ -1993,11 +2092,17 @@ function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
 /* ════════════════ YEAR SELECT ════════════════ */
 function populateYearSelect(){
   const sel=document.getElementById('pickYear');
+  const summaryYear=document.getElementById('pickSummaryYear');
   const now=new Date(); const cur=now.getFullYear();
   for(let y=cur;y>=cur-4;y--){
     const o=document.createElement('option');o.value=y;o.textContent=y+543;sel.appendChild(o);
+    if(summaryYear){
+      const summaryOption=document.createElement('option');
+      summaryOption.value=y; summaryOption.textContent=y+543; summaryYear.appendChild(summaryOption);
+    }
   }
   document.getElementById('pickMonth').value=String(now.getMonth()+1).padStart(2,'0');
+  if(summaryYear) summaryYear.value=String(cur);
 }
 
 /* ════════════════ REALTIME ════════════════ */
@@ -2008,12 +2113,10 @@ function listenRealtime(){
     writeLocalCache('items',items);
     updateDropdown(); updateNameDatalist(); renderStock(); renderDashboard();
     renderChart();
-    const fromCache=snap.metadata&&snap.metadata.fromCache;
-    document.getElementById('connDot').className=fromCache?'badge-dot warn':'badge-dot';
-    document.getElementById('connText').textContent=fromCache?'กำลังซิงค์...':'เชื่อมต่อแล้ว';
-  }, ()=>{
-    document.getElementById('connDot').className='badge-dot warn';
-    document.getElementById('connText').textContent='ออฟไลน์';
+    updateRealtimeSnapshot('items',snap);
+  }, err=>{
+    console.warn('Items realtime listener is offline',err);
+    markRealtimeOffline();
   });
   col('history').onSnapshot({includeMetadataChanges:true},snap=>{
     historyData=[];
@@ -2022,6 +2125,10 @@ function listenRealtime(){
     writeLocalCache('history',historyData);
     renderDashboard(); renderChart();
     if(document.getElementById('view-history').classList.contains('active')) applyHistoryFilter();
+    updateRealtimeSnapshot('history',snap);
+  }, err=>{
+    console.warn('History realtime listener is offline',err);
+    markRealtimeOffline();
   });
 }
 
@@ -2067,6 +2174,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const today=todayStr();
   document.getElementById('date_add').value=today;
   document.getElementById('use_date').value=today;
+  document.getElementById('pickDay').value=today;
   setupImageDropAreas();
   restoreLocalCache();
 
@@ -2083,16 +2191,38 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 
   // summary buttons
-  document.getElementById('btnDay').onclick=()=>{ switchSumBtn('btnDay'); showSummary('day'); document.getElementById('monthPickWrap').style.display='none'; };
-  document.getElementById('btnMonth').onclick=()=>{ switchSumBtn('btnMonth'); showSummary('month'); document.getElementById('monthPickWrap').style.display='none'; };
-  document.getElementById('btnPickMonth').onclick=()=>{
-    const w=document.getElementById('monthPickWrap');
-    w.style.display=w.style.display==='none'?'block':'none';
+  document.getElementById('btnDay').onclick=()=>{ switchSumBtn('btnDay'); setSummaryPeriodWrap(''); showSummary('day'); };
+  document.getElementById('btnMonth').onclick=()=>{ switchSumBtn('btnMonth'); setSummaryPeriodWrap(''); showSummary('month'); };
+  document.getElementById('btnYear').onclick=()=>{
+    switchSumBtn('btnYear');
+    setSummaryPeriodWrap('year');
+    showSummary('year',document.getElementById('pickSummaryYear').value);
   };
+  document.getElementById('btnPickDay').onclick=()=>{
+    switchSumBtn('btnPickDay');
+    setSummaryPeriodWrap('day');
+    showSummary('day',document.getElementById('pickDay').value||todayStr());
+  };
+  document.getElementById('btnPickMonth').onclick=()=>{
+    switchSumBtn('btnPickMonth');
+    setSummaryPeriodWrap('month');
+    showSummary('month',document.getElementById('pickYear').value+'-'+document.getElementById('pickMonth').value);
+  };
+  document.getElementById('btnGoDay').onclick=()=>{
+    showSummary('day',document.getElementById('pickDay').value||todayStr());
+  };
+  document.getElementById('pickDay').addEventListener('change',()=>{
+    switchSumBtn('btnPickDay');
+    setSummaryPeriodWrap('day');
+    showSummary('day',document.getElementById('pickDay').value||todayStr());
+  });
   document.getElementById('btnGoMonth').onclick=()=>{
     const mm=document.getElementById('pickMonth').value;
     const yy=document.getElementById('pickYear').value;
     showSummary('month',yy+'-'+mm);
+  };
+  document.getElementById('btnGoYear').onclick=()=>{
+    showSummary('year',document.getElementById('pickSummaryYear').value);
   };
   // export summary csv
   document.getElementById('btnExportSumCSV').onclick=()=>{
@@ -2185,10 +2315,15 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 function switchSumBtn(activeId){
-  ['btnDay','btnMonth','btnPickMonth'].forEach(id=>{
+  ['btnDay','btnMonth','btnYear','btnPickDay','btnPickMonth'].forEach(id=>{
     const btn=document.getElementById(id);
     btn.className=id===activeId?'btn-primary btn-sm':'btn-outline btn-sm';
   });
+}
+function setSummaryPeriodWrap(mode){
+  document.getElementById('dayPickWrap').style.display=mode==='day'?'block':'none';
+  document.getElementById('monthPickWrap').style.display=mode==='month'?'block':'none';
+  document.getElementById('yearPickWrap').style.display=mode==='year'?'block':'none';
 }
 </script>
 </body>
