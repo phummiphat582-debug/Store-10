@@ -335,7 +335,13 @@ tr:hover td{background:#f7f9fc;}
   background:linear-gradient(90deg,#fffbeb,#fff7ed);
   border:1px solid #fde68a;border-radius:10px;padding:10px 14px;
   margin-bottom:14px;font-size:12px;color:#92400e;
-  display:none;align-items:center;gap:8px;
+  display:none;align-items:flex-start;gap:10px;
+}
+.low-banner-icon{font-size:18px;line-height:1.2;flex-shrink:0;}
+.low-banner-content{flex:1;min-width:0;}
+.low-banner-title{font-weight:700;font-size:13px;color:#78350f;margin-bottom:3px;}
+.low-banner-text{white-space:pre-line;line-height:1.55;}
+.low-banner .btn-xs{flex-shrink:0;margin-top:1px;
 }
 
 /* MOBILE */
@@ -467,7 +473,14 @@ tr:hover td{background:#f7f9fc;}
         <div class="page-title">📊 Dashboard</div>
         <div class="page-sub">ภาพรวมสต็อกและสรุปยอดการเบิก</div>
       </div>
-      <div id="lowBanner" class="low-banner">⚠️ <span id="lowBannerText"></span></div>
+      <div id="lowBanner" class="low-banner">
+        <span class="low-banner-icon">⚠️</span>
+        <div class="low-banner-content">
+          <div id="lowBannerTitle" class="low-banner-title">แจ้งเตือนสต็อก</div>
+          <div id="lowBannerText" class="low-banner-text"></div>
+        </div>
+        <button id="btnLowStock" class="btn-outline btn-xs no-print" type="button">ดูรายการ</button>
+      </div>
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-icon" style="background:#eff6ff;">📋</div>
@@ -483,7 +496,7 @@ tr:hover td{background:#f7f9fc;}
         </div>
         <div class="stat-card">
           <div class="stat-icon" style="background:#fff7ed;">⚠️</div>
-          <div><div class="stat-label">ใกล้หมด</div><div class="stat-value" id="st_low">0 รายการ</div></div>
+          <div><div class="stat-label">ใกล้หมด (ไม่รวมหมดสต็อก)</div><div class="stat-value" id="st_low">0 รายการ</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon" style="background:#fef2f2;">📉</div>
@@ -578,6 +591,7 @@ tr:hover td{background:#f7f9fc;}
           <option value="">ทั้งหมด</option>
           <option value="low">ใกล้หมด ⚠️</option>
           <option value="out">หมดสต็อก ❌</option>
+          <option value="alert">ต้องตรวจสอบทั้งหมด ⚠️</option>
           <option value="under">ต่ำกว่ายอดที่ต้องมี 📉</option>
           <option value="ok">สต็อกพอ ✅</option>
         </select>
@@ -594,7 +608,7 @@ tr:hover td{background:#f7f9fc;}
                 <th>#</th><th>ชื่ออุปกรณ์</th><th>หมวดหมู่</th><th class="text-right">คงเหลือ</th>
                 <th class="text-right">ยอดที่ต้องมี</th><th class="text-center">สถานะ</th>
                 <th class="text-right">ราคา/หน่วย</th><th class="text-right">มูลค่ารวม</th>
-                <th class="text-right">แจ้งเมื่อ≤</th><th>วันที่เพิ่มล่าสุด</th>
+                <th class="text-right">เกณฑ์แจ้งเตือน</th><th>วันที่เพิ่มล่าสุด</th>
                 <th>หมายเหตุ</th><th>รูปภาพ</th><th class="text-center">การกระทำ</th>
               </tr>
             </thead>
@@ -1325,24 +1339,29 @@ function renderDashboard(){
   document.getElementById('st_items').textContent=fmtInt(items.length)+' รายการ';
   document.getElementById('st_qty').textContent=fmtInt(items.reduce((s,x)=>s+(+x.qty||0),0))+' ชิ้น';
   document.getElementById('st_val').textContent=fmt(items.reduce((s,x)=>s+(+x.qty||0)*(+x.price||0),0));
-  const low=items.filter(x=>+x.threshold>0&&+x.qty<=+x.threshold);
+  const out=items.filter(x=>(+x.qty||0)<=0);
+  const low=items.filter(x=>+x.threshold>0&&(+x.qty||0)>0&&(+x.qty||0)<=+x.threshold);
   document.getElementById('st_low').textContent=fmtInt(low.length)+' รายการ';
-  const under=items.filter(x=>+x.target_qty>0&&+x.qty<+x.target_qty);
+  const under=items.filter(x=>(+x.target_qty||0)>0&&(+x.qty||0)<(+x.target_qty||0));
   document.getElementById('st_under').textContent=fmtInt(under.length)+' รายการ';
   document.getElementById('st_issue').textContent=fmtInt(historyData.filter(x=>normalizeDate(x.date)?.slice(0,7)===thisM).length)+' ครั้ง';
   document.getElementById('st_today').textContent=fmtInt(historyData.filter(x=>normalizeDate(x.date)===today).length)+' ครั้ง';
   // low badge
   const lb=document.getElementById('lowBadge');
-  lb.textContent=low.length;
-  lb.style.display=low.length?'inline':'none';
+  lb.textContent=low.length+out.length;
+  lb.style.display=(low.length+out.length)?'inline':'none';
   // banner
   const banner=document.getElementById('lowBanner');
   const bannerParts=[];
-  if(low.length) bannerParts.push('ใกล้หมดสต็อก '+low.length+' รายการ: '+low.map(x=>x.name).join(', '));
-  if(under.length) bannerParts.push('ต่ำกว่ายอดที่ต้องมี '+under.length+' รายการ: '+under.map(x=>x.name+' (ขาด '+(+x.target_qty-(+x.qty||0))+')').join(', '));
+  const details=(rows, formatter)=>rows.slice(0,6).map(formatter).join('\n')+(rows.length>6?'\n… และอีก '+(rows.length-6)+' รายการ':'');
+  if(out.length) bannerParts.push('หมดสต็อก '+out.length+' รายการ\n'+details(out,x=>'• '+x.name+': เหลือ 0 ชิ้น'));
+  if(low.length) bannerParts.push('ใกล้หมด '+low.length+' รายการ\n'+details(low,x=>'• '+x.name+': เหลือ '+fmtInt(+x.qty||0)+' ชิ้น / เกณฑ์แจ้งเตือน ≤ '+fmtInt(+x.threshold||0)+' ชิ้น'));
+  if(under.length) bannerParts.push('ต่ำกว่ายอดที่ต้องมี '+under.length+' รายการ\n'+details(under,x=>'• '+x.name+': ขาด '+fmtInt(Math.max(0,(+x.target_qty||0)-(+x.qty||0)))+' ชิ้น (ควรมี '+fmtInt(+x.target_qty||0)+' ชิ้น)'));
+  const alertCount=new Set([...out,...low,...under].map(x=>x.id||x.name)).size;
   if(bannerParts.length){
     banner.style.display='flex';
-    document.getElementById('lowBannerText').textContent=bannerParts.join(' · ');
+    document.getElementById('lowBannerTitle').textContent='แจ้งเตือนสต็อก — ต้องตรวจสอบ '+alertCount+' รายการ';
+    document.getElementById('lowBannerText').textContent=bannerParts.join('\n\n');
   } else { banner.style.display='none'; }
 }
 
@@ -1388,10 +1407,11 @@ function renderStock(){
     if(kw && !x.name.toLowerCase().includes(kw)) return false;
     if(fc && (x.category||'')!==fc) return false;
     const qty=+x.qty||0, thr=+x.threshold||0, target=+x.target_qty||0;
-    if(fs==='out') return qty===0;
+    if(fs==='out') return qty<=0;
     if(fs==='low') return thr>0&&qty>0&&qty<=thr;
+    if(fs==='alert') return qty<=0 || (thr>0&&qty<=thr) || (target>0&&qty<target);
     if(fs==='under') return target>0&&qty<target;
-    if(fs==='ok') return !(thr>0&&qty<=thr);
+    if(fs==='ok') return qty>0 && !(thr>0&&qty<=thr) && !(target>0&&qty<target);
     return true;
   });
   tb.innerHTML='';
@@ -1399,23 +1419,25 @@ function renderStock(){
   filtered.forEach((x,i)=>{
     const realIdx=items.indexOf(x);
     const qty=+x.qty||0, thr=+x.threshold||0, price=+x.price||0, target=+x.target_qty||0;
-    const isLow=thr>0&&qty<=thr, isOut=qty===0;
+    const isLow=thr>0&&qty>0&&qty<=thr, isOut=qty<=0;
     const diff=target>0?qty-target:null;
     const tr=document.createElement('tr');
     if(isOut) tr.style.background='#fef2f2';
     else if(isLow) tr.style.background='#fffbeb';
     let qtyBadge=`<strong>${fmtInt(qty)}</strong>`;
-    if(isOut) qtyBadge=`<span class="tag tag-danger">❌ หมด</span>`;
-    else if(isLow) qtyBadge=`<span class="tag tag-warn">⚠ ${fmtInt(qty)}</span>`;
+    if(isOut) qtyBadge=`<span class="tag tag-danger">หมดสต็อก (0)</span>`;
+    else if(isLow) qtyBadge=`<span class="tag tag-warn">เหลือ ${fmtInt(qty)}</span>`;
 
     let targetCell='<span class="text-muted">-</span>';
-    let statusCell='<span class="text-muted">-</span>';
+    let statusParts=[];
+    if(isOut) statusParts.push('<span class="tag tag-danger">หมดสต็อก</span>');
+    else if(isLow) statusParts.push(`<span class="tag tag-warn">ใกล้หมด · แจ้งเตือน ≤ ${fmtInt(thr)}</span>`);
     if(target>0){
       targetCell=fmtInt(target);
-      if(diff<0) statusCell=`<span class="tag tag-danger">ขาด ${fmtInt(Math.abs(diff))}</span>`;
-      else if(diff===0) statusCell=`<span class="tag tag-warn">พอดี</span>`;
-      else statusCell=`<span class="tag tag-ok">เกิน ${fmtInt(diff)}</span>`;
+      if(diff<0) statusParts.push(`<span class="tag tag-danger">ขาด ${fmtInt(Math.abs(diff))} ถึงยอด ${fmtInt(target)}</span>`);
+      else if(diff===0) statusParts.push('<span class="tag tag-warn">พอดียอดที่ต้องมี</span>');
     }
+    const statusCell=statusParts.length?statusParts.join('<br>'):'<span class="tag tag-ok">ปกติ</span>';
 
     const shopBrand=[x.shop?`ร้าน: ${x.shop}`:'',x.brand?`ยี่ห้อ/รุ่น: ${x.brand}`:''].filter(Boolean).join(' | ');
     tr.innerHTML=`
@@ -2239,6 +2261,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(e.target.classList.contains('btn-del-row')) deleteItem(idx);
   });
   document.getElementById('btnExportStock').onclick=exportStockCSV;
+  document.getElementById('btnLowStock').onclick=()=>{
+    document.querySelector('.nav-btn[data-view="stock"]').click();
+    document.getElementById('filterStatus').value='alert';
+    renderStock();
+  };
 
   // search/filter stock
   document.getElementById('search').addEventListener('input',renderStock);
