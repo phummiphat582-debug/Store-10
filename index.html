@@ -648,6 +648,13 @@ tr:hover td{background:#f7f9fc;}
             </select>
           </div>
           <div class="form-row">
+            <label>แผนกหลัก / แผนกที่เบิกประจำ</label>
+            <select id="default_department">
+              <option value="">-- ไม่กำหนดแผนกประจำ --</option>
+            </select>
+            <div class="hint" style="color:var(--text2);">ใช้เป็นค่าเริ่มต้นเมื่อเลือกสินค้านี้ในหน้าเบิก</div>
+          </div>
+          <div class="form-row">
             <label>ซื้อจากร้าน</label>
             <input id="shop" list="shopList" placeholder="เช่น ร้าน ก. วัสดุภัณฑ์" autocomplete="off">
             <datalist id="shopList"></datalist>
@@ -765,7 +772,7 @@ tr:hover td{background:#f7f9fc;}
             </div>
           </div>
           <div class="form-row">
-            <label>แผนกที่เบิก <span style="color:var(--danger)">*</span></label>
+            <label>เบิกไปแผนกไหน <span style="color:var(--danger)">*</span></label>
             <select id="use_department" required>
               <option value="">-- เลือกแผนก --</option>
             </select>
@@ -857,6 +864,12 @@ tr:hover td{background:#f7f9fc;}
         <label>หมวดหมู่</label>
         <select id="edit_category">
           <option value="">-- เลือกหมวดหมู่ --</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>แผนกหลัก / แผนกที่เบิกประจำ</label>
+        <select id="edit_default_department">
+          <option value="">-- ไม่กำหนดแผนกประจำ --</option>
         </select>
       </div>
       <div class="form-row">
@@ -1081,9 +1094,13 @@ function departmentText(record){
   return record&& (record.department_name||departmentLabel(record.department)) || 'ไม่ระบุแผนก';
 }
 function populateDepartments(){
-  const select=document.getElementById('use_department');
-  if(!select) return;
-  select.innerHTML='<option value="">-- เลือกแผนก --</option>'+DEPARTMENTS.map(x=>`<option value="${esc(x.code)}">${esc(x.code+' '+x.name)}</option>`).join('');
+  const options=DEPARTMENTS.map(x=>`<option value="${esc(x.code)}">${esc(x.code+' '+x.name)}</option>`).join('');
+  const useSelect=document.getElementById('use_department');
+  if(useSelect) useSelect.innerHTML='<option value="">-- เลือกแผนก --</option>'+options;
+  ['default_department','edit_default_department'].forEach(id=>{
+    const select=document.getElementById(id);
+    if(select) select.innerHTML='<option value="">-- ไม่กำหนดแผนกประจำ --</option>'+options;
+  });
 }
 function populatePDFDepartmentSelect(){
   const select=document.getElementById('pdfDepartmentSelect');
@@ -1609,6 +1626,11 @@ function updateStockHint(){
   if(item){
     let txt='คงเหลือ '+(item.qty||0)+' ชิ้น';
     if(+item.target_qty>0) txt+=' (ยอดที่ต้องมี '+item.target_qty+' ชิ้น)';
+    if(item.default_department){
+      txt+=' · แผนกประจำ: '+(item.default_department_name||departmentLabel(item.default_department));
+      const deptSelect=document.getElementById('use_department');
+      if(deptSelect&&!deptSelect.value) deptSelect.value=item.default_department;
+    }
     h.textContent=txt;
     h.className='hint '+(+item.qty<=0?'hint-err':+item.threshold>0&&+item.qty<=+item.threshold?'hint-warn':'hint-ok');
   }
@@ -1701,6 +1723,7 @@ async function saveItem(){
   const shop=document.getElementById('shop').value.trim();
   const brand=document.getElementById('brand').value.trim();
   const category=document.getElementById('category').value;
+  const defaultDepartment=document.getElementById('default_department').value;
   if(!n){ toast('กรุณากรอกชื่ออุปกรณ์','error'); return; }
   if(q<0){ toast('จำนวนต้องไม่ติดลบ','error'); return; }
   const btn=document.getElementById('btnSaveItem');
@@ -1714,10 +1737,12 @@ async function saveItem(){
       await col('items').doc(found.id).update({
         qty:(+found.qty||0)+q, price:p, threshold:t, target_qty:target, date_add:d, note,
         shop: shop||found.shop||'', brand: brand||found.brand||'', category: category||found.category||'',
+        default_department: defaultDepartment||found.default_department||'',
+        default_department_name: defaultDepartment?departmentLabel(defaultDepartment):(found.default_department_name||''),
         images:merged
       });
     } else {
-      await col('items').add({ name:n, qty:q, price:p, threshold:t, target_qty:target, date_add:d, note, shop, brand, category, images:newUrls });
+      await col('items').add({ name:n, qty:q, price:p, threshold:t, target_qty:target, date_add:d, note, shop, brand, category, default_department:defaultDepartment, default_department_name:defaultDepartment?departmentLabel(defaultDepartment):'', images:newUrls });
     }
     clearAddForm();
     toast(`บันทึก '${n}' เรียบร้อย ✔`,'success');
@@ -2142,6 +2167,7 @@ function openEditPopup(idx){
   document.getElementById('edit_brand').value=x.brand||'';
   populateCategorySelects();
   document.getElementById('edit_category').value=x.category||'';
+  document.getElementById('edit_default_department').value=x.default_department||'';
   document.getElementById('edit_idx').value=idx;
   // reset new image files
   editImgFiles=[];
@@ -2161,7 +2187,7 @@ function refreshEditExisting(){
 
 /* ════════════════ CLEAR ════════════════ */
 function clearAddForm(){
-  ['name','qty','price','threshold','target_qty','date_add','note','shop','brand','category'].forEach(id=>document.getElementById(id).value='');
+  ['name','qty','price','threshold','target_qty','date_add','note','shop','brand','category','default_department'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('date_add').value=todayStr();
   document.getElementById('nameHint').textContent='';
   addImgFiles=[];
@@ -2387,6 +2413,8 @@ document.addEventListener('DOMContentLoaded',()=>{
         shop:document.getElementById('edit_shop').value.trim(),
         brand:document.getElementById('edit_brand').value.trim(),
         category:document.getElementById('edit_category').value,
+        default_department:document.getElementById('edit_default_department').value,
+        default_department_name:document.getElementById('edit_default_department').value?departmentLabel(document.getElementById('edit_default_department').value):'',
         images:allUrls
       });
       document.getElementById('popupEdit').style.display='none';
