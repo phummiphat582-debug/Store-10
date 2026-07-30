@@ -572,7 +572,7 @@ tr:hover td{background:#f7f9fc;}
           <div class="card-title" style="margin-top:4px;">เบิกอะไรบ้าง (รวมตามอุปกรณ์)</div>
           <div class="table-wrap" style="margin-top:10px;"><table><thead><tr><th>อุปกรณ์</th><th>หมวดหมู่</th><th class="text-right">จำนวน (ชิ้น)</th><th class="text-right">จำนวนครั้ง</th></tr></thead><tbody id="sumItemBody"></tbody></table></div>
           <div class="card-title" style="margin-top:14px;">รายการเบิกของวัน/ช่วงเวลาที่เลือก</div>
-          <div class="table-wrap"><table><thead><tr><th>วันที่เบิก</th><th>แผนก</th><th>หมวดหมู่</th><th>อุปกรณ์</th><th class="text-right">จำนวน</th><th>ผู้เบิก</th><th>หมายเหตุ</th></tr></thead><tbody id="sumDetailBody"></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>วันที่เบิก</th><th>แผนกที่เบิก</th><th>ใช้ที่แผนกไหน</th><th>หมวดหมู่</th><th>อุปกรณ์</th><th class="text-right">จำนวน</th><th>ผู้เบิก</th><th>หมายเหตุ</th></tr></thead><tbody id="sumDetailBody"></tbody></table></div>
           <div style="margin-top:10px;text-align:right;" class="no-print">
             <button class="btn-ghost btn-sm" id="btnExportSumCSV">⬇ Export CSV</button>
           </div>
@@ -648,11 +648,17 @@ tr:hover td{background:#f7f9fc;}
             </select>
           </div>
           <div class="form-row">
-            <label>แผนกหลัก / แผนกที่เบิกประจำ</label>
-            <select id="default_department">
-              <option value="">-- ไม่กำหนดแผนกประจำ --</option>
+            <label>แผนกที่เบิก</label>
+            <select id="default_issue_department">
+              <option value="">-- ไม่กำหนดแผนกที่เบิก --</option>
             </select>
-            <div class="hint" style="color:var(--text2);">ใช้เป็นค่าเริ่มต้นเมื่อเลือกสินค้านี้ในหน้าเบิก</div>
+          </div>
+          <div class="form-row">
+            <label>ใช้ที่แผนกไหน</label>
+            <select id="default_usage_department">
+              <option value="">-- ไม่กำหนดแผนกใช้งาน --</option>
+            </select>
+            <div class="hint" style="color:var(--text2);">ทั้งสองช่องใช้เป็นค่าเริ่มต้นเมื่อเลือกสินค้านี้ในหน้าเบิก</div>
           </div>
           <div class="form-row">
             <label>ซื้อจากร้าน</label>
@@ -772,7 +778,13 @@ tr:hover td{background:#f7f9fc;}
             </div>
           </div>
           <div class="form-row">
-            <label>เบิกไปแผนกไหน <span style="color:var(--danger)">*</span></label>
+            <label>แผนกที่เบิก <span style="color:var(--danger)">*</span></label>
+            <select id="issue_department" required>
+              <option value="">-- เลือกแผนกที่เบิก --</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>ใช้ที่แผนกไหน <span style="color:var(--danger)">*</span></label>
             <select id="use_department" required>
               <option value="">-- เลือกแผนก --</option>
             </select>
@@ -867,9 +879,15 @@ tr:hover td{background:#f7f9fc;}
         </select>
       </div>
       <div class="form-row">
-        <label>แผนกหลัก / แผนกที่เบิกประจำ</label>
-        <select id="edit_default_department">
-          <option value="">-- ไม่กำหนดแผนกประจำ --</option>
+        <label>แผนกที่เบิก</label>
+        <select id="edit_issue_department">
+          <option value="">-- ไม่กำหนดแผนกที่เบิก --</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>ใช้ที่แผนกไหน</label>
+        <select id="edit_usage_department">
+          <option value="">-- ไม่กำหนดแผนกใช้งาน --</option>
         </select>
       </div>
       <div class="form-row">
@@ -1097,9 +1115,15 @@ function populateDepartments(){
   const options=DEPARTMENTS.map(x=>`<option value="${esc(x.code)}">${esc(x.code+' '+x.name)}</option>`).join('');
   const useSelect=document.getElementById('use_department');
   if(useSelect) useSelect.innerHTML='<option value="">-- เลือกแผนก --</option>'+options;
-  ['default_department','edit_default_department'].forEach(id=>{
+  const defaults=[
+    ['default_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
+    ['default_usage_department','-- ไม่กำหนดแผนกใช้งาน --'],
+    ['edit_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
+    ['edit_usage_department','-- ไม่กำหนดแผนกใช้งาน --']
+  ];
+  defaults.forEach(([id,placeholder])=>{
     const select=document.getElementById(id);
-    if(select) select.innerHTML='<option value="">-- ไม่กำหนดแผนกประจำ --</option>'+options;
+    if(select) select.innerHTML=`<option value="">${placeholder}</option>`+options;
   });
 }
 function populatePDFDepartmentSelect(){
@@ -1568,7 +1592,8 @@ function applyHistoryFilter(){
   });
   if(kw) filtered=filtered.filter(x=>{
     const dept=x.department_name||departmentLabel(x.department);
-    return (x.name||'').toLowerCase().includes(kw)||(x.by||'').toLowerCase().includes(kw)||dept.toLowerCase().includes(kw);
+    const issueDept=x.issue_department_name||departmentLabel(x.issue_department);
+    return (x.name||'').toLowerCase().includes(kw)||(x.by||'').toLowerCase().includes(kw)||dept.toLowerCase().includes(kw)||issueDept.toLowerCase().includes(kw);
   });
   if(from) filtered=filtered.filter(x=>(normalizeDate(x.date)||'')>=from);
   if(to) filtered=filtered.filter(x=>(normalizeDate(x.date)||'')<=to);
@@ -1584,7 +1609,7 @@ function applyHistoryFilter(){
       <div class="hist-info">
         <div class="hist-name">${esc(x.name)}</div>
         <div class="hist-meta">
-          แผนก: <b>${esc(x.department_name||departmentLabel(x.department)||'ไม่ระบุ')}</b> · ผู้เบิก: <b>${esc(x.by)}</b> · วันที่เบิก: ${thaiDate(nd)}
+          แผนกที่เบิก: <b>${esc(x.issue_department_name||departmentLabel(x.issue_department)||'ไม่ระบุ')}</b> · ใช้ที่แผนก: <b>${esc(x.department_name||departmentLabel(x.department)||'ไม่ระบุ')}</b> · ผู้เบิก: <b>${esc(x.by)}</b> · วันที่เบิก: ${thaiDate(nd)}
           ${x.note?`<br>หมายเหตุ: ${esc(x.note)}`:''}
           <br>บันทึกเมื่อ: ${ts}
         </div>
@@ -1626,11 +1651,14 @@ function updateStockHint(){
   if(item){
     let txt='คงเหลือ '+(item.qty||0)+' ชิ้น';
     if(+item.target_qty>0) txt+=' (ยอดที่ต้องมี '+item.target_qty+' ชิ้น)';
-    if(item.default_department){
-      txt+=' · แผนกประจำ: '+(item.default_department_name||departmentLabel(item.default_department));
-      const deptSelect=document.getElementById('use_department');
-      if(deptSelect&&!deptSelect.value) deptSelect.value=item.default_department;
-    }
+    const issueDepartment=item.issue_department||'';
+    const usageDepartment=item.usage_department||item.default_department||'';
+    if(issueDepartment) txt+=' · แผนกที่เบิก: '+(item.issue_department_name||departmentLabel(issueDepartment));
+    if(usageDepartment) txt+=' · ใช้ที่: '+(item.usage_department_name||item.default_department_name||departmentLabel(usageDepartment));
+    const issueSelect=document.getElementById('issue_department');
+    const usageSelect=document.getElementById('use_department');
+    if(issueSelect&&!issueSelect.value&&issueDepartment) issueSelect.value=issueDepartment;
+    if(usageSelect&&!usageSelect.value&&usageDepartment) usageSelect.value=usageDepartment;
     h.textContent=txt;
     h.className='hint '+(+item.qty<=0?'hint-err':+item.threshold>0&&+item.qty<=+item.threshold?'hint-warn':'hint-ok');
   }
@@ -1723,7 +1751,8 @@ async function saveItem(){
   const shop=document.getElementById('shop').value.trim();
   const brand=document.getElementById('brand').value.trim();
   const category=document.getElementById('category').value;
-  const defaultDepartment=document.getElementById('default_department').value;
+  const issueDepartment=document.getElementById('default_issue_department').value;
+  const usageDepartment=document.getElementById('default_usage_department').value;
   if(!n){ toast('กรุณากรอกชื่ออุปกรณ์','error'); return; }
   if(q<0){ toast('จำนวนต้องไม่ติดลบ','error'); return; }
   const btn=document.getElementById('btnSaveItem');
@@ -1737,12 +1766,16 @@ async function saveItem(){
       await col('items').doc(found.id).update({
         qty:(+found.qty||0)+q, price:p, threshold:t, target_qty:target, date_add:d, note,
         shop: shop||found.shop||'', brand: brand||found.brand||'', category: category||found.category||'',
-        default_department: defaultDepartment||found.default_department||'',
-        default_department_name: defaultDepartment?departmentLabel(defaultDepartment):(found.default_department_name||''),
+        issue_department: issueDepartment||found.issue_department||'',
+        issue_department_name: issueDepartment?departmentLabel(issueDepartment):(found.issue_department_name||''),
+        usage_department: usageDepartment||found.usage_department||found.default_department||'',
+        usage_department_name: usageDepartment?departmentLabel(usageDepartment):(found.usage_department_name||found.default_department_name||''),
+        default_department: usageDepartment||found.default_department||'',
+        default_department_name: usageDepartment?departmentLabel(usageDepartment):(found.default_department_name||''),
         images:merged
       });
     } else {
-      await col('items').add({ name:n, qty:q, price:p, threshold:t, target_qty:target, date_add:d, note, shop, brand, category, default_department:defaultDepartment, default_department_name:defaultDepartment?departmentLabel(defaultDepartment):'', images:newUrls });
+      await col('items').add({ name:n, qty:q, price:p, threshold:t, target_qty:target, date_add:d, note, shop, brand, category, issue_department:issueDepartment, issue_department_name:issueDepartment?departmentLabel(issueDepartment):'', usage_department:usageDepartment, usage_department_name:usageDepartment?departmentLabel(usageDepartment):'', default_department:usageDepartment, default_department_name:usageDepartment?departmentLabel(usageDepartment):'', images:newUrls });
     }
     clearAddForm();
     toast(`บันทึก '${n}' เรียบร้อย ✔`,'success');
@@ -1833,11 +1866,12 @@ function validateIssueRows(rows){
 }
 async function useItem(){
   const rows=collectIssueRows();
+  const issueDepartment=document.getElementById('issue_department').value;
   const department=document.getElementById('use_department').value;
   const by=document.getElementById('use_by').value.trim();
   const date=document.getElementById('use_date').value;
   const note=document.getElementById('use_note').value.trim();
-  if(!department||!by||!date){ toast('กรุณาเลือกแผนก พร้อมกรอกผู้เบิกและวันที่เบิก','error'); return; }
+  if(!issueDepartment||!department||!by||!date){ toast('กรุณาเลือกแผนกที่เบิกและแผนกที่ใช้งาน พร้อมกรอกผู้เบิกและวันที่เบิก','error'); return; }
   const rowError=validateIssueRows(rows);
   if(rowError){ toast(rowError,'error'); return; }
   const btn=document.getElementById('btnUseItem');
@@ -1850,7 +1884,10 @@ async function useItem(){
       const item=getIssueItem(row.name);
       batch.update(col('items').doc(item.id), { qty:(+item.qty||0)-(+row.qty||0) });
       batch.set(col('history').doc(), {
-        name:row.name, qty:+row.qty||0, department, department_name:departmentLabel(department), by, date:normalizeDate(date)||date, note,
+        name:row.name, qty:+row.qty||0,
+        issue_department:issueDepartment, issue_department_name:departmentLabel(issueDepartment),
+        department, department_name:departmentLabel(department),
+        by, date:normalizeDate(date)||date, note,
         category:item.category||'', shop:item.shop||'', brand:item.brand||'', unit_price:+item.price||0,
         images:imgUrls,
         batch_id:now,
@@ -1950,8 +1987,9 @@ function showSummary(mode, ym){
   const sorted=filtered.slice().sort((a,b)=>((normalizeDate(a.date)||'')+(a.time||'')).localeCompare((normalizeDate(b.date)||'')+(b.time||'')));
   document.getElementById('sumDetailBody').innerHTML=sorted.map(x=>{
     const meta=itemMetaByName(x.name,x);
+    const issueDepartment=x.issue_department_name||departmentLabel(x.issue_department)||'ไม่ระบุแผนก';
     const department=x.department_name||departmentLabel(x.department)||'ไม่ระบุแผนก';
-    return `<tr><td>${thaiDate(normalizeDate(x.date))}</td><td>${esc(department)}</td><td>${esc(meta.category)}</td><td>${esc(x.name)}</td><td class="text-right"><b>${fmtInt(x.qty)}</b></td><td>${esc(x.by)}</td><td class="text-muted">${esc(x.note||'-')}</td></tr>`;
+    return `<tr><td>${thaiDate(normalizeDate(x.date))}</td><td>${esc(issueDepartment)}</td><td>${esc(department)}</td><td>${esc(meta.category)}</td><td>${esc(x.name)}</td><td class="text-right"><b>${fmtInt(x.qty)}</b></td><td>${esc(x.by)}</td><td class="text-muted">${esc(x.note||'-')}</td></tr>`;
   }).join('');
 }
 
@@ -1979,9 +2017,9 @@ function exportHistoryCSV(data){
   });
   exportCSV(sorted.map(x=>{
       const meta=itemMetaByName(x.name,x);
-      return [meta.category,x.name,x.qty,x.department_name||departmentLabel(x.department),x.by,normalizeDate(x.date),x.time||'',x.note,meta.shop,meta.brand,meta.stock_qty,meta.price,(x.images||[]).join(' | ')];
+      return [meta.category,x.name,x.qty,x.issue_department_name||departmentLabel(x.issue_department),x.department_name||departmentLabel(x.department),x.by,normalizeDate(x.date),x.time||'',x.note,meta.shop,meta.brand,meta.stock_qty,meta.price,(x.images||[]).join(' | ')];
     }),
-    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนก','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุการเบิก','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
+    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนกที่เบิก','ใช้ที่แผนกไหน','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุการเบิก','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
     'history_export_'+todayStr()+'.csv');
 }
 function exportSummaryCSV(summary){
@@ -2018,13 +2056,13 @@ function exportSummaryCSV(summary){
     ...Object.keys(byItem).sort().map(n=>[byItem[n].category,n,byItem[n].qty,byItem[n].count]),
     [],
     ['รายการทั้งหมด'],
-    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนก','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุ','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
+    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนกที่เบิก','ใช้ที่แผนกไหน','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุ','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
     ...filtered.slice().sort((a,b)=>{
       const ma=itemMetaByName(a.name,a), mb=itemMetaByName(b.name,b);
       return (ma.category+'|'+(normalizeDate(a.date)||'')+'|'+(a.name||'')).localeCompare(mb.category+'|'+(normalizeDate(b.date)||'')+'|'+(b.name||''));
     }).map(x=>{
       const meta=itemMetaByName(x.name,x);
-      return [meta.category,x.name,x.qty,x.department_name||departmentLabel(x.department),x.by,normalizeDate(x.date),x.time||'',x.note,meta.shop,meta.brand,meta.stock_qty,meta.price,(x.images||[]).join(' | ')];
+      return [meta.category,x.name,x.qty,x.issue_department_name||departmentLabel(x.issue_department),x.department_name||departmentLabel(x.department),x.by,normalizeDate(x.date),x.time||'',x.note,meta.shop,meta.brand,meta.stock_qty,meta.price,(x.images||[]).join(' | ')];
     })
   ];
   exportCSV(rows, ['รายงานสรุปการเบิก'], 'summary_export_'+todayStr()+'.csv');
@@ -2167,7 +2205,8 @@ function openEditPopup(idx){
   document.getElementById('edit_brand').value=x.brand||'';
   populateCategorySelects();
   document.getElementById('edit_category').value=x.category||'';
-  document.getElementById('edit_default_department').value=x.default_department||'';
+  document.getElementById('edit_issue_department').value=x.issue_department||'';
+  document.getElementById('edit_usage_department').value=x.usage_department||x.default_department||'';
   document.getElementById('edit_idx').value=idx;
   // reset new image files
   editImgFiles=[];
@@ -2187,7 +2226,7 @@ function refreshEditExisting(){
 
 /* ════════════════ CLEAR ════════════════ */
 function clearAddForm(){
-  ['name','qty','price','threshold','target_qty','date_add','note','shop','brand','category','default_department'].forEach(id=>document.getElementById(id).value='');
+  ['name','qty','price','threshold','target_qty','date_add','note','shop','brand','category','default_issue_department','default_usage_department'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('date_add').value=todayStr();
   document.getElementById('nameHint').textContent='';
   addImgFiles=[];
@@ -2195,7 +2234,7 @@ function clearAddForm(){
   document.getElementById('addImgFile').value='';
 }
 function clearIssueForm(){
-  ['issue_name','issue_qty','use_department','use_by','use_date','use_note'].forEach(id=>document.getElementById(id).value='');
+  ['issue_name','issue_qty','issue_department','use_department','use_by','use_date','use_note'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('use_date').value=todayStr();
   issueRows=[];
   renderIssueRows();
@@ -2413,8 +2452,12 @@ document.addEventListener('DOMContentLoaded',()=>{
         shop:document.getElementById('edit_shop').value.trim(),
         brand:document.getElementById('edit_brand').value.trim(),
         category:document.getElementById('edit_category').value,
-        default_department:document.getElementById('edit_default_department').value,
-        default_department_name:document.getElementById('edit_default_department').value?departmentLabel(document.getElementById('edit_default_department').value):'',
+        issue_department:document.getElementById('edit_issue_department').value,
+        issue_department_name:document.getElementById('edit_issue_department').value?departmentLabel(document.getElementById('edit_issue_department').value):'',
+        usage_department:document.getElementById('edit_usage_department').value,
+        usage_department_name:document.getElementById('edit_usage_department').value?departmentLabel(document.getElementById('edit_usage_department').value):'',
+        default_department:document.getElementById('edit_usage_department').value,
+        default_department_name:document.getElementById('edit_usage_department').value?departmentLabel(document.getElementById('edit_usage_department').value):'',
         images:allUrls
       });
       document.getElementById('popupEdit').style.display='none';
