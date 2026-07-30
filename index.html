@@ -604,6 +604,7 @@ tr:hover td{background:#f7f9fc;}
           <option value="">ทุกหมวดหมู่</option>
         </select>
         <button class="btn-outline btn-sm" id="btnExportStock">⬇ Export CSV</button>
+        <button class="btn-success btn-sm no-print" id="btnPrintStock">🖨️ พิมพ์รายการ</button>
       </div>
       <div class="card" style="padding:0;overflow:hidden;">
         <div class="table-wrap stock-table-wrap">
@@ -1403,12 +1404,11 @@ function renderChart(){
 }
 
 /* ════════════════ STOCK ════════════════ */
-function renderStock(){
+function getFilteredStockItems(){
   const kw=(document.getElementById('search').value||'').toLowerCase().trim();
   const fs=document.getElementById('filterStatus').value;
   const fc=document.getElementById('filterCategory').value;
-  const tb=document.getElementById('stockBody');
-  let filtered=items.filter(x=>{
+  return items.filter(x=>{
     if(kw && !x.name.toLowerCase().includes(kw)) return false;
     if(fc && (x.category||'')!==fc) return false;
     const qty=+x.qty||0, thr=+x.threshold||0, target=+x.target_qty||0;
@@ -1423,6 +1423,10 @@ function renderStock(){
     const cb=(String(b.category||'').trim()||'ไม่ระบุหมวดหมู่');
     return ca.localeCompare(cb,'th') || String(a.name||'').localeCompare(String(b.name||''),'th');
   });
+}
+function renderStock(){
+  const tb=document.getElementById('stockBody');
+  const filtered=getFilteredStockItems();
   const categoryCounts={};
   filtered.forEach(item=>{
     const category=(String(item.category||'').trim()||'ไม่ระบุหมวดหมู่');
@@ -1487,6 +1491,47 @@ function renderStock(){
 }
 
 /* ════════════════ HISTORY ════════════════ */
+function printStockReport(){
+  const filtered=getFilteredStockItems();
+  if(!filtered.length){ toast('ไม่พบรายการสต็อกตามเงื่อนไขที่เลือก','warn'); return; }
+  const statusEl=document.getElementById('filterStatus');
+  const categoryEl=document.getElementById('filterCategory');
+  const search=(document.getElementById('search').value||'').trim();
+  const filterLabel=statusEl.options[statusEl.selectedIndex]?.textContent||'ทั้งหมด';
+  const categoryLabel=categoryEl.options[categoryEl.selectedIndex]?.textContent||'ทุกหมวดหมู่';
+  const categoryCounts={};
+  filtered.forEach(x=>{
+    const category=(String(x.category||'').trim()||'ไม่ระบุหมวดหมู่');
+    categoryCounts[category]=(categoryCounts[category]||0)+1;
+  });
+  let lastCategory='', rowNo=0;
+  const rowsHtml=filtered.map(x=>{
+    const category=(String(x.category||'').trim()||'ไม่ระบุหมวดหมู่');
+    const qty=+x.qty||0, threshold=+x.threshold||0, target=+x.target_qty||0;
+    const isOut=qty<=0, isLow=threshold>0&&qty>0&&qty<=threshold;
+    const status=isOut?'หมดสต็อก':isLow?'ใกล้หมด':target>0&&qty<target?'ต่ำกว่ายอดที่ต้องมี':'ปกติ';
+    const statusClass=isOut?'danger':isLow?'warn':status==='ปกติ'?'ok':'danger';
+    let group='';
+    if(category!==lastCategory){
+      group=`<tr class="group"><td colspan="8">หมวดหมู่: ${esc(category)} (${categoryCounts[category]} รายการ)</td></tr>`;
+      lastCategory=category;
+    }
+    rowNo++;
+    return group+`<tr><td>${rowNo}</td><td><b>${esc(x.name)}</b></td><td>${esc(category)}</td><td class="num">${fmtInt(qty)}</td><td class="num">${target>0?fmtInt(target):'-'}</td><td><span class="status ${statusClass}">${status}</span></td><td class="num">${threshold>0?fmtInt(threshold):'-'}</td><td>${esc(x.note||'-')}</td></tr>`;
+  }).join('');
+  const printWindow=window.open('','_blank','width=1100,height=800');
+  if(!printWindow){ toast('เบราว์เซอร์บล็อกหน้าต่างพิมพ์ กรุณาอนุญาต Popup แล้วลองใหม่','error'); return; }
+  printWindow.document.open();
+  printWindow.document.write(`<!doctype html><html lang="th"><head><meta charset="UTF-8"><title>รายงานสต็อกคงเหลือ</title><style>
+    @page{size:A4 landscape;margin:12mm;}*{box-sizing:border-box;}body{font-family:Tahoma,Arial,sans-serif;color:#111827;margin:0;font-size:11px;}h1{text-align:center;margin:0 0 12px;color:#245a92;font-size:20px;}.meta{display:flex;gap:18px;flex-wrap:wrap;border:1px solid #cbd5e1;padding:8px;margin-bottom:12px;}.meta b{color:#374151;}table{width:100%;border-collapse:collapse;}th{background:#e5edf6;border:1px solid #cbd5e1;padding:7px;text-align:left;}td{border:1px solid #dbe3ec;padding:6px;vertical-align:top;}.num{text-align:right;white-space:nowrap;}.group td{background:#dceaf8;color:#245a92;font-weight:700;border-top:2px solid #9db9d5;}.status{display:inline-block;padding:3px 6px;border-radius:4px;font-weight:700;}.status.danger{background:#fee2e2;color:#991b1b;}.status.warn{background:#ffedd5;color:#9a3412;}.status.ok{background:#dcfce7;color:#166534;}.foot{text-align:right;margin-top:10px;color:#6b7280;}
+  </style></head><body><h1>รายงานสต็อกคงเหลือ</h1><div class="meta"><span><b>สาขา:</b> ${esc(STORE_ID)}</span><span><b>ตัวกรองสถานะ:</b> ${esc(filterLabel)}</span><span><b>หมวดหมู่:</b> ${esc(categoryLabel)}</span>${search?`<span><b>ค้นหา:</b> ${esc(search)}</span>`:''}<span><b>วันที่พิมพ์:</b> ${esc(thaiDate(todayStr()))}</span></div><table><thead><tr><th>#</th><th>ชื่ออุปกรณ์</th><th>หมวดหมู่</th><th class="num">คงเหลือ</th><th class="num">ยอดที่ต้องมี</th><th>สถานะ</th><th class="num">เกณฑ์แจ้งเตือน</th><th>หมายเหตุ</th></tr></thead><tbody>${rowsHtml}</tbody></table><div class="foot">รวม ${filtered.length} รายการ · เอกสารจากระบบ Store-10</div></body></html>`);
+  printWindow.document.close();
+  printWindow.focus();
+  const printNow=()=>{ printWindow.print(); setTimeout(()=>printWindow.close(),1000); };
+  if(printWindow.document.fonts&&printWindow.document.fonts.ready) printWindow.document.fonts.ready.then(()=>setTimeout(printNow,250));
+  else setTimeout(printNow,500);
+}
+
 function renderHistory(reset){
   if(reset){
     document.getElementById('histSearch').value='';
@@ -2286,6 +2331,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(e.target.classList.contains('btn-del-row')) deleteItem(idx);
   });
   document.getElementById('btnExportStock').onclick=exportStockCSV;
+  document.getElementById('btnPrintStock').onclick=printStockReport;
   document.getElementById('btnLowStock').onclick=()=>{
     document.querySelector('.nav-btn[data-view="stock"]').click();
     document.getElementById('filterStatus').value='alert';
