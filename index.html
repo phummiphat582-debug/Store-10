@@ -180,6 +180,11 @@ tr:hover td{background:#f7f9fc;}
 .stock-table{table-layout:fixed;width:100%;font-size:11px;}
 .stock-table th{font-size:10px;padding:7px 6px;white-space:normal;}
 .stock-table td{padding:7px 6px;white-space:normal;overflow-wrap:anywhere;}
+.stock-group-row td{
+  background:#eaf2fb!important;color:var(--primary);font-weight:700;
+  border-top:2px solid #c8d9ec;border-bottom:1px solid #c8d9ec;
+  padding:8px 10px;font-size:12px;
+}
 .stock-table th:nth-child(1),.stock-table td:nth-child(1){width:3%;}
 .stock-table th:nth-child(2),.stock-table td:nth-child(2){width:14%;}
 .stock-table th:nth-child(3),.stock-table td:nth-child(3){width:8%;}
@@ -1413,10 +1418,30 @@ function renderStock(){
     if(fs==='under') return target>0&&qty<target;
     if(fs==='ok') return qty>0 && !(thr>0&&qty<=thr) && !(target>0&&qty<target);
     return true;
+  }).sort((a,b)=>{
+    const ca=(String(a.category||'').trim()||'ไม่ระบุหมวดหมู่');
+    const cb=(String(b.category||'').trim()||'ไม่ระบุหมวดหมู่');
+    return ca.localeCompare(cb,'th') || String(a.name||'').localeCompare(String(b.name||''),'th');
+  });
+  const categoryCounts={};
+  filtered.forEach(item=>{
+    const category=(String(item.category||'').trim()||'ไม่ระบุหมวดหมู่');
+    categoryCounts[category]=(categoryCounts[category]||0)+1;
   });
   tb.innerHTML='';
   document.getElementById('stockEmpty').style.display=filtered.length?'none':'block';
-  filtered.forEach((x,i)=>{
+  let lastCategory='';
+  let rowNo=0;
+  filtered.forEach(x=>{
+    const category=(String(x.category||'').trim()||'ไม่ระบุหมวดหมู่');
+    if(category!==lastCategory){
+      const groupRow=document.createElement('tr');
+      groupRow.className='stock-group-row';
+      groupRow.innerHTML=`<td colspan="13">หมวดหมู่: ${esc(category)} <span class="text-muted" style="font-weight:500;">(${categoryCounts[category]} รายการ)</span></td>`;
+      tb.appendChild(groupRow);
+      lastCategory=category;
+    }
+    rowNo++;
     const realIdx=items.indexOf(x);
     const qty=+x.qty||0, thr=+x.threshold||0, price=+x.price||0, target=+x.target_qty||0;
     const isLow=thr>0&&qty>0&&qty<=thr, isOut=qty<=0;
@@ -1441,7 +1466,7 @@ function renderStock(){
 
     const shopBrand=[x.shop?`ร้าน: ${x.shop}`:'',x.brand?`ยี่ห้อ/รุ่น: ${x.brand}`:''].filter(Boolean).join(' | ');
     tr.innerHTML=`
-      <td class="text-muted">${i+1}</td>
+      <td class="text-muted">${rowNo}</td>
       <td><strong${shopBrand?` title="${esc(shopBrand)}"`:''}>${esc(x.name)}</strong></td>
       <td class="text-muted">${x.category?esc(x.category):'-'}</td>
       <td class="text-right">${qtyBadge}</td>
