@@ -572,7 +572,7 @@ tr:hover td{background:#f7f9fc;}
           <div class="card-title" style="margin-top:4px;">เบิกอะไรบ้าง (รวมตามอุปกรณ์)</div>
           <div class="table-wrap" style="margin-top:10px;"><table><thead><tr><th>อุปกรณ์</th><th>หมวดหมู่</th><th class="text-right">จำนวน (ชิ้น)</th><th class="text-right">จำนวนครั้ง</th></tr></thead><tbody id="sumItemBody"></tbody></table></div>
           <div class="card-title" style="margin-top:14px;">รายการเบิกของวัน/ช่วงเวลาที่เลือก</div>
-          <div class="table-wrap"><table><thead><tr><th>วันที่เบิก</th><th>แผนกที่เบิก</th><th>ใช้ที่แผนกไหน</th><th>หมวดหมู่</th><th>อุปกรณ์</th><th class="text-right">จำนวน</th><th>ผู้เบิก</th><th>หมายเหตุ</th></tr></thead><tbody id="sumDetailBody"></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>วันที่เบิก</th><th>แผนกที่จ่าย</th><th>ใช้ที่แผนกไหน</th><th>หมวดหมู่</th><th>อุปกรณ์</th><th class="text-right">จำนวน</th><th>ผู้เบิก</th><th>หมายเหตุ</th></tr></thead><tbody id="sumDetailBody"></tbody></table></div>
           <div style="margin-top:10px;text-align:right;" class="no-print">
             <button class="btn-ghost btn-sm" id="btnExportSumCSV">⬇ Export CSV</button>
           </div>
@@ -648,9 +648,9 @@ tr:hover td{background:#f7f9fc;}
             </select>
           </div>
           <div class="form-row">
-            <label>แผนกที่เบิก</label>
+            <label>แผนกที่จ่าย</label>
             <select id="default_issue_department">
-              <option value="">-- ไม่กำหนดแผนกที่เบิก --</option>
+              <option value="">-- ไม่กำหนดแผนกที่จ่าย --</option>
             </select>
           </div>
           <div class="form-row">
@@ -778,9 +778,9 @@ tr:hover td{background:#f7f9fc;}
             </div>
           </div>
           <div class="form-row">
-            <label>แผนกที่เบิก <span style="color:var(--danger)">*</span></label>
+            <label>แผนกที่จ่าย <span style="color:var(--danger)">*</span></label>
             <select id="issue_department" required>
-              <option value="">-- เลือกแผนกที่เบิก --</option>
+              <option value="">-- เลือกแผนกที่จ่าย --</option>
             </select>
           </div>
           <div class="form-row">
@@ -879,9 +879,9 @@ tr:hover td{background:#f7f9fc;}
         </select>
       </div>
       <div class="form-row">
-        <label>แผนกที่เบิก</label>
+        <label>แผนกที่จ่าย</label>
         <select id="edit_issue_department">
-          <option value="">-- ไม่กำหนดแผนกที่เบิก --</option>
+          <option value="">-- ไม่กำหนดแผนกที่จ่าย --</option>
         </select>
       </div>
       <div class="form-row">
@@ -1116,9 +1116,10 @@ function populateDepartments(){
   const useSelect=document.getElementById('use_department');
   if(useSelect) useSelect.innerHTML='<option value="">-- เลือกแผนก --</option>'+options;
   const defaults=[
-    ['default_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
+    ['issue_department','-- เลือกแผนกที่จ่าย --'],
+    ['default_issue_department','-- ไม่กำหนดแผนกที่จ่าย --'],
     ['default_usage_department','-- ไม่กำหนดแผนกใช้งาน --'],
-    ['edit_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
+    ['edit_issue_department','-- ไม่กำหนดแผนกที่จ่าย --'],
     ['edit_usage_department','-- ไม่กำหนดแผนกใช้งาน --']
   ];
   defaults.forEach(([id,placeholder])=>{
@@ -1609,7 +1610,7 @@ function applyHistoryFilter(){
       <div class="hist-info">
         <div class="hist-name">${esc(x.name)}</div>
         <div class="hist-meta">
-          แผนกที่เบิก: <b>${esc(x.issue_department_name||departmentLabel(x.issue_department)||'ไม่ระบุ')}</b> · ใช้ที่แผนก: <b>${esc(x.department_name||departmentLabel(x.department)||'ไม่ระบุ')}</b> · ผู้เบิก: <b>${esc(x.by)}</b> · วันที่เบิก: ${thaiDate(nd)}
+          แผนกที่จ่าย: <b>${esc(x.issue_department_name||departmentLabel(x.issue_department)||'ไม่ระบุ')}</b> · ใช้ที่แผนก: <b>${esc(x.department_name||departmentLabel(x.department)||'ไม่ระบุ')}</b> · ผู้เบิก: <b>${esc(x.by)}</b> · วันที่เบิก: ${thaiDate(nd)}
           ${x.note?`<br>หมายเหตุ: ${esc(x.note)}`:''}
           <br>บันทึกเมื่อ: ${ts}
         </div>
@@ -1653,7 +1654,7 @@ function updateStockHint(){
     if(+item.target_qty>0) txt+=' (ยอดที่ต้องมี '+item.target_qty+' ชิ้น)';
     const issueDepartment=item.issue_department||'';
     const usageDepartment=item.usage_department||item.default_department||'';
-    if(issueDepartment) txt+=' · แผนกที่เบิก: '+(item.issue_department_name||departmentLabel(issueDepartment));
+    if(issueDepartment) txt+=' · แผนกที่จ่าย: '+(item.issue_department_name||departmentLabel(issueDepartment));
     if(usageDepartment) txt+=' · ใช้ที่: '+(item.usage_department_name||item.default_department_name||departmentLabel(usageDepartment));
     const issueSelect=document.getElementById('issue_department');
     const usageSelect=document.getElementById('use_department');
@@ -1871,7 +1872,7 @@ async function useItem(){
   const by=document.getElementById('use_by').value.trim();
   const date=document.getElementById('use_date').value;
   const note=document.getElementById('use_note').value.trim();
-  if(!issueDepartment||!department||!by||!date){ toast('กรุณาเลือกแผนกที่เบิกและแผนกที่ใช้งาน พร้อมกรอกผู้เบิกและวันที่เบิก','error'); return; }
+  if(!issueDepartment||!department||!by||!date){ toast('กรุณาเลือกแผนกที่จ่ายและแผนกที่ใช้งาน พร้อมกรอกผู้เบิกและวันที่เบิก','error'); return; }
   const rowError=validateIssueRows(rows);
   if(rowError){ toast(rowError,'error'); return; }
   const btn=document.getElementById('btnUseItem');
@@ -2019,7 +2020,7 @@ function exportHistoryCSV(data){
       const meta=itemMetaByName(x.name,x);
       return [meta.category,x.name,x.qty,x.issue_department_name||departmentLabel(x.issue_department),x.department_name||departmentLabel(x.department),x.by,normalizeDate(x.date),x.time||'',x.note,meta.shop,meta.brand,meta.stock_qty,meta.price,(x.images||[]).join(' | ')];
     }),
-    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนกที่เบิก','ใช้ที่แผนกไหน','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุการเบิก','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
+    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนกที่จ่าย','ใช้ที่แผนกไหน','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุการเบิก','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
     'history_export_'+todayStr()+'.csv');
 }
 function exportSummaryCSV(summary){
@@ -2056,7 +2057,7 @@ function exportSummaryCSV(summary){
     ...Object.keys(byItem).sort().map(n=>[byItem[n].category,n,byItem[n].qty,byItem[n].count]),
     [],
     ['รายการทั้งหมด'],
-    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนกที่เบิก','ใช้ที่แผนกไหน','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุ','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
+    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนกที่จ่าย','ใช้ที่แผนกไหน','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุ','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
     ...filtered.slice().sort((a,b)=>{
       const ma=itemMetaByName(a.name,a), mb=itemMetaByName(b.name,b);
       return (ma.category+'|'+(normalizeDate(a.date)||'')+'|'+(a.name||'')).localeCompare(mb.category+'|'+(normalizeDate(b.date)||'')+'|'+(b.name||''));
