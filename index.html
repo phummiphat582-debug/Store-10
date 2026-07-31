@@ -459,7 +459,7 @@ tr:hover td{background:#f7f9fc;}
         <div class="nav-group-label">สต็อก</div>
         <button class="nav-btn" data-view="stock"><span class="icon">📦</span><span class="label">สต็อกคงเหลือ</span><span class="nbadge" id="lowBadge" style="display:none;">0</span></button>
         <button class="nav-btn" data-view="add"><span class="icon">➕</span><span class="label">เพิ่ม/แก้ไข</span></button>
-        <button class="nav-btn" data-view="import"><span class="icon">📂</span><span class="label">นำเข้า CSV</span></button>
+        <button class="nav-btn" data-view="import"><span class="icon">🛡️</span><span class="label">ส่งออก Excel / นำเข้า</span></button>
       </div>
       <div class="nav-group">
         <div class="nav-group-label">การเบิก</div>
@@ -716,11 +716,40 @@ tr:hover td{background:#f7f9fc;}
     <!-- IMPORT -->
     <section id="view-import" class="section">
       <div class="page-header">
-        <div class="page-title">📂 นำเข้าข้อมูล CSV</div>
-        <div class="page-sub">อัปโหลด CSV เพื่อนำเข้าสต็อกสินค้าจำนวนมาก</div>
+        <div class="page-title">🛡️ ส่งออก Excel / นำเข้าข้อมูล</div>
+        <div class="page-sub">สำรองสินค้า ประวัติการเบิก และหมวดหมู่ เพื่อกู้คืนเมื่อฐานข้อมูลมีปัญหา</div>
+      </div>
+      <div class="card" style="margin-bottom:14px;background:#f8fbff;border-color:#c8d9ec;">
+        <div class="card-title">📊 สำรองข้อมูลทั้งระบบ</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.6;">
+          ส่งออกเป็น Excel สำหรับเปิดดู และ JSON สำหรับกู้คืนข้อมูลครบถ้วน แนะนำให้เก็บไฟล์ไว้ภายนอกเครื่องเป็นประจำ
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-success btn-sm" id="btnExportBackupExcel">📊 ส่งออก Excel</button>
+          <button class="btn-primary btn-sm" id="btnExportBackupJSON">🛡️ สำรองข้อมูล JSON</button>
+        </div>
+        <div class="hint" style="margin-top:8px;color:var(--text2);">เมื่อต้องกู้คืน ให้เลือกไฟล์ JSON หรือ Excel ที่ส่งออกจากระบบนี้ แล้วกดนำเข้าข้อมูลสำรอง</div>
       </div>
       <div class="card" style="margin-bottom:14px;">
-        <div class="card-title">รูปแบบ CSV ที่รองรับ</div>
+        <div class="card-title">↩️ นำเข้าข้อมูลสำรอง</div>
+        <div class="import-zone" id="backupImportZone">
+          <div style="font-size:28px;margin-bottom:8px;">🛡️</div>
+          <div style="font-weight:600;margin-bottom:4px;">เลือกไฟล์ JSON หรือ Excel สำรอง</div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:12px;">รองรับไฟล์ .json และ .xls ที่ส่งออกจาก Store-10</div>
+          <input type="file" id="backupFile" accept=".json,.xls" style="display:none;">
+          <button class="btn-outline btn-sm" onclick="document.getElementById('backupFile').click()">เลือกไฟล์สำรอง</button>
+        </div>
+        <div id="backupPreview" style="display:none;margin-top:14px;">
+          <div class="card-title" id="backupPreviewTitle">พร้อมกู้คืนข้อมูล</div>
+          <div id="backupPreviewText" style="font-size:12px;color:var(--text2);line-height:1.7;"></div>
+          <div style="margin-top:12px;display:flex;gap:8px;">
+            <button class="btn-danger btn-sm" id="btnConfirmBackupRestore">⚠️ นำเข้าข้อมูลสำรอง</button>
+            <button class="btn-ghost btn-sm" id="btnCancelBackupRestore">ยกเลิก</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-title">นำเข้าสินค้า CSV แบบเดิม</div>
         <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">
           หัวตาราง (บรรทัดแรก): <code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;">name,qty,price,threshold,target_qty,note</code>
         </div>
@@ -1014,6 +1043,7 @@ let items = [];
 let historyData = [];
 let issueRows = [];
 let importRows = [];
+let backupRestoreData = null;
 let lastIssuedSummary = null;
 let monthChart = null;
 let realtimeSource='loading';
@@ -2129,6 +2159,121 @@ function exportSummaryPDF(summary, departmentCode){
 }
 
 /* ════════════════ CSV IMPORT ════════════════ */
+function backupCellValue(value){
+  if(value===null||value===undefined) return '';
+  if(typeof value==='object') return JSON.stringify(value);
+  return String(value);
+}
+function escapeBackupCell(value){
+  return backupCellValue(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function downloadBackupFile(content, filename, type){
+  const blob=new Blob([content],{type});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download=filename; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function buildBackupPayload(){
+  const clean=row=>Object.fromEntries(Object.entries(row||{}).filter(([key])=>key!=='time_ts'));
+  return {
+    format:'store10-backup', version:1, store_id:STORE_ID, exported_at:new Date().toISOString(),
+    items:items.map(clean), history:historyData.map(clean), categories:[...customCategories]
+  };
+}
+function exportBackupJSON(){
+  const payload=buildBackupPayload();
+  downloadBackupFile(JSON.stringify(payload,null,2),'store10_backup_'+todayStr()+'.json','application/json;charset=utf-8');
+  toast('ส่งออกไฟล์สำรอง JSON แล้ว','success');
+}
+function backupSheet(name, headers, rows){
+  const head=headers.map(h=>`<th>${escapeBackupCell(h)}</th>`).join('');
+  const body=rows.map(row=>`<tr>${headers.map(h=>`<td>${escapeBackupCell(row[h])}</td>`).join('')}</tr>`).join('');
+  return `<table data-sheet="${escapeBackupCell(name)}"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+}
+function exportBackupExcel(){
+  const payload=buildBackupPayload();
+  const itemHeaders=['id','name','qty','price','threshold','target_qty','date_add','note','shop','brand','category','issue_department','issue_department_name','usage_department','usage_department_name','default_department','default_department_name','images'];
+  const historyHeaders=['id','name','qty','issue_department','issue_department_name','department','department_name','by','date','note','category','shop','brand','unit_price','images','batch_id','time'];
+  const categoryRows=payload.categories.map((value,index)=>({id:String(index+1),value}));
+  const metadataRows=[{store_id:payload.store_id,exported_at:payload.exported_at,items:payload.items.length,history:payload.history.length}];
+  const html=`<!doctype html><html><head><meta charset="UTF-8"><style>body{font-family:Arial,sans-serif;}table{border-collapse:collapse;margin:18px 0;}th{background:#dceaf8;font-weight:700;}th,td{border:1px solid #9db9d5;padding:5px;white-space:nowrap;}h1{color:#245a92;}h2{color:#374151;}</style></head><body><h1>Store-10 Backup</h1><p>ไฟล์สำรองข้อมูล เปิดดูด้วย Excel ได้</p><h2>metadata</h2>${backupSheet('metadata',['store_id','exported_at','items','history'],metadataRows)}<h2>items</h2>${backupSheet('items',itemHeaders,payload.items)}<h2>history</h2>${backupSheet('history',historyHeaders,payload.history)}<h2>categories</h2>${backupSheet('categories',['id','value'],categoryRows)}</body></html>`;
+  downloadBackupFile(html,'store10_backup_'+todayStr()+'.xls','application/vnd.ms-excel;charset=utf-8');
+  toast('ส่งออกไฟล์ Excel สำรองทั้งระบบแล้ว','success');
+}
+function parseBackupCell(key,value){
+  if(value===undefined||value===null) return '';
+  if(key==='qty'||key==='price'||key==='threshold'||key==='target_qty'||key==='unit_price') return +value||0;
+  if(key==='images'){
+    try{return typeof value==='string'&&value.trim()?JSON.parse(value):[];}catch{return [];}
+  }
+  return String(value);
+}
+function readBackupXls(text){
+  const doc=new DOMParser().parseFromString(text,'text/html');
+  const tables=[...doc.querySelectorAll('table[data-sheet]')];
+  if(!tables.length) throw new Error('ไม่พบตารางสำรองของ Store-10 ในไฟล์ Excel');
+  const readTable=table=>{
+    const headers=[...table.querySelectorAll('thead th')].map(th=>th.textContent.trim());
+    return [...table.querySelectorAll('tbody tr')].map(tr=>{
+      const cells=[...tr.querySelectorAll('td')]; const row={};
+      headers.forEach((key,index)=>row[key]=parseBackupCell(key,cells[index]?.textContent||''));
+      return row;
+    });
+  };
+  const get=name=>{const table=tables.find(x=>x.dataset.sheet===name);return table?readTable(table):[];};
+  const categories=get('categories');
+  return {format:'store10-backup',version:1,items:get('items'),history:get('history'),categories:categories.map(x=>x.value).filter(Boolean)};
+}
+function normalizeBackupPayload(payload){
+  if(!payload||!Array.isArray(payload.items)||!Array.isArray(payload.history)) throw new Error('ไฟล์สำรองไม่ครบ หรือไม่ใช่ไฟล์ของ Store-10');
+  return {format:'store10-backup',version:payload.version||1,items:payload.items,history:payload.history,categories:Array.isArray(payload.categories)?payload.categories:[]};
+}
+function updateBackupPreview(payload,filename){
+  backupRestoreData=payload;
+  document.getElementById('backupPreviewTitle').textContent='พร้อมนำเข้าข้อมูลสำรอง: '+filename;
+  document.getElementById('backupPreviewText').textContent=`สินค้า ${payload.items.length} รายการ · ประวัติการเบิก ${payload.history.length} รายการ · หมวดหมู่เพิ่มเติม ${payload.categories.length} รายการ (ระบบจะรวม/อัปเดตข้อมูลเดิม ไม่ลบข้อมูลเดิม)`;
+  document.getElementById('backupPreview').style.display='block';
+}
+function handleBackupFile(file){
+  if(!file) return;
+  const ext=file.name.toLowerCase().split('.').pop();
+  if(!['json','xls'].includes(ext)){ toast('กรุณาเลือกไฟล์ .json หรือ .xls ที่ส่งออกจาก Store-10','error'); return; }
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const payload=ext==='json'?normalizeBackupPayload(JSON.parse(e.target.result)):normalizeBackupPayload(readBackupXls(e.target.result));
+      updateBackupPreview(payload,file.name);
+    }catch(err){ backupRestoreData=null; toast('อ่านไฟล์สำรองไม่สำเร็จ: '+err.message,'error'); }
+  };
+  reader.readAsText(file,'UTF-8');
+}
+async function writeBackupCollection(collectionName,records){
+  const collection=col(collectionName);
+  for(let start=0;start<records.length;start+=400){
+    const batch=db.batch();
+    records.slice(start,start+400).forEach(record=>{
+      const data={...(record||{})}; const id=data.id||collection.doc().id; delete data.id; delete data.time_ts;
+      batch.set(collection.doc(id),data,{merge:true});
+    });
+    await batch.commit();
+  }
+}
+async function applyBackupRestore(){
+  if(!backupRestoreData) return;
+  const payload=backupRestoreData;
+  try{
+    await writeBackupCollection('items',payload.items);
+    await writeBackupCollection('history',payload.history);
+    if(payload.categories.length) await col('meta').doc('categories').set({list:payload.categories},{merge:true});
+    toast(`กู้คืนสำเร็จ สินค้า ${payload.items.length} รายการ และประวัติ ${payload.history.length} รายการ`,'success');
+    document.getElementById('backupPreview').style.display='none';
+    document.getElementById('backupFile').value=''; backupRestoreData=null;
+  }catch(err){ toast('กู้คืนข้อมูลไม่สำเร็จ: '+err.message,'error'); }
+}
+function confirmBackupRestore(){
+  if(!backupRestoreData){ toast('กรุณาเลือกไฟล์สำรองก่อน','warn'); return; }
+  showConfirm('ยืนยันนำเข้าข้อมูลสำรอง','ระบบจะรวม/อัปเดตสินค้า ประวัติ และหมวดหมู่จากไฟล์ โดยไม่ลบข้อมูลเดิม','กู้คืนข้อมูล','btn-danger btn-sm',applyBackupRestore);
+}
 function parseCSV(text){
   const lines=text.trim().split('\n');
   const headers=lines[0].split(',').map(h=>h.trim().replace(/^["']|["']$/g,'').toLowerCase());
@@ -2468,6 +2613,14 @@ document.addEventListener('DOMContentLoaded',()=>{
   };
 
   // import
+  document.getElementById('btnExportBackupExcel').onclick=exportBackupExcel;
+  document.getElementById('btnExportBackupJSON').onclick=exportBackupJSON;
+  document.getElementById('backupFile').addEventListener('change',e=>handleBackupFile(e.target.files[0]));
+  document.getElementById('btnConfirmBackupRestore').onclick=confirmBackupRestore;
+  document.getElementById('btnCancelBackupRestore').onclick=()=>{
+    document.getElementById('backupPreview').style.display='none';
+    document.getElementById('backupFile').value=''; backupRestoreData=null;
+  };
   document.getElementById('csvFile').addEventListener('change',e=>handleCSVFile(e.target.files[0]));
   const zone=document.getElementById('importZone');
   zone.addEventListener('dragover',e=>{ e.preventDefault(); zone.classList.add('drag'); });
