@@ -2123,6 +2123,8 @@ function exportSummaryPDF(summary, departmentCode){
   const totalQty=rows.reduce((sum,x)=>sum+x.qty,0);
   const grandTotal=rows.reduce((sum,x)=>sum+x.total,0);
   const selectedDepartment=departmentCode==='__all__'?'ทุกแผนก':departmentCode==='__unassigned__'?'ไม่ระบุแผนก':departmentLabel(departmentCode);
+  const paidDepartments=[...new Set(selected.map(x=>x.issue_department_name||departmentLabel(x.issue_department)||'ไม่ระบุแผนก'))].sort().join(', ')||'ไม่ระบุแผนก';
+  const usageDepartments=[...new Set(selected.map(x=>x.department_name||departmentLabel(x.department)||'ไม่ระบุแผนก'))].sort().join(', ')||'ไม่ระบุแผนก';
   const printWindow=window.open('','_blank','width=900,height=800');
   if(!printWindow){
     toast('เบราว์เซอร์บล็อกหน้าต่าง PDF กรุณาอนุญาต Popup แล้วลองใหม่','error'); return;
@@ -2146,7 +2148,7 @@ function exportSummaryPDF(summary, departmentCode){
     .receipt-foot{margin-top:24px;text-align:center;color:#6b7280;font-size:10px;}
   </style></head><body><main class="receipt">
     <h1>ใบสรุปการเบิกสินค้า</h1>
-    <div class="receipt-meta"><div><b>แผนก:</b> ${esc(selectedDepartment)}</div><div><b>สาขา:</b> ${esc(STORE_ID)}</div><div><b>ช่วงเวลา:</b> ${esc(summary.label)}</div><div><b>วันที่ออกเอกสาร:</b> ${esc(thaiDate(todayStr()))}</div></div>
+    <div class="receipt-meta"><div><b>แผนกที่จ่าย:</b> ${esc(paidDepartments)}</div><div><b>ใช้ที่แผนกไหน:</b> ${esc(usageDepartments)}</div><div><b>สาขา:</b> ${esc(STORE_ID)}</div><div><b>ช่วงเวลา:</b> ${esc(summary.label)}</div><div><b>วันที่ออกเอกสาร:</b> ${esc(thaiDate(todayStr()))}</div></div>
     <table><thead><tr><th>รายการสินค้า</th><th class="num">จำนวน</th><th class="num">ราคา/หน่วย</th><th class="num">รวมเงิน</th></tr></thead><tbody>${rowsHtml}</tbody></table>
     <div class="receipt-total"><div><span>รวมจำนวน</span><b>${fmtInt(totalQty)} ชิ้น</b></div><div class="grand"><span>ยอดรวมทั้งสิ้น</span><b>${fmt(grandTotal)} บาท</b></div></div>
     <div class="receipt-foot">เอกสารสรุปจากระบบ Store-10</div>
