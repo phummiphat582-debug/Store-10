@@ -450,9 +450,54 @@ tr:hover td{background:#fcf8f2;}
 /* SCROLLBAR */
 .main::-webkit-scrollbar{width:6px;}
 .main::-webkit-scrollbar-thumb{background:#d9cbbb;border-radius:3px;}
+.auth-screen{
+  position:fixed;inset:0;z-index:200000;display:flex;align-items:center;justify-content:center;
+  padding:20px;background:linear-gradient(135deg,#f8f1e8,#ead9c7);
+}
+.auth-screen.hidden{display:none;}
+.auth-card{
+  width:min(420px,100%);background:var(--surface);border:1px solid var(--border);
+  border-radius:22px;padding:28px;box-shadow:0 20px 60px rgba(106,81,58,.2);
+}
+.auth-brand{text-align:center;margin-bottom:20px;}
+.auth-brand img{width:86px;height:86px;object-fit:contain;background:#fff;border-radius:16px;border:1px solid var(--border);}
+.auth-title{margin-top:12px;font-size:21px;font-weight:800;color:var(--primary-dark);}
+.auth-sub{margin-top:4px;font-size:12px;color:var(--text2);}
+.auth-form{display:grid;gap:12px;}
+.auth-form label{color:var(--text3);}
+.auth-error{min-height:18px;color:var(--danger);font-size:12px;line-height:1.45;}
+.auth-user{display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(255,255,255,.9);}
+.auth-user-role{padding:3px 8px;border:1px solid rgba(255,255,255,.35);border-radius:999px;}
+.auth-user button{padding:4px 9px;background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.35);font-size:11px;}
+.auth-user button:hover{background:rgba(255,255,255,.25);}
+body.auth-locked header,body.auth-locked .layout{visibility:hidden;}
+body.viewer-mode .stock-actions-cell,body.viewer-mode #stockActionsHeader{display:none;}
+body.viewer-mode #view-stock .toolbar .btn-success,body.viewer-mode #view-stock .toolbar .btn-outline{display:none;}
+body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอย่างเดียว';color:var(--primary);}
 </style>
 </head>
-<body>
+<body class="auth-locked">
+<div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <img src="login-logo.png" alt="โลโก้ SCENERY">
+      <div class="auth-title">สโตร์ 10</div>
+      <div class="auth-sub">เข้าสู่ระบบเพื่อดูข้อมูลสต๊อก</div>
+    </div>
+    <form id="loginForm" class="auth-form">
+      <div class="form-row">
+        <label for="loginEmail">อีเมล</label>
+        <input id="loginEmail" type="email" autocomplete="username" placeholder="name@example.com" required>
+      </div>
+      <div class="form-row">
+        <label for="loginPassword">รหัสผ่าน</label>
+        <input id="loginPassword" type="password" autocomplete="current-password" placeholder="กรอกรหัสผ่าน" required>
+      </div>
+      <div id="loginError" class="auth-error" aria-live="polite"></div>
+      <button class="btn-primary" id="btnLogin" type="submit">เข้าสู่ระบบ</button>
+    </form>
+  </div>
+</div>
 
 <header>
   <div class="header-left">
@@ -469,6 +514,10 @@ tr:hover td{background:#fcf8f2;}
     <div class="header-badge" id="connectionBadge">
       <span class="badge-dot" id="connDot"></span>
       <span id="connText">เชื่อมต่อ...</span>
+    </div>
+    <div class="auth-user" id="authUserInfo" style="display:none;">
+      <span id="authUserEmail"></span><span class="auth-user-role" id="authUserRole"></span>
+      <button id="btnSignOut" type="button">ออกจากระบบ</button>
     </div>
   </div>
 </header>
@@ -644,7 +693,7 @@ tr:hover td{background:#fcf8f2;}
                 <th class="text-right">ยอดที่ต้องมี</th><th class="text-center">สถานะ</th>
                 <th class="text-right">ราคา/หน่วย</th><th class="text-right">มูลค่ารวม</th>
                 <th class="text-right">เกณฑ์แจ้งเตือน</th><th>วันที่เพิ่มล่าสุด</th>
-                <th>หมายเหตุ</th><th>รูปภาพ</th><th class="text-center">การกระทำ</th>
+                <th>หมายเหตุ</th><th>รูปภาพ</th><th id="stockActionsHeader" class="text-center">การกระทำ</th>
               </tr>
             </thead>
             <tbody id="stockBody"></tbody>
@@ -1024,6 +1073,7 @@ tr:hover td{background:#fcf8f2;}
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 <script>
@@ -1037,8 +1087,83 @@ const fbConfig = {
   appId:"1:301831402512:web:290a578b80c199314bc695"
 };
 if(!firebase.apps.length) firebase.initializeApp(fbConfig);
+const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
+let currentUser=null;
+let currentRole='viewer';
+let appStarted=false;
+let realtimeUnsubs=[];
+function isAdmin(){ return currentRole==='admin'; }
+function authErrorMessage(err){
+  const code=err&&err.code||'';
+  if(code.includes('invalid-credential')||code.includes('wrong-password')||code.includes('user-not-found')) return 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
+  if(code.includes('too-many-requests')) return 'ลองเข้าสู่ระบบใหม่ภายหลัง ระบบจำกัดการลองชั่วคราว';
+  return 'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบอีเมลและรหัสผ่าน';
+}
+function showAuthScreen(message){
+  document.body.classList.add('auth-locked');
+  const screen=document.getElementById('authScreen');
+  if(screen) screen.classList.remove('hidden');
+  const userInfo=document.getElementById('authUserInfo');
+  if(userInfo) userInfo.style.display='none';
+  const error=document.getElementById('loginError');
+  if(error) error.textContent=message||'';
+}
+function applyRoleUi(){
+  const viewer=currentRole==='viewer';
+  document.body.classList.toggle('viewer-mode',viewer);
+  document.querySelectorAll('.nav-btn[data-view]').forEach(btn=>{
+    btn.style.display=!viewer||btn.dataset.view==='stock'?'':'none';
+  });
+  if(viewer){
+    document.querySelectorAll('.section').forEach(sec=>sec.classList.toggle('active',sec.id==='view-stock'));
+    document.querySelectorAll('.nav-btn[data-view]').forEach(btn=>btn.classList.toggle('active',btn.dataset.view==='stock'));
+  }
+}
+function showAuthenticatedScreen(){
+  document.body.classList.remove('auth-locked');
+  const screen=document.getElementById('authScreen');
+  if(screen) screen.classList.add('hidden');
+  const userInfo=document.getElementById('authUserInfo');
+  const email=document.getElementById('authUserEmail');
+  const role=document.getElementById('authUserRole');
+  if(userInfo) userInfo.style.display='flex';
+  if(email) email.textContent=currentUser&&currentUser.email||'';
+  if(role) role.textContent=isAdmin()?'ผู้ดูแลระบบ':'ดูอย่างเดียว';
+  applyRoleUi();
+}
+function stopRealtime(){
+  realtimeUnsubs.forEach(unsub=>{ try{ if(typeof unsub==='function') unsub(); }catch(e){} });
+  realtimeUnsubs=[];
+  appStarted=false;
+}
+async function loadCurrentRole(user){
+  try{
+    const profile=await db.collection('users').doc(user.uid).get();
+    return profile.exists&&profile.data().role==='admin'?'admin':'viewer';
+  }catch(err){
+    console.warn('อ่านบทบาทผู้ใช้ไม่สำเร็จ ใช้สิทธิ์ดูอย่างเดียว',err);
+    return 'viewer';
+  }
+}
+async function handleAuthState(user){
+  if(!user){
+    currentUser=null; currentRole='viewer'; stopRealtime(); showAuthScreen();
+    return;
+  }
+  currentUser=user;
+  currentRole=await loadCurrentRole(user);
+  showAuthenticatedScreen();
+  if(!appStarted) startAuthenticatedApp();
+}
+function startAuthenticatedApp(){
+  if(appStarted) return;
+  appStarted=true;
+  listenRealtime();
+  listenDepartments();
+  listenCategories();
+}
 
 /* ════════════════ STORE CONFIG ════════════════ */
 // อ่าน store จาก URL ?store=xxx  ถ้าไม่มีให้ใช้ค่า default ด้านล่าง
@@ -1260,6 +1385,7 @@ function editDepartment(code){
   document.getElementById('departmentName').focus();
 }
 async function saveDepartment(){
+  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
   const name=document.getElementById('departmentName').value.trim();
   const codeInput=document.getElementById('departmentCode').value.trim();
   if(!name){ toast('กรุณากรอกชื่อแผนก','error'); return; }
@@ -1283,6 +1409,7 @@ async function saveDepartment(){
   }catch(err){ toast('บันทึกรายการแผนกไม่สำเร็จ: '+err.message,'error'); }
 }
 async function deleteDepartment(code){
+  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
   const dept=DEPARTMENTS.find(x=>x.code===code);
   if(!dept||!confirm('ลบแผนก “'+dept.code+' '+dept.name+'” ใช่หรือไม่?')) return;
   DEPARTMENTS=DEPARTMENTS.filter(x=>x.code!==code);
@@ -1296,6 +1423,7 @@ async function deleteDepartment(code){
   }catch(err){ toast('ลบรายการแผนกไม่สำเร็จ: '+err.message,'error'); }
 }
 async function ensureDepartmentValue(value){
+  if(!isAdmin()) throw new Error('บัญชีนี้ไม่มีสิทธิ์เพิ่มแผนก');
   const text=String(value||'').trim();
   if(!text) return '';
   const found=findDepartment(text);
@@ -1751,7 +1879,7 @@ function renderStock(){
       <td class="text-muted">${thaiDate(x.date_add)}</td>
       <td class="text-muted" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(x.note||'-')}</td>
       <td>${renderThumb(x.images)}</td>
-      <td class="text-center">
+      <td class="text-center stock-actions-cell">
         <button class="btn-primary btn-xs btn-edit-row" data-idx="${realIdx}">แก้ไข</button>
         <button class="btn-ghost btn-xs btn-del-row" data-idx="${realIdx}" style="color:var(--danger);border-color:var(--danger);">ลบ</button>
       </td>`;
@@ -1925,6 +2053,7 @@ function populateCategorySelects(){
   }
 }
 async function handleCategorySelectChange(selectId){
+  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
   const sel=document.getElementById(selectId);
   if(sel.value!==CATEGORY_ADD_NEW) return;
   const name=prompt('ชื่อหมวดหมู่ใหม่:');
@@ -1945,7 +2074,9 @@ function listenDepartments(){
       DEPARTMENTS=normalizeDepartmentList(doc.data().list);
     }else{
       DEPARTMENTS=DEFAULT_DEPARTMENTS.map(x=>({...x}));
-      try{ await persistDepartments(); }catch(err){ console.warn('บันทึกรายการแผนกเริ่มต้นไม่สำเร็จ',err); }
+      if(isAdmin()){
+        try{ await persistDepartments(); }catch(err){ console.warn('บันทึกรายการแผนกเริ่มต้นไม่สำเร็จ',err); }
+      }
     }
     writeLocalCache('departments',DEPARTMENTS);
     populateDepartments();
@@ -1982,6 +2113,7 @@ function checkExistingName(){
 
 /* ════════════════ SAVE ITEM ════════════════ */
 async function saveItem(){
+  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
   const n=document.getElementById('name').value.trim();
   const q=+document.getElementById('qty').value||0;
   const p=+document.getElementById('price').value||0;
@@ -2106,6 +2238,7 @@ function validateIssueRows(rows){
   return '';
 }
 async function useItem(){
+  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
   const rows=collectIssueRows();
   const issueDepartmentInput=document.getElementById('issue_department').value.trim();
   const departmentInput=document.getElementById('use_department').value.trim();
@@ -2147,6 +2280,7 @@ async function useItem(){
 
 /* ════════════════ UNDO ISSUE ════════════════ */
 function undoIssue(histId, name, qty){
+  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
   if(!histId){ toast('ไม่สามารถย้อนกลับได้ (ไม่มี ID)','error'); return; }
   showConfirm('ยืนยันยกเลิกการเบิก',`ยืนยันยกเลิกการเบิก '${name}' จำนวน ${qty} ชิ้น? จำนวนสต็อกจะถูกคืนกลับ`,'ยกเลิกเบิก','btn-warning btn-sm',()=>{
     const item=items.find(x=>x.name===name);
@@ -2159,6 +2293,7 @@ function undoIssue(histId, name, qty){
 
 /* ════════════════ DELETE ITEM ════════════════ */
 function deleteItem(idx){
+  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
   const x=items[idx]; if(!x) return;
   showConfirm('ลบสินค้า',`ลบ '${x.name}' ออกจากสต็อก? ไม่สามารถกู้คืนได้`,'ลบ','btn-danger btn-sm',()=>{
     col('items').doc(x.id).delete().then(()=>toast(`ลบ '${x.name}' เรียบร้อย`,'warn'));
@@ -2473,6 +2608,7 @@ async function writeBackupCollection(collectionName,records){
   }
 }
 async function applyBackupRestore(){
+  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
   if(!backupRestoreData) return;
   const payload=backupRestoreData;
   try{
@@ -2523,6 +2659,7 @@ function handleCSVFile(file){
   reader.readAsText(file,'UTF-8');
 }
 function doImport(){
+  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
   if(!importRows.length){ toast('ไม่มีข้อมูลที่จะนำเข้า','error'); return; }
   const today=todayStr();
   let count=0;
@@ -2624,7 +2761,7 @@ function populateYearSelect(){
 
 /* ════════════════ REALTIME ════════════════ */
 function listenRealtime(){
-  col('items').onSnapshot({includeMetadataChanges:true},snap=>{
+  const itemUnsub=col('items').onSnapshot({includeMetadataChanges:true},snap=>{
     items=[];
     snap.forEach(d=>items.push({id:d.id,...d.data()}));
     writeLocalCache('items',items);
@@ -2635,18 +2772,24 @@ function listenRealtime(){
     console.warn('Items realtime listener is offline',err);
     markRealtimeOffline();
   });
-  col('history').onSnapshot({includeMetadataChanges:true},snap=>{
+  realtimeUnsubs.push(itemUnsub);
+  if(isAdmin()){
+    const historyUnsub=col('history').onSnapshot({includeMetadataChanges:true},snap=>{
+      historyData=[];
+      snap.forEach(d=>historyData.push({id:d.id,...d.data()}));
+      historyData.sort((a,b)=>((a.date||'')+'|'+(a.time||'')).localeCompare((b.date||'')+'|'+(b.time||'')));
+      writeLocalCache('history',historyData);
+      renderDashboard(); renderChart();
+      if(document.getElementById('view-history').classList.contains('active')) applyHistoryFilter();
+      updateRealtimeSnapshot('history',snap);
+    }, err=>{
+      console.warn('History realtime listener is offline',err);
+      markRealtimeOffline();
+    });
+    realtimeUnsubs.push(historyUnsub);
+  }else{
     historyData=[];
-    snap.forEach(d=>historyData.push({id:d.id,...d.data()}));
-    historyData.sort((a,b)=>((a.date||'')+'|'+(a.time||'')).localeCompare((b.date||'')+'|'+(b.time||'')));
-    writeLocalCache('history',historyData);
-    renderDashboard(); renderChart();
-    if(document.getElementById('view-history').classList.contains('active')) applyHistoryFilter();
-    updateRealtimeSnapshot('history',snap);
-  }, err=>{
-    console.warn('History realtime listener is offline',err);
-    markRealtimeOffline();
-  });
+  }
 }
 
 /* ════════════════ PWA SETUP ════════════════ */
@@ -2805,6 +2948,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('btnCloseEdit').onclick=()=>document.getElementById('popupEdit').style.display='none';
   document.getElementById('popupEdit').onclick=function(e){ if(e.target===this) this.style.display='none'; };
   document.getElementById('btnSaveEdit').onclick=async ()=>{
+    if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
     const idx=+document.getElementById('edit_idx').value;
     const x=items[idx]; if(!x) return;
     const btn=document.getElementById('btnSaveEdit');
@@ -2856,9 +3000,25 @@ document.addEventListener('DOMContentLoaded',()=>{
       ['name','qty','price','threshold','target_qty','note'],'stock_template.csv');
   };
 
-  listenRealtime();
-  listenDepartments();
-  listenCategories();
+  document.getElementById('loginForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const btn=document.getElementById('btnLogin');
+    const error=document.getElementById('loginError');
+    btn.disabled=true; btn.textContent='กำลังเข้าสู่ระบบ...';
+    if(error) error.textContent='';
+    try{
+      await auth.signInWithEmailAndPassword(
+        document.getElementById('loginEmail').value.trim(),
+        document.getElementById('loginPassword').value
+      );
+    }catch(err){
+      if(error) error.textContent=authErrorMessage(err);
+    }finally{
+      btn.disabled=false; btn.textContent='เข้าสู่ระบบ';
+    }
+  });
+  document.getElementById('btnSignOut').onclick=()=>auth.signOut();
+  auth.onAuthStateChanged(handleAuthState);
 });
 
 function switchSumBtn(activeId){
