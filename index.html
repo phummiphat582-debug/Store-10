@@ -813,14 +813,14 @@ tr:hover td{background:#f7f9fc;}
             </select>
           </div>
           <div class="form-row">
-            <label>แผนกที่จ่าย <span style="color:var(--danger)">*</span></label>
+            <label>นำไปใช้ที่แผนก <span style="color:var(--danger)">*</span></label>
             <select id="use_department" required>
-              <option value="">-- เลือกแผนกที่จ่าย --</option>
+              <option value="">-- เลือกแผนกที่นำไปใช้ --</option>
             </select>
           </div>
           <div class="form-row">
-            <label>ผู้เบิก <span style="color:var(--danger)">*</span></label>
-            <input id="use_by" list="byList" placeholder="ชื่อผู้เบิก" autocomplete="off">
+            <label>ผู้จ่าย <span style="color:var(--danger)">*</span></label>
+            <input id="use_by" list="byList" placeholder="ชื่อผู้จ่าย" autocomplete="off">
             <datalist id="byList"></datalist>
           </div>
           <div class="form-row">
@@ -1144,7 +1144,7 @@ function departmentText(record){
 function populateDepartments(){
   const options=DEPARTMENTS.map(x=>`<option value="${esc(x.code)}">${esc(x.code+' '+x.name)}</option>`).join('');
   const useSelect=document.getElementById('use_department');
-  if(useSelect) useSelect.innerHTML='<option value="">-- เลือกแผนกที่จ่าย --</option>'+options;
+  if(useSelect) useSelect.innerHTML='<option value="">-- เลือกแผนกที่นำไปใช้ --</option>'+options;
   const defaults=[
     ['issue_department','-- เลือกแผนกที่เบิก --'],
     ['default_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
