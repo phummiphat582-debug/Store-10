@@ -332,6 +332,18 @@ tr:hover td{background:#fcf8f2;}
 .filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
 .filter-row input,.filter-row select{width:auto;flex:1;min-width:140px;max-width:240px;}
 
+/* DEPARTMENT MANAGER */
+.department-manager-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px;}
+.department-manager-item{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 12px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+}
+.department-manager-name{min-width:0;color:var(--text3);font-weight:600;overflow-wrap:anywhere;}
+.department-manager-code{display:inline-block;margin-right:6px;color:var(--primary);font-size:11px;font-weight:700;}
+.department-manager-actions{display:flex;gap:5px;flex-shrink:0;}
+.department-manager-actions button{padding:4px 8px;font-size:11px;}
+
 /* IMPORT */
 .import-zone{
   border:2px dashed var(--border);border-radius:12px;padding:28px;
@@ -473,6 +485,10 @@ tr:hover td{background:#fcf8f2;}
         <button class="nav-btn" data-view="stock"><span class="icon">📦</span><span class="label">สต็อกคงเหลือ</span><span class="nbadge" id="lowBadge" style="display:none;">0</span></button>
         <button class="nav-btn" data-view="add"><span class="icon">➕</span><span class="label">เพิ่ม/แก้ไข</span></button>
         <button class="nav-btn" data-view="import"><span class="icon">🛡️</span><span class="label">ส่งออก Excel / นำเข้า</span></button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">ตั้งค่า</div>
+        <button class="nav-btn" data-view="departments"><span class="icon">🏷️</span><span class="label">รายการแผนก</span></button>
       </div>
       <div class="nav-group">
         <div class="nav-group-label">การเบิก</div>
@@ -667,9 +683,9 @@ tr:hover td{background:#fcf8f2;}
             </select>
           </div>
           <div class="form-row">
-            <label>แผนกที่จ่าย</label>
+            <label>นำไปใช้ที่แผนก</label>
             <select id="default_usage_department">
-              <option value="">-- ไม่กำหนดแผนกที่จ่าย --</option>
+              <option value="">-- ไม่กำหนดแผนกที่นำไปใช้ --</option>
             </select>
             <div class="hint" style="color:var(--text2);">ทั้งสองช่องใช้เป็นค่าเริ่มต้นเมื่อเลือกสินค้านี้ในหน้าเบิก</div>
           </div>
@@ -787,6 +803,36 @@ tr:hover td{background:#fcf8f2;}
       </div>
     </section>
 
+    <!-- DEPARTMENTS -->
+    <section id="view-departments" class="section">
+      <div class="page-header">
+        <div class="page-title">🏷️ รายการแผนก</div>
+        <div class="page-sub">เพิ่ม แก้ไข หรือลบรายการแผนกที่ใช้ในหน้าเบิกสินค้า</div>
+      </div>
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-title">เพิ่มรายการแผนก</div>
+        <div class="form-grid">
+          <div class="form-row">
+            <label>ชื่อแผนก <span style="color:var(--danger)">*</span></label>
+            <input id="departmentName" placeholder="เช่น ห้องครัว" autocomplete="off">
+          </div>
+          <div class="form-row">
+            <label>รหัสแผนก <span style="color:var(--text2);font-weight:400;">(ไม่บังคับ)</span></label>
+            <input id="departmentCode" placeholder="เช่น D01 หากไม่กรอกระบบจะสร้างให้" autocomplete="off">
+          </div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-primary" id="btnSaveDepartment">➕ เพิ่มแผนก</button>
+          <button class="btn-ghost" id="btnCancelDepartment" style="display:none;">ยกเลิกแก้ไข</button>
+        </div>
+        <div id="departmentFormHint" class="hint" style="margin-top:8px;">แผนกใหม่จะใช้ได้ทันทีในช่อง “แผนกที่เบิก” และ “นำไปใช้ที่แผนก”</div>
+      </div>
+      <div class="card">
+        <div class="card-title">รายการแผนกทั้งหมด <span id="departmentCount" class="text-muted" style="font-size:12px;font-weight:400;"></span></div>
+        <div id="departmentManagerList" class="department-manager-list"></div>
+      </div>
+    </section>
+
     <!-- ISSUE -->
     <section id="view-issue" class="section">
       <div class="page-header">
@@ -821,16 +867,13 @@ tr:hover td{background:#fcf8f2;}
           </div>
           <div class="form-row">
             <label>แผนกที่เบิก <span style="color:var(--danger)">*</span></label>
-            <select id="issue_department" required>
-              <option value="">-- เลือกแผนกที่เบิก --</option>
-            </select>
+            <input id="issue_department" list="departmentList" placeholder="พิมพ์หรือเลือกแผนกที่เบิก" autocomplete="off" required>
           </div>
           <div class="form-row">
             <label>นำไปใช้ที่แผนก <span style="color:var(--danger)">*</span></label>
-            <select id="use_department" required>
-              <option value="">-- เลือกแผนกที่นำไปใช้ --</option>
-            </select>
+            <input id="use_department" list="departmentList" placeholder="พิมพ์หรือเลือกแผนกที่นำไปใช้" autocomplete="off" required>
           </div>
+          <datalist id="departmentList"></datalist>
           <div class="form-row">
             <label>ผู้จ่าย <span style="color:var(--danger)">*</span></label>
             <input id="use_by" list="byList" placeholder="ชื่อผู้จ่าย" autocomplete="off">
@@ -927,9 +970,9 @@ tr:hover td{background:#fcf8f2;}
         </select>
       </div>
       <div class="form-row">
-        <label>แผนกที่จ่าย</label>
+        <label>นำไปใช้ที่แผนก</label>
         <select id="edit_usage_department">
-          <option value="">-- ไม่กำหนดแผนกที่จ่าย --</option>
+          <option value="">-- ไม่กำหนดแผนกที่นำไปใช้ --</option>
         </select>
       </div>
       <div class="form-row">
@@ -1033,10 +1076,13 @@ function restoreLocalCache(){
   const cachedItems=readLocalCache('items');
   const cachedHistory=readLocalCache('history');
   const cachedCategories=readLocalCache('categories');
+  const cachedDepartments=readLocalCache('departments');
   if(Array.isArray(cachedItems)) items=cachedItems;
   if(Array.isArray(cachedHistory)) historyData=cachedHistory;
   if(Array.isArray(cachedCategories)) customCategories=cachedCategories;
-  if(Array.isArray(cachedItems)||Array.isArray(cachedHistory)||Array.isArray(cachedCategories)){
+  if(Array.isArray(cachedDepartments)&&cachedDepartments.length) DEPARTMENTS=normalizeDepartmentList(cachedDepartments);
+  if(Array.isArray(cachedItems)||Array.isArray(cachedHistory)||Array.isArray(cachedCategories)||Array.isArray(cachedDepartments)){
+    populateDepartments();
     populateCategorySelects();
     updateDropdown(); updateNameDatalist(); renderStock(); renderDashboard(); renderChart();
   }
@@ -1135,7 +1181,7 @@ let customCategories = [];
 const CATEGORY_ADD_NEW = '__add_new__';
 
 // Add new departments here; the code is stored with each issue record.
-const DEPARTMENTS = [
+const DEFAULT_DEPARTMENTS = [
   {code:'0',name:'ฟร้อน'},{code:'10',name:'สโตร์SC'},{code:'11',name:'บุคคล'},
   {code:'13',name:'ไอศกรีม'},{code:'14',name:'รปภ'},{code:'16',name:'บัญชี'},
   {code:'17',name:'ลำธาร'},{code:'19',name:'คนสวน'},{code:'20',name:'ซุ้มเกม'},
@@ -1147,6 +1193,127 @@ const DEPARTMENTS = [
   {code:'H0',name:'บ้านพัก'},{code:'H12',name:'สวนผึ้งอิกลู'},{code:'H13',name:'หอพักพนักงาน'},
   {code:'H17',name:'ชิชญา'},{code:'H18',name:'แคนทีน'},{code:'H19',name:'แพราชบุรี'}
 ];
+let DEPARTMENTS = DEFAULT_DEPARTMENTS.map(x=>({...x}));
+let editingDepartmentCode = '';
+function normalizeDepartmentList(list){
+  const seen=new Set();
+  return (Array.isArray(list)?list:[]).map(x=>({
+    code:String(x&&x.code||'').trim(),
+    name:String(x&&x.name||'').trim()
+  })).filter(x=>{
+    const key=x.code.toLowerCase();
+    if(!x.code||!x.name||seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+function findDepartment(value){
+  const text=String(value||'').trim().toLowerCase();
+  if(!text) return null;
+  return DEPARTMENTS.find(x=>x.code.toLowerCase()===text||x.name.toLowerCase()===text||(x.code+' '+x.name).toLowerCase()===text)||null;
+}
+function departmentDisplay(value){
+  const found=findDepartment(value);
+  return found ? found.code+' '+found.name : String(value||'').trim();
+}
+function departmentCodeFromInput(value){
+  const found=findDepartment(value);
+  return found ? found.code : String(value||'').trim();
+}
+function nextDepartmentCode(){
+  let n=1;
+  while(DEPARTMENTS.some(x=>x.code==='D'+String(n).padStart(2,'0'))) n++;
+  return 'D'+String(n).padStart(2,'0');
+}
+async function persistDepartments(){
+  DEPARTMENTS=normalizeDepartmentList(DEPARTMENTS);
+  writeLocalCache('departments',DEPARTMENTS);
+  await col('meta').doc('departments').set({list:DEPARTMENTS},{merge:true});
+}
+function renderDepartmentManager(){
+  const list=document.getElementById('departmentManagerList');
+  const count=document.getElementById('departmentCount');
+  if(!list) return;
+  if(count) count.textContent='('+DEPARTMENTS.length+' รายการ)';
+  list.innerHTML=DEPARTMENTS.length ? DEPARTMENTS.map(x=>'<div class="department-manager-item"><div class="department-manager-name"><span class="department-manager-code">'+esc(x.code)+'</span>'+esc(x.name)+'</div><div class="department-manager-actions"><button class="btn-outline btn-xs btn-edit-department" data-code="'+esc(x.code)+'">แก้ไข</button><button class="btn-danger btn-xs btn-delete-department" data-code="'+esc(x.code)+'">ลบ</button></div></div>').join('') : '<div class="empty-state">ยังไม่มีรายการแผนก</div>';
+}
+function resetDepartmentForm(){
+  editingDepartmentCode='';
+  const name=document.getElementById('departmentName');
+  const code=document.getElementById('departmentCode');
+  const save=document.getElementById('btnSaveDepartment');
+  const cancel=document.getElementById('btnCancelDepartment');
+  if(name) name.value='';
+  if(code){ code.value=''; code.disabled=false; }
+  if(save) save.textContent='➕ เพิ่มแผนก';
+  if(cancel) cancel.style.display='none';
+}
+function editDepartment(code){
+  const dept=DEPARTMENTS.find(x=>x.code===code);
+  if(!dept) return;
+  editingDepartmentCode=code;
+  document.getElementById('departmentName').value=dept.name;
+  document.getElementById('departmentCode').value=dept.code;
+  document.getElementById('departmentCode').disabled=true;
+  document.getElementById('btnSaveDepartment').textContent='💾 บันทึกการแก้ไข';
+  document.getElementById('btnCancelDepartment').style.display='inline-flex';
+  document.getElementById('departmentName').focus();
+}
+async function saveDepartment(){
+  const name=document.getElementById('departmentName').value.trim();
+  const codeInput=document.getElementById('departmentCode').value.trim();
+  if(!name){ toast('กรุณากรอกชื่อแผนก','error'); return; }
+  const duplicateName=DEPARTMENTS.some(x=>x.name.toLowerCase()===name.toLowerCase()&&x.code!==editingDepartmentCode);
+  if(duplicateName){ toast('มีชื่อแผนกนี้อยู่แล้ว','warn'); return; }
+  if(editingDepartmentCode){
+    const dept=DEPARTMENTS.find(x=>x.code===editingDepartmentCode);
+    if(dept) dept.name=name;
+  }else{
+    const code=codeInput||nextDepartmentCode();
+    if(DEPARTMENTS.some(x=>x.code.toLowerCase()===code.toLowerCase())){ toast('รหัสแผนกนี้มีอยู่แล้ว','warn'); return; }
+    DEPARTMENTS=[...DEPARTMENTS,{code,name}];
+  }
+  try{
+    await persistDepartments();
+    populateDepartments();
+    populatePDFDepartmentSelect();
+    renderDepartmentManager();
+    resetDepartmentForm();
+    toast('บันทึกรายการแผนกแล้ว ✔','success');
+  }catch(err){ toast('บันทึกรายการแผนกไม่สำเร็จ: '+err.message,'error'); }
+}
+async function deleteDepartment(code){
+  const dept=DEPARTMENTS.find(x=>x.code===code);
+  if(!dept||!confirm('ลบแผนก “'+dept.code+' '+dept.name+'” ใช่หรือไม่?')) return;
+  DEPARTMENTS=DEPARTMENTS.filter(x=>x.code!==code);
+  try{
+    await persistDepartments();
+    populateDepartments();
+    populatePDFDepartmentSelect();
+    renderDepartmentManager();
+    if(editingDepartmentCode===code) resetDepartmentForm();
+    toast('ลบรายการแผนกแล้ว','success');
+  }catch(err){ toast('ลบรายการแผนกไม่สำเร็จ: '+err.message,'error'); }
+}
+async function ensureDepartmentValue(value){
+  const text=String(value||'').trim();
+  if(!text) return '';
+  const found=findDepartment(text);
+  if(found) return found.code;
+  const dept={code:nextDepartmentCode(),name:text};
+  DEPARTMENTS=[...DEPARTMENTS,dept];
+  try{
+    await persistDepartments();
+    populateDepartments();
+    populatePDFDepartmentSelect();
+    renderDepartmentManager();
+    toast('เพิ่มแผนก “'+text+'” แล้ว','success');
+    return dept.code;
+  }catch(err){
+    DEPARTMENTS=DEPARTMENTS.filter(x=>x.code!==dept.code);
+    throw err;
+  }
+}
 function departmentLabel(code){
   const dept=DEPARTMENTS.find(x=>x.code===code);
   return dept ? `${dept.code} ${dept.name}` : code||'';
@@ -1154,21 +1321,38 @@ function departmentLabel(code){
 function departmentText(record){
   return record&& (record.department_name||departmentLabel(record.department)) || 'ไม่ระบุแผนก';
 }
-function populateDepartments(){
+function populateDepartmentsLegacy(){
   const options=DEPARTMENTS.map(x=>`<option value="${esc(x.code)}">${esc(x.code+' '+x.name)}</option>`).join('');
   const useSelect=document.getElementById('use_department');
   if(useSelect) useSelect.innerHTML='<option value="">-- เลือกแผนกที่นำไปใช้ --</option>'+options;
   const defaults=[
     ['issue_department','-- เลือกแผนกที่เบิก --'],
     ['default_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
-    ['default_usage_department','-- ไม่กำหนดแผนกที่จ่าย --'],
+    ['default_usage_department','-- ไม่กำหนดแผนกที่นำไปใช้ --'],
     ['edit_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
-    ['edit_usage_department','-- ไม่กำหนดแผนกที่จ่าย --']
+    ['edit_usage_department','-- ไม่กำหนดแผนกที่นำไปใช้ --']
   ];
   defaults.forEach(([id,placeholder])=>{
     const select=document.getElementById(id);
     if(select) select.innerHTML=`<option value="">${placeholder}</option>`+options;
   });
+}
+function populateDepartments(){
+  const datalist=document.getElementById('departmentList');
+  const options=DEPARTMENTS.map(x=>'<option value="'+esc(x.code+' '+x.name)+'" label="'+esc(x.code)+'"></option>').join('');
+  if(datalist) datalist.innerHTML=options;
+  const selectOptions=DEPARTMENTS.map(x=>'<option value="'+esc(x.code)+'">'+esc(x.code+' '+x.name)+'</option>').join('');
+  const defaults=[
+    ['default_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
+    ['default_usage_department','-- ไม่กำหนดแผนกที่นำไปใช้ --'],
+    ['edit_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
+    ['edit_usage_department','-- ไม่กำหนดแผนกที่นำไปใช้ --']
+  ];
+  defaults.forEach(([id,placeholder])=>{
+    const select=document.getElementById(id);
+    if(select) select.innerHTML='<option value="">'+placeholder+'</option>'+selectOptions;
+  });
+  renderDepartmentManager();
 }
 function populatePDFDepartmentSelect(){
   const select=document.getElementById('pdfDepartmentSelect');
@@ -1701,8 +1885,8 @@ function updateStockHint(){
     if(usageDepartment) txt+=' · ใช้ที่: '+(item.usage_department_name||item.default_department_name||departmentLabel(usageDepartment));
     const issueSelect=document.getElementById('issue_department');
     const usageSelect=document.getElementById('use_department');
-    if(issueSelect&&!issueSelect.value&&issueDepartment) issueSelect.value=issueDepartment;
-    if(usageSelect&&!usageSelect.value&&usageDepartment) usageSelect.value=usageDepartment;
+    if(issueSelect&&!issueSelect.value&&issueDepartment) issueSelect.value=departmentDisplay(issueDepartment);
+    if(usageSelect&&!usageSelect.value&&usageDepartment) usageSelect.value=departmentDisplay(usageDepartment);
     h.textContent=txt;
     h.className='hint '+(+item.qty<=0?'hint-err':+item.threshold>0&&+item.qty<=+item.threshold?'hint-warn':'hint-ok');
   }
@@ -1754,6 +1938,19 @@ async function handleCategorySelectChange(selectId){
   }
   populateCategorySelects();
   sel.value=trimmed;
+}
+function listenDepartments(){
+  col('meta').doc('departments').onSnapshot(async doc=>{
+    if(doc.exists&&Array.isArray(doc.data().list)&&doc.data().list.length){
+      DEPARTMENTS=normalizeDepartmentList(doc.data().list);
+    }else{
+      DEPARTMENTS=DEFAULT_DEPARTMENTS.map(x=>({...x}));
+      try{ await persistDepartments(); }catch(err){ console.warn('บันทึกรายการแผนกเริ่มต้นไม่สำเร็จ',err); }
+    }
+    writeLocalCache('departments',DEPARTMENTS);
+    populateDepartments();
+    populatePDFDepartmentSelect();
+  }, ()=>{ /* ถ้าอ่านไม่ได้ ใช้รายการแผนกจาก cache/ค่าเริ่มต้นไปก่อน */ });
 }
 function listenCategories(){
   col('meta').doc('categories').onSnapshot(doc=>{
@@ -1910,17 +2107,19 @@ function validateIssueRows(rows){
 }
 async function useItem(){
   const rows=collectIssueRows();
-  const issueDepartment=document.getElementById('issue_department').value;
-  const department=document.getElementById('use_department').value;
+  const issueDepartmentInput=document.getElementById('issue_department').value.trim();
+  const departmentInput=document.getElementById('use_department').value.trim();
   const by=document.getElementById('use_by').value.trim();
   const date=document.getElementById('use_date').value;
   const note=document.getElementById('use_note').value.trim();
-  if(!issueDepartment||!department||!by||!date){ toast('กรุณาเลือกแผนกที่เบิกและแผนกที่จ่าย พร้อมกรอกผู้เบิกและวันที่เบิก','error'); return; }
+  if(!issueDepartmentInput||!departmentInput||!by||!date){ toast('กรุณาเลือกหรือพิมพ์แผนกที่เบิกและแผนกที่นำไปใช้ พร้อมกรอกผู้จ่ายและวันที่เบิก','error'); return; }
   const rowError=validateIssueRows(rows);
   if(rowError){ toast(rowError,'error'); return; }
   const btn=document.getElementById('btnUseItem');
   btn.disabled=true; btn.textContent='⏳ กำลังบันทึก...';
   try{
+    const issueDepartment=await ensureDepartmentValue(issueDepartmentInput);
+    const department=await ensureDepartmentValue(departmentInput);
     const imgUrls=await uploadImages(issueImgFiles,'history','issueUploadBar','issueUploadProgress');
     const batch=db.batch();
     const now=new Date().toISOString();
@@ -2579,6 +2778,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('btnHistClear').onclick=()=>renderHistory(true);
   document.getElementById('btnExportHistory').onclick=()=>exportHistoryCSV();
 
+  // department manager
+  document.getElementById('btnSaveDepartment').onclick=saveDepartment;
+  document.getElementById('btnCancelDepartment').onclick=resetDepartmentForm;
+  document.getElementById('departmentManagerList').addEventListener('click',e=>{
+    const code=e.target.dataset.code;
+    if(e.target.classList.contains('btn-edit-department')) editDepartment(code);
+    if(e.target.classList.contains('btn-delete-department')) deleteDepartment(code);
+  });
+
   // category add-new
   document.getElementById('category').addEventListener('change',()=>handleCategorySelectChange('category'));
   document.getElementById('edit_category').addEventListener('change',()=>handleCategorySelectChange('edit_category'));
@@ -2649,6 +2857,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   };
 
   listenRealtime();
+  listenDepartments();
   listenCategories();
 });
 
