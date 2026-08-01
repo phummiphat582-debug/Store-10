@@ -4,7 +4,7 @@
 */
 
 // Bump this whenever the app shell changes so installed PWAs discard stale UI.
-const CACHE_NAME = 'store10-app-cache-v3-earth-ui';
+const CACHE_NAME = 'store10-app-cache-v4-supabase';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

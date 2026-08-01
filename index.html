@@ -1072,24 +1072,27 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
   </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ════════════════ FIREBASE ════════════════ */
-const fbConfig = {
-  apiKey:"AIzaSyBo8aIL2e1XLdS4BeOPEreXaA3IyWDTiHY",
-  authDomain:"stock-69302.firebaseapp.com",
-  projectId:"stock-69302",
-  storageBucket:"stock-69302.firebasestorage.app",
-  messagingSenderId:"301831402512",
-  appId:"1:301831402512:web:290a578b80c199314bc695"
+/* ════════════════ SUPABASE ════════════════ */
+const SUPABASE_URL = 'https://kpzohxkumnzwbthclnvm.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_6TSVpQgIZ7T-jKxgYHO7Kw_t0JhsocC';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const auth = {
+  async signInWithEmailAndPassword(email,password){
+    const {error}=await supabaseClient.auth.signInWithPassword({email,password});
+    if(error) throw error;
+  },
+  async signOut(){
+    const {error}=await supabaseClient.auth.signOut();
+    if(error) throw error;
+  }
 };
-if(!firebase.apps.length) firebase.initializeApp(fbConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
+const db = {
+  batch:createSupabaseBatch,
+  enablePersistence:()=>Promise.resolve(),
+  waitForPendingWrites:()=>Promise.resolve()
+};
 let currentUser=null;
 let currentRole='viewer';
 let appStarted=false;
@@ -1140,8 +1143,9 @@ function stopRealtime(){
 }
 async function loadCurrentRole(user){
   try{
-    const profile=await db.collection('users').doc(user.uid).get();
-    return profile.exists&&profile.data().role==='admin'?'admin':'viewer';
+    const {data:profile,error}=await supabaseClient.from('profiles').select('role').eq('id',user.id).maybeSingle();
+    if(error) throw error;
+    return profile&&profile.role==='admin'?'admin':'viewer';
   }catch(err){
     console.warn('อ่านบทบาทผู้ใช้ไม่สำเร็จ ใช้สิทธิ์ดูอย่างเดียว',err);
     return 'viewer';
@@ -1172,19 +1176,97 @@ const DEFAULT_STORE_ID = 'store10';                          // ← แก้ de
 const _urlStore = new URLSearchParams(location.search).get('store');
 const STORE_ID = (_urlStore || DEFAULT_STORE_ID).replace(/[^a-zA-Z0-9_\-]/g,'');
 // helper: ชี้ไปยัง subcollection ของสาขานี้
-function col(name){ return db.collection('stores').doc(STORE_ID).collection(name); }
-// Keep a durable Firestore queue on this device. Local writes are uploaded automatically when the network returns.
+ const SUPABASE_TABLES={items:'store_items',history:'store_history',meta:'store_meta'};
+ function supabaseTable(name){ return SUPABASE_TABLES[name]; }
+ function supabaseRecordData(row){ return row&&row.data&&typeof row.data==='object'?{...row.data}:{}; }
+ function supabaseSnapshot(name,rows){
+   const docs=(rows||[]).map(row=>({
+     id:name==='meta'?row.meta_key:row.id,
+     data:()=>supabaseRecordData(row),
+     metadata:{hasPendingWrites:false}
+   }));
+   return {docs,metadata:{fromCache:false},forEach(fn){docs.forEach(fn);}};
+ }
+ function supabaseDocSnapshot(row){ return {exists:!!row,data:()=>row?supabaseRecordData(row):undefined}; }
+ function createSupabaseDoc(name,id){
+   const docId=id||crypto.randomUUID();
+   const table=supabaseTable(name);
+   const query=()=>name==='meta'
+     ?supabaseClient.from(table).select('store_id,meta_key,data').eq('store_id',STORE_ID).eq('meta_key',docId).maybeSingle()
+     :supabaseClient.from(table).select('id,store_id,data').eq('store_id',STORE_ID).eq('id',docId).maybeSingle();
+   return {
+     id:docId,
+     async get(){ const {data,error}=await query(); if(error) throw error; return supabaseDocSnapshot(data); },
+     async set(next,options){
+       let payload={...(next||{})};
+       if(options&&options.merge){ const existing=await this.get(); if(existing.exists) payload={...existing.data(),...payload}; }
+       const row=name==='meta'
+         ?{store_id:STORE_ID,meta_key:docId,data:payload,updated_at:new Date().toISOString()}
+         :{id:docId,store_id:STORE_ID,data:payload,updated_at:new Date().toISOString()};
+       const {error}=await supabaseClient.from(table).upsert(row); if(error) throw error; return {id:docId};
+     },
+     async update(next){ return this.set(next,{merge:true}); },
+     async delete(){
+       const request=name==='meta'
+         ?supabaseClient.from(table).delete().eq('store_id',STORE_ID).eq('meta_key',docId)
+         :supabaseClient.from(table).delete().eq('store_id',STORE_ID).eq('id',docId);
+       const {error}=await request; if(error) throw error;
+     },
+     onSnapshot(callback){
+       let active=true;
+       const load=async()=>{ try{ const snap=await this.get(); if(active) callback(snap); }catch(err){ console.warn('Supabase document listener failed',err); } };
+       load();
+       const channel=supabaseClient.channel(`store10-${name}-${docId}-${Math.random().toString(36).slice(2)}`)
+         .on('postgres_changes',{event:'*',schema:'public',table,filter:`store_id=eq.${STORE_ID}`},load).subscribe();
+       return ()=>{active=false; supabaseClient.removeChannel(channel);};
+     }
+   };
+ }
+ function col(name){
+   const table=supabaseTable(name);
+   return {
+     doc(id){ return createSupabaseDoc(name,id); },
+     async add(data){ const ref=createSupabaseDoc(name); await ref.set(data); return ref; },
+     async get(){
+       const {data,error}=await supabaseClient.from(table).select('id,store_id,meta_key,data').eq('store_id',STORE_ID);
+       if(error) throw error; return supabaseSnapshot(name,data||[]);
+     },
+     onSnapshot(options,callback,errorCallback){
+       const callbackFn=typeof options==='function'?options:callback;
+       const errorFn=typeof options==='function'?callback:errorCallback;
+       let active=true;
+       const load=async()=>{ try{
+         const {data,error}=await supabaseClient.from(table).select('id,store_id,meta_key,data').eq('store_id',STORE_ID);
+         if(error) throw error; if(active) callbackFn(supabaseSnapshot(name,data||[]));
+       }catch(err){ if(errorFn) errorFn(err); } };
+       load();
+       const channel=supabaseClient.channel(`store10-${name}-${Math.random().toString(36).slice(2)}`)
+         .on('postgres_changes',{event:'*',schema:'public',table,filter:`store_id=eq.${STORE_ID}`},load).subscribe();
+       return ()=>{active=false; supabaseClient.removeChannel(channel);};
+     }
+   };
+ }
+ function createSupabaseBatch(){
+   const operations=[];
+   return {
+     set(ref,data,options){ operations.push(()=>ref.set(data,options)); return this; },
+     update(ref,data){ operations.push(()=>ref.update(data)); return this; },
+     delete(ref){ operations.push(()=>ref.delete()); return this; },
+     async commit(){ for(const operation of operations) await operation(); }
+   };
+ }
+ // Supabase keeps the session locally by default. Realtime refreshes data after reconnecting.
 let persistenceStatus='starting';
 try{
   db.enablePersistence({synchronizeTabs:true})
     .then(()=>{ persistenceStatus='ready'; updateConnectionBadge(); })
-    .catch(err=>{ persistenceStatus='unavailable'; console.warn('Firestore offline persistence unavailable',err); updateConnectionBadge(); });
+    .catch(err=>{ persistenceStatus='unavailable'; console.warn('Supabase persistence unavailable',err); updateConnectionBadge(); });
 }catch(err){
   persistenceStatus='unavailable';
-  console.warn('Firestore offline persistence unavailable',err);
+  console.warn('Supabase persistence unavailable',err);
 }
 
-const LOCAL_CACHE_PREFIX='store10_cache_v2_';
+const LOCAL_CACHE_PREFIX='store10_supabase_cache_v1_';
 function localCacheKey(name){ return LOCAL_CACHE_PREFIX+STORE_ID+'_'+name; }
 function readLocalCache(name){
   try{
@@ -1284,7 +1366,7 @@ function waitForOfflineWrites(){
     updateConnectionBadge();
     if(hadPending)toast('ซิงค์ข้อมูลออฟไลน์ขึ้น Firebase แล้ว','success');
   }).catch(err=>{
-    console.warn('Pending Firestore writes are still waiting',err);
+    console.warn('Pending Supabase writes are still waiting',err);
     updateConnectionBadge();
   });
 }
@@ -1300,7 +1382,7 @@ window.addEventListener('online',()=>{
   waitForOfflineWrites();
 });
 
-// Categories: fixed base list + custom ones added later (saved in Firestore, shared across devices)
+// Categories: fixed base list + custom ones added later (saved in Supabase, shared across devices)
 const DEFAULT_CATEGORIES = ['งานซ่อม','งานศิลป์','งานก่อสร้าง','สุขภัณฑ์','อุปกรณ์ไฟฟ้า','เครื่องใช้ไฟฟ้า','อุปกรณ์สำนักงาน','อุปกรณ์ไอที','อุปกรณ์ทำความสะอาด','อุปกรณ์เครื่องกรองน้ำ','งานระบบท่อและสุขาภิบาล','น้ำมัน','อุปกรณ์ยานยนต์'];
 let customCategories = [];
 const CATEGORY_ADD_NEW = '__add_new__';
@@ -1586,14 +1668,14 @@ async function fileToCompressedDataUrl(file, maxSize=1200, quality=0.78){
 
 async function uploadSingleImage(file, pathPrefix){
   const safeName=(file.name||'image.jpg').replace(/[^a-zA-Z0-9._-]/g,'_');
-  if(window.storage && storage.ref){
-    try{
-      const ref=storage.ref(`${STORE_ID}/${pathPrefix}/${Date.now()}_${safeName}`);
-      await ref.put(file);
-      return await ref.getDownloadURL();
-    }catch(err){
-      console.warn('Firebase Storage upload failed, saving compressed image in Firestore instead.', err);
-    }
+  try{
+    const path=`${STORE_ID}/${pathPrefix}/${Date.now()}_${safeName}`;
+    const {error}=await supabaseClient.storage.from('store10').upload(path,file,{upsert:false,contentType:file.type||'image/jpeg'});
+    if(error) throw error;
+    const {data}=supabaseClient.storage.from('store10').getPublicUrl(path);
+    return data.publicUrl;
+  }catch(err){
+    console.warn('Supabase Storage upload failed, saving compressed image in the item data instead.',err);
   }
   return await fileToCompressedDataUrl(file);
 }
@@ -2268,7 +2350,7 @@ async function useItem(){
         images:imgUrls,
         batch_id:now,
         time:now,
-        time_ts:firebase.firestore.FieldValue.serverTimestamp()
+        time_ts:new Date().toISOString()
       });
     });
     await batch.commit();
@@ -3018,7 +3100,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   });
   document.getElementById('btnSignOut').onclick=()=>auth.signOut();
-  auth.onAuthStateChanged(handleAuthState);
+  supabaseClient.auth.getSession().then(({data})=>handleAuthState(data.session&&data.session.user||null));
+  supabaseClient.auth.onAuthStateChange((_event,session)=>handleAuthState(session&&session.user||null));
 });
 
 function switchSumBtn(activeId){
