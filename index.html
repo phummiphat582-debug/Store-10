@@ -2,13 +2,13 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>สโตร์ 10</title>
+<title>à¸ªà¹‚à¸•à¸£à¹Œ 10</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#9a7658">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="สโตร์ 10">
+<meta name="apple-mobile-web-app-title" content="à¸ªà¹‚à¸•à¸£à¹Œ 10">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
@@ -473,51 +473,51 @@ tr:hover td{background:#fcf8f2;}
 body.auth-locked header,body.auth-locked .layout{visibility:hidden;}
 body.viewer-mode .stock-actions-cell,body.viewer-mode #stockActionsHeader{display:none;}
 body.viewer-mode #view-stock .toolbar .btn-success,body.viewer-mode #view-stock .toolbar .btn-outline{display:none;}
-body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอย่างเดียว';color:var(--primary);}
+body.viewer-mode #view-stock .page-sub:after{content:' Â· à¹‚à¸«à¸¡à¸”à¸”à¸¹à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§';color:var(--primary);}
 </style>
 </head>
 <body class="auth-locked">
 <div id="authScreen" class="auth-screen">
   <div class="auth-card">
     <div class="auth-brand">
-      <img src="login-logo.png" alt="โลโก้ SCENERY">
-      <div class="auth-title">สโตร์ 10</div>
-      <div class="auth-sub">เข้าสู่ระบบเพื่อดูข้อมูลสต๊อก</div>
+      <img src="login-logo.png" alt="à¹‚à¸¥à¹‚à¸à¹‰ SCENERY">
+      <div class="auth-title">à¸ªà¹‚à¸•à¸£à¹Œ 10</div>
+      <div class="auth-sub">à¹€à¸‚à¹‰à¸²à¸ªà¸¹à¹ˆà¸£à¸°à¸šà¸šà¹€à¸žà¸·à¹ˆà¸­à¸”à¸¹à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ªà¸•à¹Šà¸­à¸</div>
     </div>
     <form id="loginForm" class="auth-form">
       <div class="form-row">
-        <label for="loginEmail">อีเมล</label>
+        <label for="loginEmail">à¸­à¸µà¹€à¸¡à¸¥</label>
         <input id="loginEmail" type="email" autocomplete="username" placeholder="name@example.com" required>
       </div>
       <div class="form-row">
-        <label for="loginPassword">รหัสผ่าน</label>
-        <input id="loginPassword" type="password" autocomplete="current-password" placeholder="กรอกรหัสผ่าน" required>
+        <label for="loginPassword">à¸£à¸«à¸±à¸ªà¸œà¹ˆà¸²à¸™</label>
+        <input id="loginPassword" type="password" autocomplete="current-password" placeholder="à¸à¸£à¸­à¸à¸£à¸«à¸±à¸ªà¸œà¹ˆà¸²à¸™" required>
       </div>
       <div id="loginError" class="auth-error" aria-live="polite"></div>
-      <button class="btn-primary" id="btnLogin" type="submit">เข้าสู่ระบบ</button>
+      <button class="btn-primary" id="btnLogin" type="submit">à¹€à¸‚à¹‰à¸²à¸ªà¸¹à¹ˆà¸£à¸°à¸šà¸š</button>
     </form>
   </div>
 </div>
 
 <header>
   <div class="header-left">
-    <div class="header-logo"><img src="login-logo.png" alt="โลโก้ SCENERY"></div>
+    <div class="header-logo"><img src="login-logo.png" alt="à¹‚à¸¥à¹‚à¸à¹‰ SCENERY"></div>
     <div>
-      <div class="header-title" id="headerTitle">สโตร์ 10</div>
-      <div class="header-sub" id="headerSub">สต็อก · เบิก · สรุปยอด · ซิงค์ Firebase</div>
+      <div class="header-title" id="headerTitle">à¸ªà¹‚à¸•à¸£à¹Œ 10</div>
+      <div class="header-sub" id="headerSub">à¸ªà¸•à¹‡à¸­à¸ Â· à¹€à¸šà¸´à¸ Â· à¸ªà¸£à¸¸à¸›à¸¢à¸­à¸” Â· à¸‹à¸´à¸‡à¸„à¹Œ Firebase</div>
     </div>
   </div>
   <div class="header-right">
     <button class="header-badge no-print" id="btnInstallApp" style="display:none;border:none;cursor:pointer;">
-      <span>📲</span><span>ติดตั้งแอป</span>
+      <span>ðŸ“²</span><span>à¸•à¸´à¸”à¸•à¸±à¹‰à¸‡à¹à¸­à¸›</span>
     </button>
     <div class="header-badge" id="connectionBadge">
       <span class="badge-dot" id="connDot"></span>
-      <span id="connText">เชื่อมต่อ...</span>
+      <span id="connText">à¹€à¸Šà¸·à¹ˆà¸­à¸¡à¸•à¹ˆà¸­...</span>
     </div>
     <div class="auth-user" id="authUserInfo" style="display:none;">
       <span id="authUserEmail"></span><span class="auth-user-role" id="authUserRole"></span>
-      <button id="btnSignOut" type="button">ออกจากระบบ</button>
+      <button id="btnSignOut" type="button">à¸­à¸­à¸à¸ˆà¸²à¸à¸£à¸°à¸šà¸š</button>
     </div>
   </div>
 </header>
@@ -526,23 +526,23 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
   <aside class="sidebar">
     <div class="sidebar-inner">
       <div class="nav-group">
-        <div class="nav-group-label">ภาพรวม</div>
-        <button class="nav-btn active" data-view="dashboard"><span class="icon">📊</span><span class="label">Dashboard</span></button>
+        <div class="nav-group-label">à¸ à¸²à¸žà¸£à¸§à¸¡</div>
+        <button class="nav-btn active" data-view="dashboard"><span class="icon">ðŸ“Š</span><span class="label">Dashboard</span></button>
       </div>
       <div class="nav-group">
-        <div class="nav-group-label">สต็อก</div>
-        <button class="nav-btn" data-view="stock"><span class="icon">📦</span><span class="label">สต็อกคงเหลือ</span><span class="nbadge" id="lowBadge" style="display:none;">0</span></button>
-        <button class="nav-btn" data-view="add"><span class="icon">➕</span><span class="label">เพิ่ม/แก้ไข</span></button>
-        <button class="nav-btn" data-view="import"><span class="icon">🛡️</span><span class="label">ส่งออก Excel / นำเข้า</span></button>
+        <div class="nav-group-label">à¸ªà¸•à¹‡à¸­à¸</div>
+        <button class="nav-btn" data-view="stock"><span class="icon">ðŸ“¦</span><span class="label">à¸ªà¸•à¹‡à¸­à¸à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­</span><span class="nbadge" id="lowBadge" style="display:none;">0</span></button>
+        <button class="nav-btn" data-view="add"><span class="icon">âž•</span><span class="label">à¹€à¸žà¸´à¹ˆà¸¡/à¹à¸à¹‰à¹„à¸‚</span></button>
+        <button class="nav-btn" data-view="import"><span class="icon">ðŸ›¡ï¸</span><span class="label">à¸ªà¹ˆà¸‡à¸­à¸­à¸ Excel / à¸™à¸³à¹€à¸‚à¹‰à¸²</span></button>
       </div>
       <div class="nav-group">
-        <div class="nav-group-label">ตั้งค่า</div>
-        <button class="nav-btn" data-view="departments"><span class="icon">🏷️</span><span class="label">รายการแผนก</span></button>
+        <div class="nav-group-label">à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²</div>
+        <button class="nav-btn" data-view="departments"><span class="icon">ðŸ·ï¸</span><span class="label">à¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸</span></button>
       </div>
       <div class="nav-group">
-        <div class="nav-group-label">การเบิก</div>
-        <button class="nav-btn" data-view="issue"><span class="icon">📤</span><span class="label">เบิกสินค้า</span></button>
-        <button class="nav-btn" data-view="history"><span class="icon">📜</span><span class="label">ประวัติเบิก</span></button>
+        <div class="nav-group-label">à¸à¸²à¸£à¹€à¸šà¸´à¸</div>
+        <button class="nav-btn" data-view="issue"><span class="icon">ðŸ“¤</span><span class="label">à¹€à¸šà¸´à¸à¸ªà¸´à¸™à¸„à¹‰à¸²</span></button>
+        <button class="nav-btn" data-view="history"><span class="icon">ðŸ“œ</span><span class="label">à¸›à¸£à¸°à¸§à¸±à¸•à¸´à¹€à¸šà¸´à¸</span></button>
       </div>
     </div>
     <div class="sidebar-footer">Firebase Realtime Sync</div>
@@ -553,111 +553,111 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
     <!-- DASHBOARD -->
     <section id="view-dashboard" class="section active">
       <div class="page-header">
-        <div class="page-title">📊 Dashboard</div>
-        <div class="page-sub">ภาพรวมสต็อกและสรุปยอดการเบิก</div>
+        <div class="page-title">ðŸ“Š Dashboard</div>
+        <div class="page-sub">à¸ à¸²à¸žà¸£à¸§à¸¡à¸ªà¸•à¹‡à¸­à¸à¹à¸¥à¸°à¸ªà¸£à¸¸à¸›à¸¢à¸­à¸”à¸à¸²à¸£à¹€à¸šà¸´à¸</div>
       </div>
       <div id="lowBanner" class="low-banner">
-        <span class="low-banner-icon">⚠️</span>
+        <span class="low-banner-icon">âš ï¸</span>
         <div class="low-banner-content">
-          <div id="lowBannerTitle" class="low-banner-title">แจ้งเตือนสต็อก</div>
+          <div id="lowBannerTitle" class="low-banner-title">à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™à¸ªà¸•à¹‡à¸­à¸</div>
           <div id="lowBannerText" class="low-banner-text"></div>
         </div>
-        <button id="btnLowStock" class="btn-outline btn-xs no-print" type="button">ดูรายการ</button>
+        <button id="btnLowStock" class="btn-outline btn-xs no-print" type="button">à¸”à¸¹à¸£à¸²à¸¢à¸à¸²à¸£</button>
       </div>
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-icon" style="background:#eff6ff;">📋</div>
-          <div><div class="stat-label">รายการสินค้า</div><div class="stat-value" id="st_items">0 รายการ</div></div>
+          <div class="stat-icon" style="background:#eff6ff;">ðŸ“‹</div>
+          <div><div class="stat-label">à¸£à¸²à¸¢à¸à¸²à¸£à¸ªà¸´à¸™à¸„à¹‰à¸²</div><div class="stat-value" id="st_items">0 à¸£à¸²à¸¢à¸à¸²à¸£</div></div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon" style="background:#f0fdf4;">📦</div>
-          <div><div class="stat-label">คงเหลือรวม</div><div class="stat-value" id="st_qty">0 ชิ้น</div></div>
+          <div class="stat-icon" style="background:#f0fdf4;">ðŸ“¦</div>
+          <div><div class="stat-label">à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­à¸£à¸§à¸¡</div><div class="stat-value" id="st_qty">0 à¸Šà¸´à¹‰à¸™</div></div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon" style="background:#fefce8;">💰</div>
-          <div><div class="stat-label">มูลค่ารวม (บาท)</div><div class="stat-value" id="st_val">0.00</div></div>
+          <div class="stat-icon" style="background:#fefce8;">ðŸ’°</div>
+          <div><div class="stat-label">à¸¡à¸¹à¸¥à¸„à¹ˆà¸²à¸£à¸§à¸¡ (à¸šà¸²à¸—)</div><div class="stat-value" id="st_val">0.00</div></div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon" style="background:#fff7ed;">⚠️</div>
-          <div><div class="stat-label">ใกล้หมด (ไม่รวมหมดสต็อก)</div><div class="stat-value" id="st_low">0 รายการ</div></div>
+          <div class="stat-icon" style="background:#fff7ed;">âš ï¸</div>
+          <div><div class="stat-label">à¹ƒà¸à¸¥à¹‰à¸«à¸¡à¸” (à¹„à¸¡à¹ˆà¸£à¸§à¸¡à¸«à¸¡à¸”à¸ªà¸•à¹‡à¸­à¸)</div><div class="stat-value" id="st_low">0 à¸£à¸²à¸¢à¸à¸²à¸£</div></div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon" style="background:#fef2f2;">📉</div>
-          <div><div class="stat-label">ต่ำกว่ายอดที่ต้องมี</div><div class="stat-value" id="st_under">0 รายการ</div></div>
+          <div class="stat-icon" style="background:#fef2f2;">ðŸ“‰</div>
+          <div><div class="stat-label">à¸•à¹ˆà¸³à¸à¸§à¹ˆà¸²à¸¢à¸­à¸”à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ</div><div class="stat-value" id="st_under">0 à¸£à¸²à¸¢à¸à¸²à¸£</div></div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon" style="background:#fdf4ff;">📤</div>
-          <div><div class="stat-label">เบิกเดือนนี้ (ครั้ง)</div><div class="stat-value" id="st_issue">0 ครั้ง</div></div>
+          <div class="stat-icon" style="background:#fdf4ff;">ðŸ“¤</div>
+          <div><div class="stat-label">à¹€à¸šà¸´à¸à¹€à¸”à¸·à¸­à¸™à¸™à¸µà¹‰ (à¸„à¸£à¸±à¹‰à¸‡)</div><div class="stat-value" id="st_issue">0 à¸„à¸£à¸±à¹‰à¸‡</div></div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon" style="background:#f0fdfa;">📅</div>
-          <div><div class="stat-label">เบิกวันนี้ (ครั้ง)</div><div class="stat-value" id="st_today">0 ครั้ง</div></div>
+          <div class="stat-icon" style="background:#f0fdfa;">ðŸ“…</div>
+          <div><div class="stat-label">à¹€à¸šà¸´à¸à¸§à¸±à¸™à¸™à¸µà¹‰ (à¸„à¸£à¸±à¹‰à¸‡)</div><div class="stat-value" id="st_today">0 à¸„à¸£à¸±à¹‰à¸‡</div></div>
         </div>
       </div>
 
       <!-- chart + summary toggle -->
       <div class="card" style="margin-bottom:14px;">
-        <div class="card-title">📈 ยอดเบิกรายเดือน (12 เดือนล่าสุด)</div>
+        <div class="card-title">ðŸ“ˆ à¸¢à¸­à¸”à¹€à¸šà¸´à¸à¸£à¸²à¸¢à¹€à¸”à¸·à¸­à¸™ (12 à¹€à¸”à¸·à¸­à¸™à¸¥à¹ˆà¸²à¸ªà¸¸à¸”)</div>
         <div class="chart-wrap"><canvas id="chartMonthly"></canvas></div>
       </div>
 
       <div class="card">
-        <div class="card-title">📋 สรุปยอดการเบิก</div>
+        <div class="card-title">ðŸ“‹ à¸ªà¸£à¸¸à¸›à¸¢à¸­à¸”à¸à¸²à¸£à¹€à¸šà¸´à¸</div>
         <div class="toolbar" style="margin-bottom:14px;">
-          <button class="btn-primary btn-sm" id="btnDay">📅 วันนี้</button>
-          <button class="btn-outline btn-sm" id="btnMonth">🗓️ เดือนนี้</button>
-          <button class="btn-outline btn-sm" id="btnYear">📆 ปีนี้</button>
-          <button class="btn-outline btn-sm" id="btnPickDay">🗓️ เลือกวัน</button>
-          <button class="btn-outline btn-sm" id="btnPickMonth">📆 เลือกเดือน</button>
-          <select id="pdfDepartmentSelect" class="no-print" style="width:230px;" aria-label="เลือกแผนกสำหรับส่งออก PDF"></select>
-          <button class="btn-success btn-sm no-print" id="btnExportSumPDF">📄 ส่งออก PDF</button>
+          <button class="btn-primary btn-sm" id="btnDay">ðŸ“… à¸§à¸±à¸™à¸™à¸µà¹‰</button>
+          <button class="btn-outline btn-sm" id="btnMonth">ðŸ—“ï¸ à¹€à¸”à¸·à¸­à¸™à¸™à¸µà¹‰</button>
+          <button class="btn-outline btn-sm" id="btnYear">ðŸ“† à¸›à¸µà¸™à¸µà¹‰</button>
+          <button class="btn-outline btn-sm" id="btnPickDay">ðŸ—“ï¸ à¹€à¸¥à¸·à¸­à¸à¸§à¸±à¸™</button>
+          <button class="btn-outline btn-sm" id="btnPickMonth">ðŸ“† à¹€à¸¥à¸·à¸­à¸à¹€à¸”à¸·à¸­à¸™</button>
+          <select id="pdfDepartmentSelect" class="no-print" style="width:230px;" aria-label="à¹€à¸¥à¸·à¸­à¸à¹à¸œà¸™à¸à¸ªà¸³à¸«à¸£à¸±à¸šà¸ªà¹ˆà¸‡à¸­à¸­à¸ PDF"></select>
+          <button class="btn-success btn-sm no-print" id="btnExportSumPDF">ðŸ“„ à¸ªà¹ˆà¸‡à¸­à¸­à¸ PDF</button>
         </div>
         <div id="monthPickWrap" style="display:none;margin-bottom:12px;">
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
             <select id="pickMonth" style="width:130px;">
-              <option value="01">มกราคม</option><option value="02">กุมภาพันธ์</option>
-              <option value="03">มีนาคม</option><option value="04">เมษายน</option>
-              <option value="05">พฤษภาคม</option><option value="06">มิถุนายน</option>
-              <option value="07">กรกฎาคม</option><option value="08">สิงหาคม</option>
-              <option value="09">กันยายน</option><option value="10">ตุลาคม</option>
-              <option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option>
+              <option value="01">à¸¡à¸à¸£à¸²à¸„à¸¡</option><option value="02">à¸à¸¸à¸¡à¸ à¸²à¸žà¸±à¸™à¸˜à¹Œ</option>
+              <option value="03">à¸¡à¸µà¸™à¸²à¸„à¸¡</option><option value="04">à¹€à¸¡à¸©à¸²à¸¢à¸™</option>
+              <option value="05">à¸žà¸¤à¸©à¸ à¸²à¸„à¸¡</option><option value="06">à¸¡à¸´à¸–à¸¸à¸™à¸²à¸¢à¸™</option>
+              <option value="07">à¸à¸£à¸à¸Žà¸²à¸„à¸¡</option><option value="08">à¸ªà¸´à¸‡à¸«à¸²à¸„à¸¡</option>
+              <option value="09">à¸à¸±à¸™à¸¢à¸²à¸¢à¸™</option><option value="10">à¸•à¸¸à¸¥à¸²à¸„à¸¡</option>
+              <option value="11">à¸žà¸¤à¸¨à¸ˆà¸´à¸à¸²à¸¢à¸™</option><option value="12">à¸˜à¸±à¸™à¸§à¸²à¸„à¸¡</option>
             </select>
             <select id="pickYear" style="width:100px;"></select>
-            <button class="btn-primary btn-sm" id="btnGoMonth">ดูสรุป</button>
+            <button class="btn-primary btn-sm" id="btnGoMonth">à¸”à¸¹à¸ªà¸£à¸¸à¸›</button>
           </div>
         </div>
         <div id="dayPickWrap" style="display:none;margin-bottom:12px;">
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            <label for="pickDay" style="font-size:13px;color:var(--text3);">วันที่ต้องการดู</label>
+            <label for="pickDay" style="font-size:13px;color:var(--text3);">à¸§à¸±à¸™à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸à¸²à¸£à¸”à¸¹</label>
             <input id="pickDay" type="date" style="width:170px;">
-            <button class="btn-primary btn-sm" id="btnGoDay">ดูสรุป</button>
+            <button class="btn-primary btn-sm" id="btnGoDay">à¸”à¸¹à¸ªà¸£à¸¸à¸›</button>
           </div>
         </div>
         <div id="yearPickWrap" style="display:none;margin-bottom:12px;">
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            <label for="pickSummaryYear" style="font-size:13px;color:var(--text3);">ปีที่ต้องการดู</label>
+            <label for="pickSummaryYear" style="font-size:13px;color:var(--text3);">à¸›à¸µà¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸à¸²à¸£à¸”à¸¹</label>
             <select id="pickSummaryYear" style="width:100px;"></select>
-            <button class="btn-primary btn-sm" id="btnGoYear">ดูสรุป</button>
+            <button class="btn-primary btn-sm" id="btnGoYear">à¸”à¸¹à¸ªà¸£à¸¸à¸›</button>
           </div>
         </div>
         <div id="summaryWrap" style="display:none;">
           <div style="font-weight:600;font-size:13px;margin-bottom:10px;color:var(--text3);" id="sumLabel"></div>
           <div class="sum-boxes" id="sumBoxes"></div>
-          <div class="card-title" style="margin-top:4px;">แยกตามแผนก</div>
-          <div class="table-wrap"><table><thead><tr><th>แผนก</th><th class="text-right">จำนวน (ชิ้น)</th><th class="text-right">จำนวนครั้ง</th></tr></thead><tbody id="sumDepartmentBody"></tbody></table></div>
-          <div class="card-title" style="margin-top:4px;">แยกตามหมวดหมู่</div>
-          <div class="table-wrap"><table><thead><tr><th>หมวดหมู่</th><th class="text-right">จำนวน (ชิ้น)</th><th class="text-right">จำนวนครั้ง</th></tr></thead><tbody id="sumCategoryBody"></tbody></table></div>
-          <div class="card-title" style="margin-top:4px;">เบิกอะไรบ้าง (รวมตามอุปกรณ์)</div>
-          <div class="table-wrap" style="margin-top:10px;"><table><thead><tr><th>อุปกรณ์</th><th>หมวดหมู่</th><th class="text-right">จำนวน (ชิ้น)</th><th class="text-right">จำนวนครั้ง</th></tr></thead><tbody id="sumItemBody"></tbody></table></div>
-          <div class="card-title" style="margin-top:14px;">รายการเบิกของวัน/ช่วงเวลาที่เลือก</div>
-          <div class="table-wrap"><table><thead><tr><th>วันที่เบิก</th><th>แผนกที่เบิก</th><th>แผนกที่จ่าย</th><th>หมวดหมู่</th><th>อุปกรณ์</th><th class="text-right">จำนวน</th><th>ผู้เบิก</th><th>หมายเหตุ</th></tr></thead><tbody id="sumDetailBody"></tbody></table></div>
+          <div class="card-title" style="margin-top:4px;">à¹à¸¢à¸à¸•à¸²à¸¡à¹à¸œà¸™à¸</div>
+          <div class="table-wrap"><table><thead><tr><th>à¹à¸œà¸™à¸</th><th class="text-right">à¸ˆà¸³à¸™à¸§à¸™ (à¸Šà¸´à¹‰à¸™)</th><th class="text-right">à¸ˆà¸³à¸™à¸§à¸™à¸„à¸£à¸±à¹‰à¸‡</th></tr></thead><tbody id="sumDepartmentBody"></tbody></table></div>
+          <div class="card-title" style="margin-top:4px;">à¹à¸¢à¸à¸•à¸²à¸¡à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ</div>
+          <div class="table-wrap"><table><thead><tr><th>à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ</th><th class="text-right">à¸ˆà¸³à¸™à¸§à¸™ (à¸Šà¸´à¹‰à¸™)</th><th class="text-right">à¸ˆà¸³à¸™à¸§à¸™à¸„à¸£à¸±à¹‰à¸‡</th></tr></thead><tbody id="sumCategoryBody"></tbody></table></div>
+          <div class="card-title" style="margin-top:4px;">à¹€à¸šà¸´à¸à¸­à¸°à¹„à¸£à¸šà¹‰à¸²à¸‡ (à¸£à¸§à¸¡à¸•à¸²à¸¡à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ)</div>
+          <div class="table-wrap" style="margin-top:10px;"><table><thead><tr><th>à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ</th><th>à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ</th><th class="text-right">à¸ˆà¸³à¸™à¸§à¸™ (à¸Šà¸´à¹‰à¸™)</th><th class="text-right">à¸ˆà¸³à¸™à¸§à¸™à¸„à¸£à¸±à¹‰à¸‡</th></tr></thead><tbody id="sumItemBody"></tbody></table></div>
+          <div class="card-title" style="margin-top:14px;">à¸£à¸²à¸¢à¸à¸²à¸£à¹€à¸šà¸´à¸à¸‚à¸­à¸‡à¸§à¸±à¸™/à¸Šà¹ˆà¸§à¸‡à¹€à¸§à¸¥à¸²à¸—à¸µà¹ˆà¹€à¸¥à¸·à¸­à¸</div>
+          <div class="table-wrap"><table><thead><tr><th>à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸</th><th>à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸</th><th>à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸ˆà¹ˆà¸²à¸¢</th><th>à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ</th><th>à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ</th><th class="text-right">à¸ˆà¸³à¸™à¸§à¸™</th><th>à¸œà¸¹à¹‰à¹€à¸šà¸´à¸</th><th>à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸</th></tr></thead><tbody id="sumDetailBody"></tbody></table></div>
           <div style="margin-top:10px;text-align:right;" class="no-print">
-            <button class="btn-ghost btn-sm" id="btnExportSumCSV">⬇ Export CSV</button>
+            <button class="btn-ghost btn-sm" id="btnExportSumCSV">â¬‡ Export CSV</button>
           </div>
         </div>
         <div id="sumEmpty" class="empty-state" style="padding:20px;">
-          <div class="empty-icon">📊</div>
-          <div class="empty-msg">กดปุ่มด้านบนเพื่อดูสรุปยอด</div>
+          <div class="empty-icon">ðŸ“Š</div>
+          <div class="empty-msg">à¸à¸”à¸›à¸¸à¹ˆà¸¡à¸”à¹‰à¸²à¸™à¸šà¸™à¹€à¸žà¸·à¹ˆà¸­à¸”à¸¹à¸ªà¸£à¸¸à¸›à¸¢à¸­à¸”</div>
         </div>
       </div>
     </section>
@@ -665,35 +665,35 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
     <!-- STOCK -->
     <section id="view-stock" class="section">
       <div class="page-header">
-        <div class="page-title">📦 สต็อกคงเหลือ</div>
-        <div class="page-sub">ตรวจสอบสินค้าทั้งหมด พร้อมสถานะสต็อกและยอดที่ต้องมี</div>
+        <div class="page-title">ðŸ“¦ à¸ªà¸•à¹‡à¸­à¸à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­</div>
+        <div class="page-sub">à¸•à¸£à¸§à¸ˆà¸ªà¸­à¸šà¸ªà¸´à¸™à¸„à¹‰à¸²à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸” à¸žà¸£à¹‰à¸­à¸¡à¸ªà¸–à¸²à¸™à¸°à¸ªà¸•à¹‡à¸­à¸à¹à¸¥à¸°à¸¢à¸­à¸”à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ</div>
       </div>
       <div class="toolbar">
-        <input id="search" placeholder="🔍 ค้นหาชื่ออุปกรณ์..." style="max-width:260px;">
+        <input id="search" placeholder="ðŸ” à¸„à¹‰à¸™à¸«à¸²à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ..." style="max-width:260px;">
         <select id="filterStatus" style="width:170px;">
-          <option value="">ทั้งหมด</option>
-          <option value="low">ใกล้หมด ⚠️</option>
-          <option value="out">หมดสต็อก ❌</option>
-          <option value="alert">ต้องตรวจสอบทั้งหมด ⚠️</option>
-          <option value="under">ต่ำกว่ายอดที่ต้องมี 📉</option>
-          <option value="ok">สต็อกพอ ✅</option>
+          <option value="">à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”</option>
+          <option value="low">à¹ƒà¸à¸¥à¹‰à¸«à¸¡à¸” âš ï¸</option>
+          <option value="out">à¸«à¸¡à¸”à¸ªà¸•à¹‡à¸­à¸ âŒ</option>
+          <option value="alert">à¸•à¹‰à¸­à¸‡à¸•à¸£à¸§à¸ˆà¸ªà¸­à¸šà¸—à¸±à¹‰à¸‡à¸«à¸¡à¸” âš ï¸</option>
+          <option value="under">à¸•à¹ˆà¸³à¸à¸§à¹ˆà¸²à¸¢à¸­à¸”à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ ðŸ“‰</option>
+          <option value="ok">à¸ªà¸•à¹‡à¸­à¸à¸žà¸­ âœ…</option>
         </select>
         <select id="filterCategory" style="width:180px;">
-          <option value="">ทุกหมวดหมู่</option>
+          <option value="">à¸—à¸¸à¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ</option>
         </select>
-        <button class="btn-outline btn-sm" id="btnExportStock">⬇ Export CSV</button>
-        <button class="btn-success btn-sm no-print" id="btnPrintStock">🖨️ พิมพ์รายการ</button>
+        <button class="btn-outline btn-sm" id="btnExportStock">â¬‡ Export CSV</button>
+        <button class="btn-success btn-sm no-print" id="btnPrintStock">ðŸ–¨ï¸ à¸žà¸´à¸¡à¸žà¹Œà¸£à¸²à¸¢à¸à¸²à¸£</button>
       </div>
       <div class="card" style="padding:0;overflow:hidden;">
         <div class="table-wrap stock-table-wrap">
           <table class="stock-table">
             <thead>
               <tr>
-                <th>#</th><th>ชื่ออุปกรณ์</th><th>หมวดหมู่</th><th class="text-right">คงเหลือ</th>
-                <th class="text-right">ยอดที่ต้องมี</th><th class="text-center">สถานะ</th>
-                <th class="text-right">ราคา/หน่วย</th><th class="text-right">มูลค่ารวม</th>
-                <th class="text-right">เกณฑ์แจ้งเตือน</th><th>วันที่เพิ่มล่าสุด</th>
-                <th>หมายเหตุ</th><th>รูปภาพ</th><th id="stockActionsHeader" class="text-center">การกระทำ</th>
+                <th>#</th><th>à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ</th><th>à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ</th><th class="text-right">à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­</th>
+                <th class="text-right">à¸¢à¸­à¸”à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ</th><th class="text-center">à¸ªà¸–à¸²à¸™à¸°</th>
+                <th class="text-right">à¸£à¸²à¸„à¸²/à¸«à¸™à¹ˆà¸§à¸¢</th><th class="text-right">à¸¡à¸¹à¸¥à¸„à¹ˆà¸²à¸£à¸§à¸¡</th>
+                <th class="text-right">à¹€à¸à¸“à¸‘à¹Œà¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™</th><th>à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸žà¸´à¹ˆà¸¡à¸¥à¹ˆà¸²à¸ªà¸¸à¸”</th>
+                <th>à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸</th><th>à¸£à¸¹à¸›à¸ à¸²à¸ž</th><th id="stockActionsHeader" class="text-center">à¸à¸²à¸£à¸à¸£à¸°à¸—à¸³</th>
               </tr>
             </thead>
             <tbody id="stockBody"></tbody>
@@ -701,92 +701,92 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
         </div>
       </div>
       <div id="stockEmpty" class="empty-state" style="display:none;">
-        <div class="empty-icon">📦</div><div class="empty-msg">ไม่พบข้อมูลสินค้า</div>
+        <div class="empty-icon">ðŸ“¦</div><div class="empty-msg">à¹„à¸¡à¹ˆà¸žà¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ªà¸´à¸™à¸„à¹‰à¸²</div>
       </div>
     </section>
 
     <!-- ADD -->
     <section id="view-add" class="section">
       <div class="page-header">
-        <div class="page-title">➕ เพิ่ม / แก้ไขอุปกรณ์</div>
-        <div class="page-sub">พิมพ์ชื่อใหม่ = เพิ่มสินค้า · เลือกชื่อที่มี = เพิ่มสต็อก</div>
+        <div class="page-title">âž• à¹€à¸žà¸´à¹ˆà¸¡ / à¹à¸à¹‰à¹„à¸‚à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ</div>
+        <div class="page-sub">à¸žà¸´à¸¡à¸žà¹Œà¸Šà¸·à¹ˆà¸­à¹ƒà¸«à¸¡à¹ˆ = à¹€à¸žà¸´à¹ˆà¸¡à¸ªà¸´à¸™à¸„à¹‰à¸² Â· à¹€à¸¥à¸·à¸­à¸à¸Šà¸·à¹ˆà¸­à¸—à¸µà¹ˆà¸¡à¸µ = à¹€à¸žà¸´à¹ˆà¸¡à¸ªà¸•à¹‡à¸­à¸</div>
       </div>
       <div class="card">
         <div class="form-grid">
           <div class="form-row" style="grid-column:span 2;">
-            <label>ชื่ออุปกรณ์ <span style="color:var(--danger)">*</span></label>
-            <input id="name" list="nameList" placeholder="พิมพ์ชื่อใหม่ หรือเลือกจากรายการ" autocomplete="off">
+            <label>à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ <span style="color:var(--danger)">*</span></label>
+            <input id="name" list="nameList" placeholder="à¸žà¸´à¸¡à¸žà¹Œà¸Šà¸·à¹ˆà¸­à¹ƒà¸«à¸¡à¹ˆ à¸«à¸£à¸·à¸­à¹€à¸¥à¸·à¸­à¸à¸ˆà¸²à¸à¸£à¸²à¸¢à¸à¸²à¸£" autocomplete="off">
             <datalist id="nameList"></datalist>
             <div id="nameHint" class="hint"></div>
           </div>
           <div class="form-row">
-            <label>หมวดหมู่</label>
+            <label>à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ</label>
             <select id="category">
-              <option value="">-- เลือกหมวดหมู่ --</option>
+              <option value="">-- à¹€à¸¥à¸·à¸­à¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ --</option>
             </select>
           </div>
           <div class="form-row">
-            <label>แผนกที่เบิก</label>
+            <label>à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸</label>
             <select id="default_issue_department">
-              <option value="">-- ไม่กำหนดแผนกที่เบิก --</option>
+              <option value="">-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸ --</option>
             </select>
           </div>
           <div class="form-row">
-            <label>นำไปใช้ที่แผนก</label>
+            <label>à¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰à¸—à¸µà¹ˆà¹à¸œà¸™à¸</label>
             <select id="default_usage_department">
-              <option value="">-- ไม่กำหนดแผนกที่นำไปใช้ --</option>
+              <option value="">-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰ --</option>
             </select>
-            <div class="hint" style="color:var(--text2);">ทั้งสองช่องใช้เป็นค่าเริ่มต้นเมื่อเลือกสินค้านี้ในหน้าเบิก</div>
+            <div class="hint" style="color:var(--text2);">à¸—à¸±à¹‰à¸‡à¸ªà¸­à¸‡à¸Šà¹ˆà¸­à¸‡à¹ƒà¸Šà¹‰à¹€à¸›à¹‡à¸™à¸„à¹ˆà¸²à¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™à¹€à¸¡à¸·à¹ˆà¸­à¹€à¸¥à¸·à¸­à¸à¸ªà¸´à¸™à¸„à¹‰à¸²à¸™à¸µà¹‰à¹ƒà¸™à¸«à¸™à¹‰à¸²à¹€à¸šà¸´à¸</div>
           </div>
           <div class="form-row">
-            <label>ซื้อจากร้าน</label>
-            <input id="shop" list="shopList" placeholder="เช่น ร้าน ก. วัสดุภัณฑ์" autocomplete="off">
+            <label>à¸‹à¸·à¹‰à¸­à¸ˆà¸²à¸à¸£à¹‰à¸²à¸™</label>
+            <input id="shop" list="shopList" placeholder="à¹€à¸Šà¹ˆà¸™ à¸£à¹‰à¸²à¸™ à¸. à¸§à¸±à¸ªà¸”à¸¸à¸ à¸±à¸“à¸‘à¹Œ" autocomplete="off">
             <datalist id="shopList"></datalist>
           </div>
           <div class="form-row">
-            <label>ยี่ห้อ / รุ่น</label>
-            <input id="brand" list="brandList" placeholder="เช่น Bosch GSB 13 RE" autocomplete="off">
+            <label>à¸¢à¸µà¹ˆà¸«à¹‰à¸­ / à¸£à¸¸à¹ˆà¸™</label>
+            <input id="brand" list="brandList" placeholder="à¹€à¸Šà¹ˆà¸™ Bosch GSB 13 RE" autocomplete="off">
             <datalist id="brandList"></datalist>
           </div>
           <div class="form-row">
-            <label>จำนวนที่เพิ่ม (ชิ้น) <span style="color:var(--danger)">*</span></label>
-            <input id="qty" type="number" min="0" placeholder="เช่น 10">
+            <label>à¸ˆà¸³à¸™à¸§à¸™à¸—à¸µà¹ˆà¹€à¸žà¸´à¹ˆà¸¡ (à¸Šà¸´à¹‰à¸™) <span style="color:var(--danger)">*</span></label>
+            <input id="qty" type="number" min="0" placeholder="à¹€à¸Šà¹ˆà¸™ 10">
           </div>
           <div class="form-row">
-            <label>ราคา / หน่วย (บาท)</label>
-            <input id="price" type="number" step="0.01" placeholder="เช่น 150.00">
+            <label>à¸£à¸²à¸„à¸² / à¸«à¸™à¹ˆà¸§à¸¢ (à¸šà¸²à¸—)</label>
+            <input id="price" type="number" step="0.01" placeholder="à¹€à¸Šà¹ˆà¸™ 150.00">
           </div>
           <div class="form-row">
-            <label>แจ้งเตือนเมื่อเหลือ ≤ (ชิ้น)</label>
-            <input id="threshold" type="number" placeholder="เช่น 5">
+            <label>à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™à¹€à¸¡à¸·à¹ˆà¸­à¹€à¸«à¸¥à¸·à¸­ â‰¤ (à¸Šà¸´à¹‰à¸™)</label>
+            <input id="threshold" type="number" placeholder="à¹€à¸Šà¹ˆà¸™ 5">
           </div>
           <div class="form-row">
-            <label>ยอดสต็อกที่ต้องมี (ชิ้น)</label>
-            <input id="target_qty" type="number" min="0" placeholder="เช่น 20">
-            <div class="hint" style="color:var(--text2);">จำนวนที่ควรมีไว้ในสต็อกเสมอ ใช้เทียบกับยอดคงเหลือปัจจุบัน</div>
+            <label>à¸¢à¸­à¸”à¸ªà¸•à¹‡à¸­à¸à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ (à¸Šà¸´à¹‰à¸™)</label>
+            <input id="target_qty" type="number" min="0" placeholder="à¹€à¸Šà¹ˆà¸™ 20">
+            <div class="hint" style="color:var(--text2);">à¸ˆà¸³à¸™à¸§à¸™à¸—à¸µà¹ˆà¸„à¸§à¸£à¸¡à¸µà¹„à¸§à¹‰à¹ƒà¸™à¸ªà¸•à¹‡à¸­à¸à¹€à¸ªà¸¡à¸­ à¹ƒà¸Šà¹‰à¹€à¸—à¸µà¸¢à¸šà¸à¸±à¸šà¸¢à¸­à¸”à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­à¸›à¸±à¸ˆà¸ˆà¸¸à¸šà¸±à¸™</div>
           </div>
           <div class="form-row">
-            <label>วันที่เพิ่ม</label>
+            <label>à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸žà¸´à¹ˆà¸¡</label>
             <input id="date_add" type="date">
           </div>
           <div class="form-row" style="grid-column:1/-1;">
-            <label>หมายเหตุ</label>
-            <textarea id="note" placeholder="รุ่น, จุดใช้งาน, หรือข้อมูลอื่น ๆ"></textarea>
+            <label>à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸</label>
+            <textarea id="note" placeholder="à¸£à¸¸à¹ˆà¸™, à¸ˆà¸¸à¸”à¹ƒà¸Šà¹‰à¸‡à¸²à¸™, à¸«à¸£à¸·à¸­à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸­à¸·à¹ˆà¸™ à¹†"></textarea>
           </div>
           <div class="form-row" style="grid-column:1/-1;">
-            <label>รูปภาพสินค้า (ไม่บังคับ)</label>
+            <label>à¸£à¸¹à¸›à¸ à¸²à¸žà¸ªà¸´à¸™à¸„à¹‰à¸² (à¹„à¸¡à¹ˆà¸šà¸±à¸‡à¸„à¸±à¸š)</label>
             <div class="img-upload-area" id="addImgArea">
               <input type="file" id="addImgFile" accept="image/*" multiple onchange="previewAddImages(this)">
-              <div style="font-size:22px;margin-bottom:4px;">🖼️</div>
-              <div style="font-size:12px;color:var(--text2);">คลิกหรือลากรูปมาวางที่นี่</div>
+              <div style="font-size:22px;margin-bottom:4px;">ðŸ–¼ï¸</div>
+              <div style="font-size:12px;color:var(--text2);">à¸„à¸¥à¸´à¸à¸«à¸£à¸·à¸­à¸¥à¸²à¸à¸£à¸¹à¸›à¸¡à¸²à¸§à¸²à¸‡à¸—à¸µà¹ˆà¸™à¸µà¹ˆ</div>
             </div>
             <div class="img-preview-wrap" id="addImgPreview"></div>
             <div class="upload-progress" id="addUploadProgress"><div class="upload-progress-bar" id="addUploadBar"></div></div>
           </div>
         </div>
         <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn-primary" id="btnSaveItem">💾 บันทึก</button>
-          <button class="btn-ghost" id="btnClearAdd">✖ ล้างข้อมูล</button>
+          <button class="btn-primary" id="btnSaveItem">ðŸ’¾ à¸šà¸±à¸™à¸—à¸¶à¸</button>
+          <button class="btn-ghost" id="btnClearAdd">âœ– à¸¥à¹‰à¸²à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥</button>
         </div>
       </div>
     </section>
@@ -794,59 +794,59 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
     <!-- IMPORT -->
     <section id="view-import" class="section">
       <div class="page-header">
-        <div class="page-title">🛡️ ส่งออก Excel / นำเข้าข้อมูล</div>
-        <div class="page-sub">สำรองสินค้า ประวัติการเบิก และหมวดหมู่ เพื่อกู้คืนเมื่อฐานข้อมูลมีปัญหา</div>
+        <div class="page-title">ðŸ›¡ï¸ à¸ªà¹ˆà¸‡à¸­à¸­à¸ Excel / à¸™à¸³à¹€à¸‚à¹‰à¸²à¸‚à¹‰à¸­à¸¡à¸¹à¸¥</div>
+        <div class="page-sub">à¸ªà¸³à¸£à¸­à¸‡à¸ªà¸´à¸™à¸„à¹‰à¸² à¸›à¸£à¸°à¸§à¸±à¸•à¸´à¸à¸²à¸£à¹€à¸šà¸´à¸ à¹à¸¥à¸°à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ à¹€à¸žà¸·à¹ˆà¸­à¸à¸¹à¹‰à¸„à¸·à¸™à¹€à¸¡à¸·à¹ˆà¸­à¸à¸²à¸™à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸¡à¸µà¸›à¸±à¸à¸«à¸²</div>
       </div>
       <div class="card" style="margin-bottom:14px;background:#faf6ef;border-color:#dfcbb6;">
-        <div class="card-title">📊 สำรองข้อมูลทั้งระบบ</div>
+        <div class="card-title">ðŸ“Š à¸ªà¸³à¸£à¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸—à¸±à¹‰à¸‡à¸£à¸°à¸šà¸š</div>
         <div style="font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.6;">
-          ส่งออกเป็น Excel สำหรับเปิดดู และ JSON สำหรับกู้คืนข้อมูลครบถ้วน แนะนำให้เก็บไฟล์ไว้ภายนอกเครื่องเป็นประจำ
+          à¸ªà¹ˆà¸‡à¸­à¸­à¸à¹€à¸›à¹‡à¸™ Excel à¸ªà¸³à¸«à¸£à¸±à¸šà¹€à¸›à¸´à¸”à¸”à¸¹ à¹à¸¥à¸° JSON à¸ªà¸³à¸«à¸£à¸±à¸šà¸à¸¹à¹‰à¸„à¸·à¸™à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸„à¸£à¸šà¸–à¹‰à¸§à¸™ à¹à¸™à¸°à¸™à¸³à¹ƒà¸«à¹‰à¹€à¸à¹‡à¸šà¹„à¸Ÿà¸¥à¹Œà¹„à¸§à¹‰à¸ à¸²à¸¢à¸™à¸­à¸à¹€à¸„à¸£à¸·à¹ˆà¸­à¸‡à¹€à¸›à¹‡à¸™à¸›à¸£à¸°à¸ˆà¸³
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn-success btn-sm" id="btnExportBackupExcel">📊 ส่งออก Excel</button>
-          <button class="btn-primary btn-sm" id="btnExportBackupJSON">🛡️ สำรองข้อมูล JSON</button>
+          <button class="btn-success btn-sm" id="btnExportBackupExcel">ðŸ“Š à¸ªà¹ˆà¸‡à¸­à¸­à¸ Excel</button>
+          <button class="btn-primary btn-sm" id="btnExportBackupJSON">ðŸ›¡ï¸ à¸ªà¸³à¸£à¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥ JSON</button>
         </div>
-        <div class="hint" style="margin-top:8px;color:var(--text2);">เมื่อต้องกู้คืน ให้เลือกไฟล์ JSON หรือ Excel ที่ส่งออกจากระบบนี้ แล้วกดนำเข้าข้อมูลสำรอง</div>
+        <div class="hint" style="margin-top:8px;color:var(--text2);">à¹€à¸¡à¸·à¹ˆà¸­à¸•à¹‰à¸­à¸‡à¸à¸¹à¹‰à¸„à¸·à¸™ à¹ƒà¸«à¹‰à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œ JSON à¸«à¸£à¸·à¸­ Excel à¸—à¸µà¹ˆà¸ªà¹ˆà¸‡à¸­à¸­à¸à¸ˆà¸²à¸à¸£à¸°à¸šà¸šà¸™à¸µà¹‰ à¹à¸¥à¹‰à¸§à¸à¸”à¸™à¸³à¹€à¸‚à¹‰à¸²à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ªà¸³à¸£à¸­à¸‡</div>
       </div>
       <div class="card" style="margin-bottom:14px;">
-        <div class="card-title">↩️ นำเข้าข้อมูลสำรอง</div>
+        <div class="card-title">â†©ï¸ à¸™à¸³à¹€à¸‚à¹‰à¸²à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ªà¸³à¸£à¸­à¸‡</div>
         <div class="import-zone" id="backupImportZone">
-          <div style="font-size:28px;margin-bottom:8px;">🛡️</div>
-          <div style="font-weight:600;margin-bottom:4px;">เลือกไฟล์ JSON หรือ Excel สำรอง</div>
-          <div style="font-size:12px;color:var(--text2);margin-bottom:12px;">รองรับไฟล์ .json และ .xls ที่ส่งออกจาก Store-10</div>
+          <div style="font-size:28px;margin-bottom:8px;">ðŸ›¡ï¸</div>
+          <div style="font-weight:600;margin-bottom:4px;">à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œ JSON à¸«à¸£à¸·à¸­ Excel à¸ªà¸³à¸£à¸­à¸‡</div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:12px;">à¸£à¸­à¸‡à¸£à¸±à¸šà¹„à¸Ÿà¸¥à¹Œ .json à¹à¸¥à¸° .xls à¸—à¸µà¹ˆà¸ªà¹ˆà¸‡à¸­à¸­à¸à¸ˆà¸²à¸ Store-10</div>
           <input type="file" id="backupFile" accept=".json,.xls" style="display:none;">
-          <button class="btn-outline btn-sm" onclick="document.getElementById('backupFile').click()">เลือกไฟล์สำรอง</button>
+          <button class="btn-outline btn-sm" onclick="document.getElementById('backupFile').click()">à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œà¸ªà¸³à¸£à¸­à¸‡</button>
         </div>
         <div id="backupPreview" style="display:none;margin-top:14px;">
-          <div class="card-title" id="backupPreviewTitle">พร้อมกู้คืนข้อมูล</div>
+          <div class="card-title" id="backupPreviewTitle">à¸žà¸£à¹‰à¸­à¸¡à¸à¸¹à¹‰à¸„à¸·à¸™à¸‚à¹‰à¸­à¸¡à¸¹à¸¥</div>
           <div id="backupPreviewText" style="font-size:12px;color:var(--text2);line-height:1.7;"></div>
           <div style="margin-top:12px;display:flex;gap:8px;">
-            <button class="btn-danger btn-sm" id="btnConfirmBackupRestore">⚠️ นำเข้าข้อมูลสำรอง</button>
-            <button class="btn-ghost btn-sm" id="btnCancelBackupRestore">ยกเลิก</button>
+            <button class="btn-danger btn-sm" id="btnConfirmBackupRestore">âš ï¸ à¸™à¸³à¹€à¸‚à¹‰à¸²à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ªà¸³à¸£à¸­à¸‡</button>
+            <button class="btn-ghost btn-sm" id="btnCancelBackupRestore">à¸¢à¸à¹€à¸¥à¸´à¸</button>
           </div>
         </div>
       </div>
       <div class="card" style="margin-bottom:14px;">
-        <div class="card-title">นำเข้าสินค้า CSV แบบเดิม</div>
+        <div class="card-title">à¸™à¸³à¹€à¸‚à¹‰à¸²à¸ªà¸´à¸™à¸„à¹‰à¸² CSV à¹à¸šà¸šà¹€à¸”à¸´à¸¡</div>
         <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">
-          หัวตาราง (บรรทัดแรก): <code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;">name,qty,price,threshold,target_qty,note</code>
+          à¸«à¸±à¸§à¸•à¸²à¸£à¸²à¸‡ (à¸šà¸£à¸£à¸—à¸±à¸”à¹à¸£à¸): <code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;">name,qty,price,threshold,target_qty,note</code>
         </div>
-        <button class="btn-ghost btn-sm" id="btnDownloadTemplate">⬇ ดาวน์โหลด Template CSV</button>
+        <button class="btn-ghost btn-sm" id="btnDownloadTemplate">â¬‡ à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸” Template CSV</button>
       </div>
       <div class="card">
         <div class="import-zone" id="importZone">
-          <div style="font-size:28px;margin-bottom:8px;">📁</div>
-          <div style="font-weight:600;margin-bottom:4px;">ลากไฟล์ CSV มาวางที่นี่</div>
-          <div style="font-size:12px;color:var(--text2);margin-bottom:12px;">หรือคลิกเพื่อเลือกไฟล์</div>
+          <div style="font-size:28px;margin-bottom:8px;">ðŸ“</div>
+          <div style="font-weight:600;margin-bottom:4px;">à¸¥à¸²à¸à¹„à¸Ÿà¸¥à¹Œ CSV à¸¡à¸²à¸§à¸²à¸‡à¸—à¸µà¹ˆà¸™à¸µà¹ˆ</div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:12px;">à¸«à¸£à¸·à¸­à¸„à¸¥à¸´à¸à¹€à¸žà¸·à¹ˆà¸­à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œ</div>
           <input type="file" id="csvFile" accept=".csv" style="display:none;">
-          <button class="btn-outline btn-sm" onclick="document.getElementById('csvFile').click()">เลือกไฟล์</button>
+          <button class="btn-outline btn-sm" onclick="document.getElementById('csvFile').click()">à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œ</button>
         </div>
         <div id="importPreview" style="display:none;margin-top:14px;">
-          <div class="card-title" id="importPreviewTitle">ตัวอย่างข้อมูล</div>
-          <div class="table-wrap"><table><thead><tr><th>ชื่ออุปกรณ์</th><th>จำนวน</th><th>ราคา</th><th>แจ้งเตือน≤</th><th>หมายเหตุ</th><th>สถานะ</th></tr></thead><tbody id="importPreviewBody"></tbody></table></div>
+          <div class="card-title" id="importPreviewTitle">à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥</div>
+          <div class="table-wrap"><table><thead><tr><th>à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ</th><th>à¸ˆà¸³à¸™à¸§à¸™</th><th>à¸£à¸²à¸„à¸²</th><th>à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™â‰¤</th><th>à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸</th><th>à¸ªà¸–à¸²à¸™à¸°</th></tr></thead><tbody id="importPreviewBody"></tbody></table></div>
           <div style="margin-top:12px;display:flex;gap:8px;">
-            <button class="btn-success" id="btnConfirmImport">✔ นำเข้าข้อมูล</button>
-            <button class="btn-ghost" id="btnCancelImport">✖ ยกเลิก</button>
+            <button class="btn-success" id="btnConfirmImport">âœ” à¸™à¸³à¹€à¸‚à¹‰à¸²à¸‚à¹‰à¸­à¸¡à¸¹à¸¥</button>
+            <button class="btn-ghost" id="btnCancelImport">âœ– à¸¢à¸à¹€à¸¥à¸´à¸</button>
           </div>
         </div>
       </div>
@@ -855,29 +855,29 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
     <!-- DEPARTMENTS -->
     <section id="view-departments" class="section">
       <div class="page-header">
-        <div class="page-title">🏷️ รายการแผนก</div>
-        <div class="page-sub">เพิ่ม แก้ไข หรือลบรายการแผนกที่ใช้ในหน้าเบิกสินค้า</div>
+        <div class="page-title">ðŸ·ï¸ à¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸</div>
+        <div class="page-sub">à¹€à¸žà¸´à¹ˆà¸¡ à¹à¸à¹‰à¹„à¸‚ à¸«à¸£à¸·à¸­à¸¥à¸šà¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹ƒà¸Šà¹‰à¹ƒà¸™à¸«à¸™à¹‰à¸²à¹€à¸šà¸´à¸à¸ªà¸´à¸™à¸„à¹‰à¸²</div>
       </div>
       <div class="card" style="margin-bottom:14px;">
-        <div class="card-title">เพิ่มรายการแผนก</div>
+        <div class="card-title">à¹€à¸žà¸´à¹ˆà¸¡à¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸</div>
         <div class="form-grid">
           <div class="form-row">
-            <label>ชื่อแผนก <span style="color:var(--danger)">*</span></label>
-            <input id="departmentName" placeholder="เช่น ห้องครัว" autocomplete="off">
+            <label>à¸Šà¸·à¹ˆà¸­à¹à¸œà¸™à¸ <span style="color:var(--danger)">*</span></label>
+            <input id="departmentName" placeholder="à¹€à¸Šà¹ˆà¸™ à¸«à¹‰à¸­à¸‡à¸„à¸£à¸±à¸§" autocomplete="off">
           </div>
           <div class="form-row">
-            <label>รหัสแผนก <span style="color:var(--text2);font-weight:400;">(ไม่บังคับ)</span></label>
-            <input id="departmentCode" placeholder="เช่น D01 หากไม่กรอกระบบจะสร้างให้" autocomplete="off">
+            <label>à¸£à¸«à¸±à¸ªà¹à¸œà¸™à¸ <span style="color:var(--text2);font-weight:400;">(à¹„à¸¡à¹ˆà¸šà¸±à¸‡à¸„à¸±à¸š)</span></label>
+            <input id="departmentCode" placeholder="à¹€à¸Šà¹ˆà¸™ D01 à¸«à¸²à¸à¹„à¸¡à¹ˆà¸à¸£à¸­à¸à¸£à¸°à¸šà¸šà¸ˆà¸°à¸ªà¸£à¹‰à¸²à¸‡à¹ƒà¸«à¹‰" autocomplete="off">
           </div>
         </div>
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn-primary" id="btnSaveDepartment">➕ เพิ่มแผนก</button>
-          <button class="btn-ghost" id="btnCancelDepartment" style="display:none;">ยกเลิกแก้ไข</button>
+          <button class="btn-primary" id="btnSaveDepartment">âž• à¹€à¸žà¸´à¹ˆà¸¡à¹à¸œà¸™à¸</button>
+          <button class="btn-ghost" id="btnCancelDepartment" style="display:none;">à¸¢à¸à¹€à¸¥à¸´à¸à¹à¸à¹‰à¹„à¸‚</button>
         </div>
-        <div id="departmentFormHint" class="hint" style="margin-top:8px;">แผนกใหม่จะใช้ได้ทันทีในช่อง “แผนกที่เบิก” และ “นำไปใช้ที่แผนก”</div>
+        <div id="departmentFormHint" class="hint" style="margin-top:8px;">à¹à¸œà¸™à¸à¹ƒà¸«à¸¡à¹ˆà¸ˆà¸°à¹ƒà¸Šà¹‰à¹„à¸”à¹‰à¸—à¸±à¸™à¸—à¸µà¹ƒà¸™à¸Šà¹ˆà¸­à¸‡ â€œà¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸â€ à¹à¸¥à¸° â€œà¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰à¸—à¸µà¹ˆà¹à¸œà¸™à¸â€</div>
       </div>
       <div class="card">
-        <div class="card-title">รายการแผนกทั้งหมด <span id="departmentCount" class="text-muted" style="font-size:12px;font-weight:400;"></span></div>
+        <div class="card-title">à¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸” <span id="departmentCount" class="text-muted" style="font-size:12px;font-weight:400;"></span></div>
         <div id="departmentManagerList" class="department-manager-list"></div>
       </div>
     </section>
@@ -885,70 +885,70 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
     <!-- ISSUE -->
     <section id="view-issue" class="section">
       <div class="page-header">
-        <div class="page-title">📤 บันทึกการเบิกสินค้า</div>
-        <div class="page-sub">เลือกอุปกรณ์และกรอกข้อมูลการเบิกให้ครบ</div>
+        <div class="page-title">ðŸ“¤ à¸šà¸±à¸™à¸—à¸¶à¸à¸à¸²à¸£à¹€à¸šà¸´à¸à¸ªà¸´à¸™à¸„à¹‰à¸²</div>
+        <div class="page-sub">à¹€à¸¥à¸·à¸­à¸à¸­à¸¸à¸›à¸à¸£à¸“à¹Œà¹à¸¥à¸°à¸à¸£à¸­à¸à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸à¸²à¸£à¹€à¸šà¸´à¸à¹ƒà¸«à¹‰à¸„à¸£à¸š</div>
       </div>
       <div class="card">
         <div class="form-grid">
           <div class="form-row" style="grid-column:1/-1;">
-            <label>รายการเบิก <span style="color:var(--danger)">*</span></label>
+            <label>à¸£à¸²à¸¢à¸à¸²à¸£à¹€à¸šà¸´à¸ <span style="color:var(--danger)">*</span></label>
             <div class="issue-entry-grid">
               <div>
-                <input id="issue_name" list="issueNameList" placeholder="พิมพ์ชื่ออุปกรณ์เพื่อค้นหา / เลือกจากรายการ" autocomplete="off">
+                <input id="issue_name" list="issueNameList" placeholder="à¸žà¸´à¸¡à¸žà¹Œà¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œà¹€à¸žà¸·à¹ˆà¸­à¸„à¹‰à¸™à¸«à¸² / à¹€à¸¥à¸·à¸­à¸à¸ˆà¸²à¸à¸£à¸²à¸¢à¸à¸²à¸£" autocomplete="off">
                 <datalist id="issueNameList"></datalist>
                 <div id="stockHint" class="hint"></div>
               </div>
-              <input id="issue_qty" type="number" min="1" placeholder="จำนวน">
-              <button class="btn-primary" id="btnAddIssueRow" type="button">➕ เพิ่มรายการ</button>
+              <input id="issue_qty" type="number" min="1" placeholder="à¸ˆà¸³à¸™à¸§à¸™">
+              <button class="btn-primary" id="btnAddIssueRow" type="button">âž• à¹€à¸žà¸´à¹ˆà¸¡à¸£à¸²à¸¢à¸à¸²à¸£</button>
             </div>
             <div class="issue-list-wrap">
               <div class="table-wrap">
                 <table>
-                  <thead><tr><th>อุปกรณ์</th><th class="text-right">คงเหลือ</th><th class="text-right">จำนวนเบิก</th><th>สถานะ</th><th></th></tr></thead>
+                  <thead><tr><th>à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ</th><th class="text-right">à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­</th><th class="text-right">à¸ˆà¸³à¸™à¸§à¸™à¹€à¸šà¸´à¸</th><th>à¸ªà¸–à¸²à¸™à¸°</th><th></th></tr></thead>
                   <tbody id="issueRowsBody"></tbody>
                 </table>
               </div>
               <div class="issue-total-row">
-                <span id="issueRowsEmpty">ยังไม่มีรายการที่เลือก</span>
-                <b id="issueRowsTotal">รวม 0 รายการ / 0 ชิ้น</b>
+                <span id="issueRowsEmpty">à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸£à¸²à¸¢à¸à¸²à¸£à¸—à¸µà¹ˆà¹€à¸¥à¸·à¸­à¸</span>
+                <b id="issueRowsTotal">à¸£à¸§à¸¡ 0 à¸£à¸²à¸¢à¸à¸²à¸£ / 0 à¸Šà¸´à¹‰à¸™</b>
               </div>
             </div>
           </div>
           <div class="form-row">
-            <label>แผนกที่เบิก <span style="color:var(--danger)">*</span></label>
-            <input id="issue_department" list="departmentList" placeholder="พิมพ์หรือเลือกแผนกที่เบิก" autocomplete="off" required>
+            <label>à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸ <span style="color:var(--danger)">*</span></label>
+            <input id="issue_department" list="departmentList" placeholder="à¸žà¸´à¸¡à¸žà¹Œà¸«à¸£à¸·à¸­à¹€à¸¥à¸·à¸­à¸à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸" autocomplete="off" required>
           </div>
           <div class="form-row">
-            <label>นำไปใช้ที่แผนก <span style="color:var(--danger)">*</span></label>
-            <input id="use_department" list="departmentList" placeholder="พิมพ์หรือเลือกแผนกที่นำไปใช้" autocomplete="off" required>
+            <label>à¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰à¸—à¸µà¹ˆà¹à¸œà¸™à¸ <span style="color:var(--danger)">*</span></label>
+            <input id="use_department" list="departmentList" placeholder="à¸žà¸´à¸¡à¸žà¹Œà¸«à¸£à¸·à¸­à¹€à¸¥à¸·à¸­à¸à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰" autocomplete="off" required>
           </div>
           <datalist id="departmentList"></datalist>
           <div class="form-row">
-            <label>ผู้จ่าย <span style="color:var(--danger)">*</span></label>
-            <input id="use_by" list="byList" placeholder="ชื่อผู้จ่าย" autocomplete="off">
+            <label>à¸œà¸¹à¹‰à¸ˆà¹ˆà¸²à¸¢ <span style="color:var(--danger)">*</span></label>
+            <input id="use_by" list="byList" placeholder="à¸Šà¸·à¹ˆà¸­à¸œà¸¹à¹‰à¸ˆà¹ˆà¸²à¸¢" autocomplete="off">
             <datalist id="byList"></datalist>
           </div>
           <div class="form-row">
-            <label>วันที่เบิก <span style="color:var(--danger)">*</span></label>
+            <label>à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸ <span style="color:var(--danger)">*</span></label>
             <input id="use_date" type="date">
           </div>
           <div class="form-row" style="grid-column:1/-1;">
-            <label>หมายเหตุ</label>
-            <textarea id="use_note" placeholder="วัตถุประสงค์ จุดที่นำไปใช้ ฯลฯ"></textarea>
+            <label>à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸</label>
+            <textarea id="use_note" placeholder="à¸§à¸±à¸•à¸–à¸¸à¸›à¸£à¸°à¸ªà¸‡à¸„à¹Œ à¸ˆà¸¸à¸”à¸—à¸µà¹ˆà¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰ à¸¯à¸¥à¸¯"></textarea>
           </div>
           <div class="form-row" style="grid-column:1/-1;">
-            <label>รูปภาพประกอบการเบิก (ไม่บังคับ)</label>
+            <label>à¸£à¸¹à¸›à¸ à¸²à¸žà¸›à¸£à¸°à¸à¸­à¸šà¸à¸²à¸£à¹€à¸šà¸´à¸ (à¹„à¸¡à¹ˆà¸šà¸±à¸‡à¸„à¸±à¸š)</label>
             <div class="img-upload-area" id="issueImgArea">
               <input type="file" id="issueImgFile" accept="image/*" multiple onchange="previewIssueImages(this)">
-              <div style="font-size:22px;margin-bottom:4px;">📷</div>
-              <div style="font-size:12px;color:var(--text2);">คลิกหรือลากรูปมาวางที่นี่</div>
+              <div style="font-size:22px;margin-bottom:4px;">ðŸ“·</div>
+              <div style="font-size:12px;color:var(--text2);">à¸„à¸¥à¸´à¸à¸«à¸£à¸·à¸­à¸¥à¸²à¸à¸£à¸¹à¸›à¸¡à¸²à¸§à¸²à¸‡à¸—à¸µà¹ˆà¸™à¸µà¹ˆ</div>
             </div>
             <div class="img-preview-wrap" id="issueImgPreview"></div>
             <div class="upload-progress" id="issueUploadProgress"><div class="upload-progress-bar" id="issueUploadBar"></div></div>
           </div>
         </div>
         <div style="margin-top:14px;">
-          <button class="btn-orange" id="btnUseItem">✔ บันทึกการเบิก</button>
+          <button class="btn-orange" id="btnUseItem">âœ” à¸šà¸±à¸™à¸—à¸¶à¸à¸à¸²à¸£à¹€à¸šà¸´à¸</button>
         </div>
       </div>
     </section>
@@ -956,20 +956,20 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
     <!-- HISTORY -->
     <section id="view-history" class="section">
       <div class="page-header">
-        <div class="page-title">📜 ประวัติการเบิก</div>
-        <div class="page-sub">รายการเบิกย้อนหลังทั้งหมด พร้อมฟังก์ชันย้อนกลับ</div>
+        <div class="page-title">ðŸ“œ à¸›à¸£à¸°à¸§à¸±à¸•à¸´à¸à¸²à¸£à¹€à¸šà¸´à¸</div>
+        <div class="page-sub">à¸£à¸²à¸¢à¸à¸²à¸£à¹€à¸šà¸´à¸à¸¢à¹‰à¸­à¸™à¸«à¸¥à¸±à¸‡à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸” à¸žà¸£à¹‰à¸­à¸¡à¸Ÿà¸±à¸‡à¸à¹Œà¸Šà¸±à¸™à¸¢à¹‰à¸­à¸™à¸à¸¥à¸±à¸š</div>
       </div>
       <div class="filter-row">
-        <input id="histSearch" placeholder="🔍 ค้นหาอุปกรณ์ / ผู้เบิก...">
+        <input id="histSearch" placeholder="ðŸ” à¸„à¹‰à¸™à¸«à¸²à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ / à¸œà¸¹à¹‰à¹€à¸šà¸´à¸...">
         <input id="histDateFrom" type="date" style="max-width:160px;">
         <input id="histDateTo" type="date" style="max-width:160px;">
-        <button class="btn-primary btn-sm" id="btnHistFilter">กรอง</button>
-        <button class="btn-ghost btn-sm" id="btnHistClear">ล้าง</button>
-        <button class="btn-ghost btn-sm" id="btnExportHistory">⬇ Export CSV</button>
+        <button class="btn-primary btn-sm" id="btnHistFilter">à¸à¸£à¸­à¸‡</button>
+        <button class="btn-ghost btn-sm" id="btnHistClear">à¸¥à¹‰à¸²à¸‡</button>
+        <button class="btn-ghost btn-sm" id="btnExportHistory">â¬‡ Export CSV</button>
       </div>
       <div id="histBody"></div>
       <div id="histEmpty" class="empty-state" style="display:none;">
-        <div class="empty-icon">📜</div><div class="empty-msg">ไม่พบรายการ</div>
+        <div class="empty-icon">ðŸ“œ</div><div class="empty-msg">à¹„à¸¡à¹ˆà¸žà¸šà¸£à¸²à¸¢à¸à¸²à¸£</div>
       </div>
     </section>
 
@@ -978,7 +978,7 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
 
 <!-- LIGHTBOX -->
 <div id="lightboxOverlay" class="lightbox-overlay" onclick="closeLightbox()">
-  <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+  <span class="lightbox-close" onclick="closeLightbox()">âœ•</span>
   <img id="lightboxImg" class="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
 </div>
 
@@ -988,11 +988,11 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
 <!-- CONFIRM DIALOG -->
 <div id="confirmOverlay" class="confirm-overlay">
   <div class="confirm-box">
-    <div class="confirm-title" id="confirmTitle">ยืนยัน</div>
+    <div class="confirm-title" id="confirmTitle">à¸¢à¸·à¸™à¸¢à¸±à¸™</div>
     <div class="confirm-msg" id="confirmMsg"></div>
     <div class="confirm-footer">
-      <button class="btn-ghost" id="confirmNo">ยกเลิก</button>
-      <button class="btn-danger" id="confirmYes">ยืนยัน</button>
+      <button class="btn-ghost" id="confirmNo">à¸¢à¸à¹€à¸¥à¸´à¸</button>
+      <button class="btn-danger" id="confirmYes">à¸¢à¸·à¸™à¸¢à¸±à¸™</button>
     </div>
   </div>
 </div>
@@ -1000,65 +1000,65 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
 <!-- EDIT POPUP -->
 <div id="popupEdit" class="popup-overlay">
   <div class="popup-card">
-    <div class="popup-title">✏️ แก้ไขสินค้า</div>
+    <div class="popup-title">âœï¸ à¹à¸à¹‰à¹„à¸‚à¸ªà¸´à¸™à¸„à¹‰à¸²</div>
     <div class="form-grid">
       <div class="form-row" style="grid-column:1/-1;">
-        <label>ชื่ออุปกรณ์</label>
+        <label>à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ</label>
         <input id="edit_name">
       </div>
       <div class="form-row">
-        <label>หมวดหมู่</label>
+        <label>à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ</label>
         <select id="edit_category">
-          <option value="">-- เลือกหมวดหมู่ --</option>
+          <option value="">-- à¹€à¸¥à¸·à¸­à¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ --</option>
         </select>
       </div>
       <div class="form-row">
-        <label>แผนกที่เบิก</label>
+        <label>à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸</label>
         <select id="edit_issue_department">
-          <option value="">-- ไม่กำหนดแผนกที่เบิก --</option>
+          <option value="">-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸ --</option>
         </select>
       </div>
       <div class="form-row">
-        <label>นำไปใช้ที่แผนก</label>
+        <label>à¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰à¸—à¸µà¹ˆà¹à¸œà¸™à¸</label>
         <select id="edit_usage_department">
-          <option value="">-- ไม่กำหนดแผนกที่นำไปใช้ --</option>
+          <option value="">-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰ --</option>
         </select>
       </div>
       <div class="form-row">
-        <label>ซื้อจากร้าน</label>
+        <label>à¸‹à¸·à¹‰à¸­à¸ˆà¸²à¸à¸£à¹‰à¸²à¸™</label>
         <input id="edit_shop" list="shopList" autocomplete="off">
       </div>
       <div class="form-row">
-        <label>ยี่ห้อ / รุ่น</label>
+        <label>à¸¢à¸µà¹ˆà¸«à¹‰à¸­ / à¸£à¸¸à¹ˆà¸™</label>
         <input id="edit_brand" list="brandList" autocomplete="off">
       </div>
       <div class="form-row">
-        <label>จำนวน (อ่านอย่างเดียว)</label>
+        <label>à¸ˆà¸³à¸™à¸§à¸™ (à¸­à¹ˆà¸²à¸™à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§)</label>
         <input id="edit_qty" type="number" disabled>
       </div>
       <div class="form-row">
-        <label>ราคา / หน่วย (บาท)</label>
+        <label>à¸£à¸²à¸„à¸² / à¸«à¸™à¹ˆà¸§à¸¢ (à¸šà¸²à¸—)</label>
         <input id="edit_price" type="number" step="0.01">
       </div>
       <div class="form-row">
-        <label>แจ้งเตือนเมื่อ ≤</label>
+        <label>à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™à¹€à¸¡à¸·à¹ˆà¸­ â‰¤</label>
         <input id="edit_threshold" type="number">
       </div>
       <div class="form-row">
-        <label>ยอดสต็อกที่ต้องมี</label>
+        <label>à¸¢à¸­à¸”à¸ªà¸•à¹‡à¸­à¸à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ</label>
         <input id="edit_target" type="number" min="0">
       </div>
       <div class="form-row" style="grid-column:1/-1;">
-        <label>หมายเหตุ</label>
+        <label>à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸</label>
         <textarea id="edit_note"></textarea>
       </div>
       <div class="form-row" style="grid-column:1/-1;">
-        <label>รูปภาพสินค้า</label>
+        <label>à¸£à¸¹à¸›à¸ à¸²à¸žà¸ªà¸´à¸™à¸„à¹‰à¸²</label>
         <div class="img-preview-wrap" id="editImgExisting"></div>
         <div class="img-upload-area" style="margin-top:8px;" id="editImgArea">
           <input type="file" id="editImgFile" accept="image/*" multiple onchange="previewEditImages(this)">
-          <div style="font-size:18px;margin-bottom:3px;">➕ เพิ่มรูป</div>
-          <div style="font-size:11px;color:var(--text2);">คลิกหรือลากรูปมาวางที่นี่</div>
+          <div style="font-size:18px;margin-bottom:3px;">âž• à¹€à¸žà¸´à¹ˆà¸¡à¸£à¸¹à¸›</div>
+          <div style="font-size:11px;color:var(--text2);">à¸„à¸¥à¸´à¸à¸«à¸£à¸·à¸­à¸¥à¸²à¸à¸£à¸¹à¸›à¸¡à¸²à¸§à¸²à¸‡à¸—à¸µà¹ˆà¸™à¸µà¹ˆ</div>
         </div>
         <div class="img-preview-wrap" id="editImgPreview"></div>
         <div class="upload-progress" id="editUploadProgress"><div class="upload-progress-bar" id="editUploadBar"></div></div>
@@ -1066,15 +1066,15 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
     </div>
     <input type="hidden" id="edit_idx">
     <div class="popup-footer">
-      <button class="btn-ghost" id="btnCloseEdit">ปิด</button>
-      <button class="btn-primary" id="btnSaveEdit">💾 บันทึก</button>
+      <button class="btn-ghost" id="btnCloseEdit">à¸›à¸´à¸”</button>
+      <button class="btn-primary" id="btnSaveEdit">ðŸ’¾ à¸šà¸±à¸™à¸—à¸¶à¸</button>
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ════════════════ SUPABASE ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SUPABASE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const SUPABASE_URL = 'https://kpzohxkumnzwbthclnvm.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_6TSVpQgIZ7T-jKxgYHO7Kw_t0JhsocC';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -1100,9 +1100,9 @@ let realtimeUnsubs=[];
 function isAdmin(){ return currentRole==='admin'; }
 function authErrorMessage(err){
   const code=err&&err.code||'';
-  if(code.includes('invalid-credential')||code.includes('wrong-password')||code.includes('user-not-found')) return 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
-  if(code.includes('too-many-requests')) return 'ลองเข้าสู่ระบบใหม่ภายหลัง ระบบจำกัดการลองชั่วคราว';
-  return 'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบอีเมลและรหัสผ่าน';
+  if(code.includes('invalid-credential')||code.includes('wrong-password')||code.includes('user-not-found')) return 'à¸­à¸µà¹€à¸¡à¸¥à¸«à¸£à¸·à¸­à¸£à¸«à¸±à¸ªà¸œà¹ˆà¸²à¸™à¹„à¸¡à¹ˆà¸–à¸¹à¸à¸•à¹‰à¸­à¸‡';
+  if(code.includes('too-many-requests')) return 'à¸¥à¸­à¸‡à¹€à¸‚à¹‰à¸²à¸ªà¸¹à¹ˆà¸£à¸°à¸šà¸šà¹ƒà¸«à¸¡à¹ˆà¸ à¸²à¸¢à¸«à¸¥à¸±à¸‡ à¸£à¸°à¸šà¸šà¸ˆà¸³à¸à¸±à¸”à¸à¸²à¸£à¸¥à¸­à¸‡à¸Šà¸±à¹ˆà¸§à¸„à¸£à¸²à¸§';
+  return 'à¹€à¸‚à¹‰à¸²à¸ªà¸¹à¹ˆà¸£à¸°à¸šà¸šà¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ à¸à¸£à¸¸à¸“à¸²à¸•à¸£à¸§à¸ˆà¸ªà¸­à¸šà¸­à¸µà¹€à¸¡à¸¥à¹à¸¥à¸°à¸£à¸«à¸±à¸ªà¸œà¹ˆà¸²à¸™';
 }
 function showAuthScreen(message){
   document.body.classList.add('auth-locked');
@@ -1133,7 +1133,7 @@ function showAuthenticatedScreen(){
   const role=document.getElementById('authUserRole');
   if(userInfo) userInfo.style.display='flex';
   if(email) email.textContent=currentUser&&currentUser.email||'';
-  if(role) role.textContent=isAdmin()?'ผู้ดูแลระบบ':'ดูอย่างเดียว';
+  if(role) role.textContent=isAdmin()?'à¸œà¸¹à¹‰à¸”à¸¹à¹à¸¥à¸£à¸°à¸šà¸š':'à¸”à¸¹à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§';
   applyRoleUi();
 }
 function stopRealtime(){
@@ -1147,7 +1147,7 @@ async function loadCurrentRole(user){
     if(error) throw error;
     return profile&&profile.role==='admin'?'admin':'viewer';
   }catch(err){
-    console.warn('อ่านบทบาทผู้ใช้ไม่สำเร็จ ใช้สิทธิ์ดูอย่างเดียว',err);
+    console.warn('à¸­à¹ˆà¸²à¸™à¸šà¸—à¸šà¸²à¸—à¸œà¸¹à¹‰à¹ƒà¸Šà¹‰à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ à¹ƒà¸Šà¹‰à¸ªà¸´à¸—à¸˜à¸´à¹Œà¸”à¸¹à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§',err);
     return 'viewer';
   }
 }
@@ -1169,13 +1169,13 @@ function startAuthenticatedApp(){
   listenCategories();
 }
 
-/* ════════════════ STORE CONFIG ════════════════ */
-// อ่าน store จาก URL ?store=xxx  ถ้าไม่มีให้ใช้ค่า default ด้านล่าง
-// ตัวอย่าง URL: index.html?store=store10 / index.html?store=store11
-const DEFAULT_STORE_ID = 'store10';                          // ← แก้ default ที่นี่
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STORE CONFIG â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+// à¸­à¹ˆà¸²à¸™ store à¸ˆà¸²à¸ URL ?store=xxx  à¸–à¹‰à¸²à¹„à¸¡à¹ˆà¸¡à¸µà¹ƒà¸«à¹‰à¹ƒà¸Šà¹‰à¸„à¹ˆà¸² default à¸”à¹‰à¸²à¸™à¸¥à¹ˆà¸²à¸‡
+// à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡ URL: index.html?store=store10 / index.html?store=store11
+const DEFAULT_STORE_ID = 'store10';                          // â† à¹à¸à¹‰ default à¸—à¸µà¹ˆà¸™à¸µà¹ˆ
 const _urlStore = new URLSearchParams(location.search).get('store');
 const STORE_ID = (_urlStore || DEFAULT_STORE_ID).replace(/[^a-zA-Z0-9_\-]/g,'');
-// helper: ชี้ไปยัง subcollection ของสาขานี้
+// helper: à¸Šà¸µà¹‰à¹„à¸›à¸¢à¸±à¸‡ subcollection à¸‚à¸­à¸‡à¸ªà¸²à¸‚à¸²à¸™à¸µà¹‰
  const SUPABASE_TABLES={items:'store_items',history:'store_history',meta:'store_meta'};
  function supabaseTable(name){ return SUPABASE_TABLES[name]; }
  function supabaseRecordData(row){ return row&&row.data&&typeof row.data==='object'?{...row.data}:{}; }
@@ -1224,11 +1224,12 @@ const STORE_ID = (_urlStore || DEFAULT_STORE_ID).replace(/[^a-zA-Z0-9_\-]/g,'');
  }
  function col(name){
    const table=supabaseTable(name);
+   const selectColumns=name==='meta'?'store_id,meta_key,data':'id,store_id,data';
    return {
      doc(id){ return createSupabaseDoc(name,id); },
      async add(data){ const ref=createSupabaseDoc(name); await ref.set(data); return ref; },
      async get(){
-       const {data,error}=await supabaseClient.from(table).select('id,store_id,meta_key,data').eq('store_id',STORE_ID);
+       const {data,error}=await supabaseClient.from(table).select(selectColumns).eq('store_id',STORE_ID);
        if(error) throw error; return supabaseSnapshot(name,data||[]);
      },
      onSnapshot(options,callback,errorCallback){
@@ -1236,7 +1237,7 @@ const STORE_ID = (_urlStore || DEFAULT_STORE_ID).replace(/[^a-zA-Z0-9_\-]/g,'');
        const errorFn=typeof options==='function'?callback:errorCallback;
        let active=true;
        const load=async()=>{ try{
-         const {data,error}=await supabaseClient.from(table).select('id,store_id,meta_key,data').eq('store_id',STORE_ID);
+         const {data,error}=await supabaseClient.from(table).select(selectColumns).eq('store_id',STORE_ID);
          if(error) throw error; if(active) callbackFn(supabaseSnapshot(name,data||[]));
        }catch(err){ if(errorFn) errorFn(err); } };
        load();
@@ -1294,17 +1295,17 @@ function restoreLocalCache(){
     updateDropdown(); updateNameDatalist(); renderStock(); renderDashboard(); renderChart();
   }
 }
-// อัปเดต header / title ให้แสดงชื่อสาขา
+// à¸­à¸±à¸›à¹€à¸”à¸• header / title à¹ƒà¸«à¹‰à¹à¸ªà¸”à¸‡à¸Šà¸·à¹ˆà¸­à¸ªà¸²à¸‚à¸²
 document.addEventListener('DOMContentLoaded', ()=>{
   const label = STORE_ID.replace(/_/g,' ');
   const el = document.getElementById('headerTitle');
   const sub = document.getElementById('headerSub');
   if(el) el.textContent = label;
-  if(sub) sub.textContent = `สต็อก · เบิก · สรุปยอด · ${label}`;
+  if(sub) sub.textContent = `à¸ªà¸•à¹‡à¸­à¸ Â· à¹€à¸šà¸´à¸ Â· à¸ªà¸£à¸¸à¸›à¸¢à¸­à¸” Â· ${label}`;
   document.title = label;
 });
 
-/* ════════════════ STATE ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STATE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 let items = [];
 let historyData = [];
 let issueRows = [];
@@ -1322,26 +1323,26 @@ function updateConnectionBadge(){
   const pending=pendingWriteCounts.items+pendingWriteCounts.history;
   if(!navigator.onLine||realtimeSource==='offline'){
     dot.className='badge-dot warn';
-    text.textContent=persistenceStatus==='ready'?'ออฟไลน์ · เก็บไว้รอซิงค์':'ออฟไลน์ · กรุณาอย่าปิดหน้านี้';
+    text.textContent=persistenceStatus==='ready'?'à¸­à¸­à¸Ÿà¹„à¸¥à¸™à¹Œ Â· à¹€à¸à¹‡à¸šà¹„à¸§à¹‰à¸£à¸­à¸‹à¸´à¸‡à¸„à¹Œ':'à¸­à¸­à¸Ÿà¹„à¸¥à¸™à¹Œ Â· à¸à¸£à¸¸à¸“à¸²à¸­à¸¢à¹ˆà¸²à¸›à¸´à¸”à¸«à¸™à¹‰à¸²à¸™à¸µà¹‰';
     return;
   }
   if(pending>0){
     dot.className='badge-dot warn';
-    text.textContent=`กำลังซิงค์ ${pending} รายการ...`;
+    text.textContent=`à¸à¸³à¸¥à¸±à¸‡à¸‹à¸´à¸‡à¸„à¹Œ ${pending} à¸£à¸²à¸¢à¸à¸²à¸£...`;
     return;
   }
   if(realtimeSource==='cache'){
     dot.className='badge-dot warn';
-    text.textContent='ข้อมูลในเครื่อง · กำลังซิงค์...';
+    text.textContent='à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹ƒà¸™à¹€à¸„à¸£à¸·à¹ˆà¸­à¸‡ Â· à¸à¸³à¸¥à¸±à¸‡à¸‹à¸´à¸‡à¸„à¹Œ...';
     return;
   }
   if(persistenceStatus==='unavailable'){
     dot.className='badge-dot warn';
-    text.textContent='ออนไลน์ · สำรองออฟไลน์ไม่พร้อม';
+    text.textContent='à¸­à¸­à¸™à¹„à¸¥à¸™à¹Œ Â· à¸ªà¸³à¸£à¸­à¸‡à¸­à¸­à¸Ÿà¹„à¸¥à¸™à¹Œà¹„à¸¡à¹ˆà¸žà¸£à¹‰à¸­à¸¡';
     return;
   }
   dot.className='badge-dot';
-  text.textContent=realtimeSource==='server'?'เชื่อมต่อแล้ว':'กำลังเชื่อมต่อ...';
+  text.textContent=realtimeSource==='server'?'à¹€à¸Šà¸·à¹ˆà¸­à¸¡à¸•à¹ˆà¸­à¹à¸¥à¹‰à¸§':'à¸à¸³à¸¥à¸±à¸‡à¹€à¸Šà¸·à¹ˆà¸­à¸¡à¸•à¹ˆà¸­...';
 }
 
 function updateRealtimeSnapshot(name,snap){
@@ -1364,7 +1365,7 @@ function waitForOfflineWrites(){
     pendingWriteCounts.history=0;
     realtimeSource='server';
     updateConnectionBadge();
-    if(hadPending)toast('ซิงค์ข้อมูลออฟไลน์ขึ้น Firebase แล้ว','success');
+    if(hadPending)toast('à¸‹à¸´à¸‡à¸„à¹Œà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸­à¸­à¸Ÿà¹„à¸¥à¸™à¹Œà¸‚à¸¶à¹‰à¸™ Firebase à¹à¸¥à¹‰à¸§','success');
   }).catch(err=>{
     console.warn('Pending Supabase writes are still waiting',err);
     updateConnectionBadge();
@@ -1373,32 +1374,32 @@ function waitForOfflineWrites(){
 
 window.addEventListener('offline',()=>{
   markRealtimeOffline();
-  toast('เน็ตขาด · รายการใหม่จะถูกเก็บไว้และส่งอัตโนมัติเมื่อเน็ตกลับมา','warn');
+  toast('à¹€à¸™à¹‡à¸•à¸‚à¸²à¸” Â· à¸£à¸²à¸¢à¸à¸²à¸£à¹ƒà¸«à¸¡à¹ˆà¸ˆà¸°à¸–à¸¹à¸à¹€à¸à¹‡à¸šà¹„à¸§à¹‰à¹à¸¥à¸°à¸ªà¹ˆà¸‡à¸­à¸±à¸•à¹‚à¸™à¸¡à¸±à¸•à¸´à¹€à¸¡à¸·à¹ˆà¸­à¹€à¸™à¹‡à¸•à¸à¸¥à¸±à¸šà¸¡à¸²','warn');
 });
 window.addEventListener('online',()=>{
   realtimeSource='cache';
   updateConnectionBadge();
-  toast('เน็ตกลับมาแล้ว · กำลังซิงค์ข้อมูลอัตโนมัติ','success');
+  toast('à¹€à¸™à¹‡à¸•à¸à¸¥à¸±à¸šà¸¡à¸²à¹à¸¥à¹‰à¸§ Â· à¸à¸³à¸¥à¸±à¸‡à¸‹à¸´à¸‡à¸„à¹Œà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸­à¸±à¸•à¹‚à¸™à¸¡à¸±à¸•à¸´','success');
   waitForOfflineWrites();
 });
 
 // Categories: fixed base list + custom ones added later (saved in Supabase, shared across devices)
-const DEFAULT_CATEGORIES = ['งานซ่อม','งานศิลป์','งานก่อสร้าง','สุขภัณฑ์','อุปกรณ์ไฟฟ้า','เครื่องใช้ไฟฟ้า','อุปกรณ์สำนักงาน','อุปกรณ์ไอที','อุปกรณ์ทำความสะอาด','อุปกรณ์เครื่องกรองน้ำ','งานระบบท่อและสุขาภิบาล','น้ำมัน','อุปกรณ์ยานยนต์'];
+const DEFAULT_CATEGORIES = ['à¸‡à¸²à¸™à¸‹à¹ˆà¸­à¸¡','à¸‡à¸²à¸™à¸¨à¸´à¸¥à¸›à¹Œ','à¸‡à¸²à¸™à¸à¹ˆà¸­à¸ªà¸£à¹‰à¸²à¸‡','à¸ªà¸¸à¸‚à¸ à¸±à¸“à¸‘à¹Œ','à¸­à¸¸à¸›à¸à¸£à¸“à¹Œà¹„à¸Ÿà¸Ÿà¹‰à¸²','à¹€à¸„à¸£à¸·à¹ˆà¸­à¸‡à¹ƒà¸Šà¹‰à¹„à¸Ÿà¸Ÿà¹‰à¸²','à¸­à¸¸à¸›à¸à¸£à¸“à¹Œà¸ªà¸³à¸™à¸±à¸à¸‡à¸²à¸™','à¸­à¸¸à¸›à¸à¸£à¸“à¹Œà¹„à¸­à¸—à¸µ','à¸­à¸¸à¸›à¸à¸£à¸“à¹Œà¸—à¸³à¸„à¸§à¸²à¸¡à¸ªà¸°à¸­à¸²à¸”','à¸­à¸¸à¸›à¸à¸£à¸“à¹Œà¹€à¸„à¸£à¸·à¹ˆà¸­à¸‡à¸à¸£à¸­à¸‡à¸™à¹‰à¸³','à¸‡à¸²à¸™à¸£à¸°à¸šà¸šà¸—à¹ˆà¸­à¹à¸¥à¸°à¸ªà¸¸à¸‚à¸²à¸ à¸´à¸šà¸²à¸¥','à¸™à¹‰à¸³à¸¡à¸±à¸™','à¸­à¸¸à¸›à¸à¸£à¸“à¹Œà¸¢à¸²à¸™à¸¢à¸™à¸•à¹Œ'];
 let customCategories = [];
 const CATEGORY_ADD_NEW = '__add_new__';
 
 // Add new departments here; the code is stored with each issue record.
 const DEFAULT_DEPARTMENTS = [
-  {code:'0',name:'ฟร้อน'},{code:'10',name:'สโตร์SC'},{code:'11',name:'บุคคล'},
-  {code:'13',name:'ไอศกรีม'},{code:'14',name:'รปภ'},{code:'16',name:'บัญชี'},
-  {code:'17',name:'ลำธาร'},{code:'19',name:'คนสวน'},{code:'20',name:'ซุ้มเกม'},
-  {code:'21',name:'เบเกอรี่ (แกรนด์มา ลำธาร บูธน้ำ)'},{code:'22',name:'ร้านอาหาร'},
-  {code:'23',name:'ขายของที่ระลึก (สโตร์+SPS3)'},{code:'24',name:'แม่บ้าน'},
-  {code:'25',name:'การตลาด'},{code:'33',name:'มอลทาเดล'},{code:'34',name:'ผู้บริหาร'},
-  {code:'84',name:'ซ่อมบำรุง'},{code:'85',name:'ก่อสร้าง'},{code:'86',name:'ศิลป์'},
-  {code:'91',name:'ดูแลสัตว์'},{code:'92',name:'โชว์'},{code:'94',name:'ส่วนกลาง'},{code:'123',name:'ไร่'},
-  {code:'H0',name:'บ้านพัก'},{code:'H12',name:'สวนผึ้งอิกลู'},{code:'H13',name:'หอพักพนักงาน'},
-  {code:'H17',name:'ชิชญา'},{code:'H18',name:'แคนทีน'},{code:'H19',name:'แพราชบุรี'}
+  {code:'0',name:'à¸Ÿà¸£à¹‰à¸­à¸™'},{code:'10',name:'à¸ªà¹‚à¸•à¸£à¹ŒSC'},{code:'11',name:'à¸šà¸¸à¸„à¸„à¸¥'},
+  {code:'13',name:'à¹„à¸­à¸¨à¸à¸£à¸µà¸¡'},{code:'14',name:'à¸£à¸›à¸ '},{code:'16',name:'à¸šà¸±à¸à¸Šà¸µ'},
+  {code:'17',name:'à¸¥à¸³à¸˜à¸²à¸£'},{code:'19',name:'à¸„à¸™à¸ªà¸§à¸™'},{code:'20',name:'à¸‹à¸¸à¹‰à¸¡à¹€à¸à¸¡'},
+  {code:'21',name:'à¹€à¸šà¹€à¸à¸­à¸£à¸µà¹ˆ (à¹à¸à¸£à¸™à¸”à¹Œà¸¡à¸² à¸¥à¸³à¸˜à¸²à¸£ à¸šà¸¹à¸˜à¸™à¹‰à¸³)'},{code:'22',name:'à¸£à¹‰à¸²à¸™à¸­à¸²à¸«à¸²à¸£'},
+  {code:'23',name:'à¸‚à¸²à¸¢à¸‚à¸­à¸‡à¸—à¸µà¹ˆà¸£à¸°à¸¥à¸¶à¸ (à¸ªà¹‚à¸•à¸£à¹Œ+SPS3)'},{code:'24',name:'à¹à¸¡à¹ˆà¸šà¹‰à¸²à¸™'},
+  {code:'25',name:'à¸à¸²à¸£à¸•à¸¥à¸²à¸”'},{code:'33',name:'à¸¡à¸­à¸¥à¸—à¸²à¹€à¸”à¸¥'},{code:'34',name:'à¸œà¸¹à¹‰à¸šà¸£à¸´à¸«à¸²à¸£'},
+  {code:'84',name:'à¸‹à¹ˆà¸­à¸¡à¸šà¸³à¸£à¸¸à¸‡'},{code:'85',name:'à¸à¹ˆà¸­à¸ªà¸£à¹‰à¸²à¸‡'},{code:'86',name:'à¸¨à¸´à¸¥à¸›à¹Œ'},
+  {code:'91',name:'à¸”à¸¹à¹à¸¥à¸ªà¸±à¸•à¸§à¹Œ'},{code:'92',name:'à¹‚à¸Šà¸§à¹Œ'},{code:'94',name:'à¸ªà¹ˆà¸§à¸™à¸à¸¥à¸²à¸‡'},{code:'123',name:'à¹„à¸£à¹ˆ'},
+  {code:'H0',name:'à¸šà¹‰à¸²à¸™à¸žà¸±à¸'},{code:'H12',name:'à¸ªà¸§à¸™à¸œà¸¶à¹‰à¸‡à¸­à¸´à¸à¸¥à¸¹'},{code:'H13',name:'à¸«à¸­à¸žà¸±à¸à¸žà¸™à¸±à¸à¸‡à¸²à¸™'},
+  {code:'H17',name:'à¸Šà¸´à¸Šà¸à¸²'},{code:'H18',name:'à¹à¸„à¸™à¸—à¸µà¸™'},{code:'H19',name:'à¹à¸žà¸£à¸²à¸Šà¸šà¸¸à¸£à¸µ'}
 ];
 let DEPARTMENTS = DEFAULT_DEPARTMENTS.map(x=>({...x}));
 let editingDepartmentCode = '';
@@ -1441,8 +1442,8 @@ function renderDepartmentManager(){
   const list=document.getElementById('departmentManagerList');
   const count=document.getElementById('departmentCount');
   if(!list) return;
-  if(count) count.textContent='('+DEPARTMENTS.length+' รายการ)';
-  list.innerHTML=DEPARTMENTS.length ? DEPARTMENTS.map(x=>'<div class="department-manager-item"><div class="department-manager-name"><span class="department-manager-code">'+esc(x.code)+'</span>'+esc(x.name)+'</div><div class="department-manager-actions"><button class="btn-outline btn-xs btn-edit-department" data-code="'+esc(x.code)+'">แก้ไข</button><button class="btn-danger btn-xs btn-delete-department" data-code="'+esc(x.code)+'">ลบ</button></div></div>').join('') : '<div class="empty-state">ยังไม่มีรายการแผนก</div>';
+  if(count) count.textContent='('+DEPARTMENTS.length+' à¸£à¸²à¸¢à¸à¸²à¸£)';
+  list.innerHTML=DEPARTMENTS.length ? DEPARTMENTS.map(x=>'<div class="department-manager-item"><div class="department-manager-name"><span class="department-manager-code">'+esc(x.code)+'</span>'+esc(x.name)+'</div><div class="department-manager-actions"><button class="btn-outline btn-xs btn-edit-department" data-code="'+esc(x.code)+'">à¹à¸à¹‰à¹„à¸‚</button><button class="btn-danger btn-xs btn-delete-department" data-code="'+esc(x.code)+'">à¸¥à¸š</button></div></div>').join('') : '<div class="empty-state">à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸</div>';
 }
 function resetDepartmentForm(){
   editingDepartmentCode='';
@@ -1452,7 +1453,7 @@ function resetDepartmentForm(){
   const cancel=document.getElementById('btnCancelDepartment');
   if(name) name.value='';
   if(code){ code.value=''; code.disabled=false; }
-  if(save) save.textContent='➕ เพิ่มแผนก';
+  if(save) save.textContent='âž• à¹€à¸žà¸´à¹ˆà¸¡à¹à¸œà¸™à¸';
   if(cancel) cancel.style.display='none';
 }
 function editDepartment(code){
@@ -1462,23 +1463,23 @@ function editDepartment(code){
   document.getElementById('departmentName').value=dept.name;
   document.getElementById('departmentCode').value=dept.code;
   document.getElementById('departmentCode').disabled=true;
-  document.getElementById('btnSaveDepartment').textContent='💾 บันทึกการแก้ไข';
+  document.getElementById('btnSaveDepartment').textContent='ðŸ’¾ à¸šà¸±à¸™à¸—à¸¶à¸à¸à¸²à¸£à¹à¸à¹‰à¹„à¸‚';
   document.getElementById('btnCancelDepartment').style.display='inline-flex';
   document.getElementById('departmentName').focus();
 }
 async function saveDepartment(){
-  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
+  if(!isAdmin()){ toast('à¸šà¸±à¸à¸Šà¸µà¸™à¸µà¹‰à¸”à¸¹à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸”à¹‰à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§','error'); return; }
   const name=document.getElementById('departmentName').value.trim();
   const codeInput=document.getElementById('departmentCode').value.trim();
-  if(!name){ toast('กรุณากรอกชื่อแผนก','error'); return; }
+  if(!name){ toast('à¸à¸£à¸¸à¸“à¸²à¸à¸£à¸­à¸à¸Šà¸·à¹ˆà¸­à¹à¸œà¸™à¸','error'); return; }
   const duplicateName=DEPARTMENTS.some(x=>x.name.toLowerCase()===name.toLowerCase()&&x.code!==editingDepartmentCode);
-  if(duplicateName){ toast('มีชื่อแผนกนี้อยู่แล้ว','warn'); return; }
+  if(duplicateName){ toast('à¸¡à¸µà¸Šà¸·à¹ˆà¸­à¹à¸œà¸™à¸à¸™à¸µà¹‰à¸­à¸¢à¸¹à¹ˆà¹à¸¥à¹‰à¸§','warn'); return; }
   if(editingDepartmentCode){
     const dept=DEPARTMENTS.find(x=>x.code===editingDepartmentCode);
     if(dept) dept.name=name;
   }else{
     const code=codeInput||nextDepartmentCode();
-    if(DEPARTMENTS.some(x=>x.code.toLowerCase()===code.toLowerCase())){ toast('รหัสแผนกนี้มีอยู่แล้ว','warn'); return; }
+    if(DEPARTMENTS.some(x=>x.code.toLowerCase()===code.toLowerCase())){ toast('à¸£à¸«à¸±à¸ªà¹à¸œà¸™à¸à¸™à¸µà¹‰à¸¡à¸µà¸­à¸¢à¸¹à¹ˆà¹à¸¥à¹‰à¸§','warn'); return; }
     DEPARTMENTS=[...DEPARTMENTS,{code,name}];
   }
   try{
@@ -1487,13 +1488,13 @@ async function saveDepartment(){
     populatePDFDepartmentSelect();
     renderDepartmentManager();
     resetDepartmentForm();
-    toast('บันทึกรายการแผนกแล้ว ✔','success');
-  }catch(err){ toast('บันทึกรายการแผนกไม่สำเร็จ: '+err.message,'error'); }
+    toast('à¸šà¸±à¸™à¸—à¸¶à¸à¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸à¹à¸¥à¹‰à¸§ âœ”','success');
+  }catch(err){ toast('à¸šà¸±à¸™à¸—à¸¶à¸à¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: '+err.message,'error'); }
 }
 async function deleteDepartment(code){
-  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
+  if(!isAdmin()){ toast('à¸šà¸±à¸à¸Šà¸µà¸™à¸µà¹‰à¸”à¸¹à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸”à¹‰à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§','error'); return; }
   const dept=DEPARTMENTS.find(x=>x.code===code);
-  if(!dept||!confirm('ลบแผนก “'+dept.code+' '+dept.name+'” ใช่หรือไม่?')) return;
+  if(!dept||!confirm('à¸¥à¸šà¹à¸œà¸™à¸ â€œ'+dept.code+' '+dept.name+'â€ à¹ƒà¸Šà¹ˆà¸«à¸£à¸·à¸­à¹„à¸¡à¹ˆ?')) return;
   DEPARTMENTS=DEPARTMENTS.filter(x=>x.code!==code);
   try{
     await persistDepartments();
@@ -1501,11 +1502,11 @@ async function deleteDepartment(code){
     populatePDFDepartmentSelect();
     renderDepartmentManager();
     if(editingDepartmentCode===code) resetDepartmentForm();
-    toast('ลบรายการแผนกแล้ว','success');
-  }catch(err){ toast('ลบรายการแผนกไม่สำเร็จ: '+err.message,'error'); }
+    toast('à¸¥à¸šà¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸à¹à¸¥à¹‰à¸§','success');
+  }catch(err){ toast('à¸¥à¸šà¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: '+err.message,'error'); }
 }
 async function ensureDepartmentValue(value){
-  if(!isAdmin()) throw new Error('บัญชีนี้ไม่มีสิทธิ์เพิ่มแผนก');
+  if(!isAdmin()) throw new Error('à¸šà¸±à¸à¸Šà¸µà¸™à¸µà¹‰à¹„à¸¡à¹ˆà¸¡à¸µà¸ªà¸´à¸—à¸˜à¸´à¹Œà¹€à¸žà¸´à¹ˆà¸¡à¹à¸œà¸™à¸');
   const text=String(value||'').trim();
   if(!text) return '';
   const found=findDepartment(text);
@@ -1517,7 +1518,7 @@ async function ensureDepartmentValue(value){
     populateDepartments();
     populatePDFDepartmentSelect();
     renderDepartmentManager();
-    toast('เพิ่มแผนก “'+text+'” แล้ว','success');
+    toast('à¹€à¸žà¸´à¹ˆà¸¡à¹à¸œà¸™à¸ â€œ'+text+'â€ à¹à¸¥à¹‰à¸§','success');
     return dept.code;
   }catch(err){
     DEPARTMENTS=DEPARTMENTS.filter(x=>x.code!==dept.code);
@@ -1529,18 +1530,18 @@ function departmentLabel(code){
   return dept ? `${dept.code} ${dept.name}` : code||'';
 }
 function departmentText(record){
-  return record&& (record.department_name||departmentLabel(record.department)) || 'ไม่ระบุแผนก';
+  return record&& (record.department_name||departmentLabel(record.department)) || 'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¹à¸œà¸™à¸';
 }
 function populateDepartmentsLegacy(){
   const options=DEPARTMENTS.map(x=>`<option value="${esc(x.code)}">${esc(x.code+' '+x.name)}</option>`).join('');
   const useSelect=document.getElementById('use_department');
-  if(useSelect) useSelect.innerHTML='<option value="">-- เลือกแผนกที่นำไปใช้ --</option>'+options;
+  if(useSelect) useSelect.innerHTML='<option value="">-- à¹€à¸¥à¸·à¸­à¸à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰ --</option>'+options;
   const defaults=[
-    ['issue_department','-- เลือกแผนกที่เบิก --'],
-    ['default_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
-    ['default_usage_department','-- ไม่กำหนดแผนกที่นำไปใช้ --'],
-    ['edit_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
-    ['edit_usage_department','-- ไม่กำหนดแผนกที่นำไปใช้ --']
+    ['issue_department','-- à¹€à¸¥à¸·à¸­à¸à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸ --'],
+    ['default_issue_department','-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸ --'],
+    ['default_usage_department','-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰ --'],
+    ['edit_issue_department','-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸ --'],
+    ['edit_usage_department','-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰ --']
   ];
   defaults.forEach(([id,placeholder])=>{
     const select=document.getElementById(id);
@@ -1553,10 +1554,10 @@ function populateDepartments(){
   if(datalist) datalist.innerHTML=options;
   const selectOptions=DEPARTMENTS.map(x=>'<option value="'+esc(x.code)+'">'+esc(x.code+' '+x.name)+'</option>').join('');
   const defaults=[
-    ['default_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
-    ['default_usage_department','-- ไม่กำหนดแผนกที่นำไปใช้ --'],
-    ['edit_issue_department','-- ไม่กำหนดแผนกที่เบิก --'],
-    ['edit_usage_department','-- ไม่กำหนดแผนกที่นำไปใช้ --']
+    ['default_issue_department','-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸ --'],
+    ['default_usage_department','-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰ --'],
+    ['edit_issue_department','-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸ --'],
+    ['edit_usage_department','-- à¹„à¸¡à¹ˆà¸à¸³à¸«à¸™à¸”à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰ --']
   ];
   defaults.forEach(([id,placeholder])=>{
     const select=document.getElementById(id);
@@ -1567,9 +1568,9 @@ function populateDepartments(){
 function populatePDFDepartmentSelect(){
   const select=document.getElementById('pdfDepartmentSelect');
   if(!select) return;
-  select.innerHTML='<option value="">-- เลือกแผนกสำหรับ PDF --</option><option value="__all__">ทุกแผนก</option>'+
+  select.innerHTML='<option value="">-- à¹€à¸¥à¸·à¸­à¸à¹à¸œà¸™à¸à¸ªà¸³à¸«à¸£à¸±à¸š PDF --</option><option value="__all__">à¸—à¸¸à¸à¹à¸œà¸™à¸</option>'+
     DEPARTMENTS.map(x=>`<option value="${esc(x.code)}">${esc(x.code+' '+x.name)}</option>`).join('')+
-    '<option value="__unassigned__">ไม่ระบุแผนก</option>';
+    '<option value="__unassigned__">à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¹à¸œà¸™à¸</option>';
 }
 function matchesDepartment(record, code){
   if(code==='__all__') return true;
@@ -1583,7 +1584,7 @@ let issueImgFiles = [];    // pending files for issue form
 let editImgFiles = [];     // pending new files for edit popup
 let editImgUrls = [];      // existing urls for edit popup (to keep/remove)
 
-/* ════════════════ UTILS ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• UTILS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function todayStr(){ return new Date().toISOString().slice(0,10); }
 function thisMonthStr(){ return new Date().toISOString().slice(0,7); }
 
@@ -1601,8 +1602,8 @@ function normalizeDate(val){
   return null;
 }
 
-const MONTHS_TH=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-const MONTHS_FULL_TH=['','มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+const MONTHS_TH=['à¸¡.à¸„.','à¸.à¸ž.','à¸¡à¸µ.à¸„.','à¹€à¸¡.à¸¢.','à¸ž.à¸„.','à¸¡à¸´.à¸¢.','à¸.à¸„.','à¸ª.à¸„.','à¸.à¸¢.','à¸•.à¸„.','à¸ž.à¸¢.','à¸˜.à¸„.'];
+const MONTHS_FULL_TH=['','à¸¡à¸à¸£à¸²à¸„à¸¡','à¸à¸¸à¸¡à¸ à¸²à¸žà¸±à¸™à¸˜à¹Œ','à¸¡à¸µà¸™à¸²à¸„à¸¡','à¹€à¸¡à¸©à¸²à¸¢à¸™','à¸žà¸¤à¸©à¸ à¸²à¸„à¸¡','à¸¡à¸´à¸–à¸¸à¸™à¸²à¸¢à¸™','à¸à¸£à¸à¸Žà¸²à¸„à¸¡','à¸ªà¸´à¸‡à¸«à¸²à¸„à¸¡','à¸à¸±à¸™à¸¢à¸²à¸¢à¸™','à¸•à¸¸à¸¥à¸²à¸„à¸¡','à¸žà¸¤à¸¨à¸ˆà¸´à¸à¸²à¸¢à¸™','à¸˜à¸±à¸™à¸§à¸²à¸„à¸¡'];
 
 function thaiDate(ds){
   if(!ds) return '-';
@@ -1622,13 +1623,13 @@ function thaiDateTime(val){
   if(isNaN(d.getTime())) return String(val);
   const h=String(d.getHours()).padStart(2,'0');
   const m=String(d.getMinutes()).padStart(2,'0');
-  return d.getDate()+' '+MONTHS_TH[d.getMonth()]+' '+(d.getFullYear()+543)+' '+h+':'+m+' น.';
+  return d.getDate()+' '+MONTHS_TH[d.getMonth()]+' '+(d.getFullYear()+543)+' '+h+':'+m+' à¸™.';
 }
 
 function fmt(n){ return Number(n||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function fmtInt(n){ return Number(n||0).toLocaleString('th-TH'); }
 
-/* ════════════════ LIGHTBOX ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• LIGHTBOX â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function openLightbox(url){
   const lb=document.getElementById('lightboxOverlay');
   document.getElementById('lightboxImg').src=url;
@@ -1641,15 +1642,15 @@ function closeLightbox(){
 }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
 
-/* ════════════════ IMAGE UPLOAD ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• IMAGE UPLOAD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 async function fileToCompressedDataUrl(file, maxSize=1200, quality=0.78){
-  if(!file || !file.type || !file.type.startsWith('image/')) throw new Error('กรุณาเลือกไฟล์รูปภาพเท่านั้น');
+  if(!file || !file.type || !file.type.startsWith('image/')) throw new Error('à¸à¸£à¸¸à¸“à¸²à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œà¸£à¸¹à¸›à¸ à¸²à¸žà¹€à¸—à¹ˆà¸²à¸™à¸±à¹‰à¸™');
   return new Promise((resolve,reject)=>{
     const reader=new FileReader();
-    reader.onerror=()=>reject(new Error('อ่านไฟล์รูปไม่ได้'));
+    reader.onerror=()=>reject(new Error('à¸­à¹ˆà¸²à¸™à¹„à¸Ÿà¸¥à¹Œà¸£à¸¹à¸›à¹„à¸¡à¹ˆà¹„à¸”à¹‰'));
     reader.onload=()=>{
       const img=new Image();
-      img.onerror=()=>reject(new Error('เปิดรูปไม่ได้'));
+      img.onerror=()=>reject(new Error('à¹€à¸›à¸´à¸”à¸£à¸¹à¸›à¹„à¸¡à¹ˆà¹„à¸”à¹‰'));
       img.onload=()=>{
         const scale=Math.min(1, maxSize/Math.max(img.width,img.height));
         const w=Math.max(1, Math.round(img.width*scale));
@@ -1703,7 +1704,7 @@ function renderImgPreviews(containerId, files, fileArrayRef, fileInputId){
     const url=URL.createObjectURL(f);
     const div=document.createElement('div'); div.className='img-preview-item';
     div.innerHTML=`<img src="${url}" onclick="openLightbox('${url}')">
-      <button class="rm-img" title="ลบ">✕</button>`;
+      <button class="rm-img" title="à¸¥à¸š">âœ•</button>`;
     div.querySelector('.rm-img').onclick=()=>{
       fileArrayRef.splice(i,1);
       renderImgPreviews(containerId, fileArrayRef, fileArrayRef, fileInputId);
@@ -1757,39 +1758,39 @@ function renderExistingImgs(urls, onRemove){
     const div=document.createElement('div'); div.className='img-preview-item';
     const safeUrl=url.replace(/'/g,'%27');
     div.innerHTML=`<img src="${url}" onclick="openLightbox('${safeUrl}')">
-      <button class="rm-img" title="ลบ">✕</button>`;
+      <button class="rm-img" title="à¸¥à¸š">âœ•</button>`;
     div.querySelector('.rm-img').onclick=()=>{ onRemove(i); };
     wrap.appendChild(div);
   });
 }
 
-/* ════════════════ RENDER THUMB (inline) ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• RENDER THUMB (inline) â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderThumb(urls){
   if(!urls||!urls.length) return '<span class="text-muted">-</span>';
   return urls.map(u=>{
     const safe=u.replace(/'/g,'%27');
-    return `<img class="img-thumb" src="${u}" onclick="openLightbox('${safe}')" title="คลิกเพื่อขยาย">`;
+    return `<img class="img-thumb" src="${u}" onclick="openLightbox('${safe}')" title="à¸„à¸¥à¸´à¸à¹€à¸žà¸·à¹ˆà¸­à¸‚à¸¢à¸²à¸¢">`;
   }).join(' ');
 }
 
-/* ════════════════ TOAST ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• TOAST â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function toast(msg, type='', dur=3200){
-  if(type==='success'&&(!navigator.onLine||pendingWriteCounts.items+pendingWriteCounts.history>0)) msg+=' · รอซิงค์';
+  if(type==='success'&&(!navigator.onLine||pendingWriteCounts.items+pendingWriteCounts.history>0)) msg+=' Â· à¸£à¸­à¸‹à¸´à¸‡à¸„à¹Œ';
   const c=document.getElementById('toast-container');
   const t=document.createElement('div');
   t.className='toast'+(type?' '+type:'');
-  t.innerHTML=`<span style="flex:1">${msg}</span><span class="t-close" onclick="this.parentNode.remove()">✕</span>`;
+  t.innerHTML=`<span style="flex:1">${msg}</span><span class="t-close" onclick="this.parentNode.remove()">âœ•</span>`;
   c.appendChild(t);
   setTimeout(()=>{ t.style.transition='opacity .3s'; t.style.opacity='0'; setTimeout(()=>t.remove(),320); }, dur);
 }
 
-/* ════════════════ CONFIRM ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CONFIRM â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function showConfirm(title, msg, okLabel, okClass, onOk){
   const ov=document.getElementById('confirmOverlay');
   document.getElementById('confirmTitle').textContent=title;
   document.getElementById('confirmMsg').textContent=msg;
   const yes=document.getElementById('confirmYes');
-  yes.textContent=okLabel||'ยืนยัน';
+  yes.textContent=okLabel||'à¸¢à¸·à¸™à¸¢à¸±à¸™';
   yes.className='btn-sm '+(okClass||'btn-danger');
   ov.style.display='flex';
   const clone=yes.cloneNode(true);
@@ -1799,7 +1800,7 @@ function showConfirm(title, msg, okLabel, okClass, onOk){
   ov.onclick=(e)=>{ if(e.target===ov) ov.style.display='none'; };
 }
 
-/* ════════════════ NAV ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• NAV â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function setupNav(){
   document.querySelectorAll('.nav-btn[data-view]').forEach(btn=>{
     btn.addEventListener('click',()=>{
@@ -1818,19 +1819,19 @@ function setupNav(){
   });
 }
 
-/* ════════════════ DASHBOARD ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• DASHBOARD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderDashboard(){
   const today=todayStr(), thisM=thisMonthStr();
-  document.getElementById('st_items').textContent=fmtInt(items.length)+' รายการ';
-  document.getElementById('st_qty').textContent=fmtInt(items.reduce((s,x)=>s+(+x.qty||0),0))+' ชิ้น';
+  document.getElementById('st_items').textContent=fmtInt(items.length)+' à¸£à¸²à¸¢à¸à¸²à¸£';
+  document.getElementById('st_qty').textContent=fmtInt(items.reduce((s,x)=>s+(+x.qty||0),0))+' à¸Šà¸´à¹‰à¸™';
   document.getElementById('st_val').textContent=fmt(items.reduce((s,x)=>s+(+x.qty||0)*(+x.price||0),0));
   const out=items.filter(x=>(+x.qty||0)<=0);
   const low=items.filter(x=>+x.threshold>0&&(+x.qty||0)>0&&(+x.qty||0)<=+x.threshold);
-  document.getElementById('st_low').textContent=fmtInt(low.length)+' รายการ';
+  document.getElementById('st_low').textContent=fmtInt(low.length)+' à¸£à¸²à¸¢à¸à¸²à¸£';
   const under=items.filter(x=>(+x.target_qty||0)>0&&(+x.qty||0)<(+x.target_qty||0));
-  document.getElementById('st_under').textContent=fmtInt(under.length)+' รายการ';
-  document.getElementById('st_issue').textContent=fmtInt(historyData.filter(x=>normalizeDate(x.date)?.slice(0,7)===thisM).length)+' ครั้ง';
-  document.getElementById('st_today').textContent=fmtInt(historyData.filter(x=>normalizeDate(x.date)===today).length)+' ครั้ง';
+  document.getElementById('st_under').textContent=fmtInt(under.length)+' à¸£à¸²à¸¢à¸à¸²à¸£';
+  document.getElementById('st_issue').textContent=fmtInt(historyData.filter(x=>normalizeDate(x.date)?.slice(0,7)===thisM).length)+' à¸„à¸£à¸±à¹‰à¸‡';
+  document.getElementById('st_today').textContent=fmtInt(historyData.filter(x=>normalizeDate(x.date)===today).length)+' à¸„à¸£à¸±à¹‰à¸‡';
   // low badge
   const lb=document.getElementById('lowBadge');
   lb.textContent=low.length+out.length;
@@ -1838,19 +1839,19 @@ function renderDashboard(){
   // banner
   const banner=document.getElementById('lowBanner');
   const bannerParts=[];
-  const details=(rows, formatter)=>rows.slice(0,6).map(formatter).join('\n')+(rows.length>6?'\n… และอีก '+(rows.length-6)+' รายการ':'');
-  if(out.length) bannerParts.push('หมดสต็อก '+out.length+' รายการ\n'+details(out,x=>'• '+x.name+': เหลือ 0 ชิ้น'));
-  if(low.length) bannerParts.push('ใกล้หมด '+low.length+' รายการ\n'+details(low,x=>'• '+x.name+': เหลือ '+fmtInt(+x.qty||0)+' ชิ้น / เกณฑ์แจ้งเตือน ≤ '+fmtInt(+x.threshold||0)+' ชิ้น'));
-  if(under.length) bannerParts.push('ต่ำกว่ายอดที่ต้องมี '+under.length+' รายการ\n'+details(under,x=>'• '+x.name+': ขาด '+fmtInt(Math.max(0,(+x.target_qty||0)-(+x.qty||0)))+' ชิ้น (ควรมี '+fmtInt(+x.target_qty||0)+' ชิ้น)'));
+  const details=(rows, formatter)=>rows.slice(0,6).map(formatter).join('\n')+(rows.length>6?'\nâ€¦ à¹à¸¥à¸°à¸­à¸µà¸ '+(rows.length-6)+' à¸£à¸²à¸¢à¸à¸²à¸£':'');
+  if(out.length) bannerParts.push('à¸«à¸¡à¸”à¸ªà¸•à¹‡à¸­à¸ '+out.length+' à¸£à¸²à¸¢à¸à¸²à¸£\n'+details(out,x=>'â€¢ '+x.name+': à¹€à¸«à¸¥à¸·à¸­ 0 à¸Šà¸´à¹‰à¸™'));
+  if(low.length) bannerParts.push('à¹ƒà¸à¸¥à¹‰à¸«à¸¡à¸” '+low.length+' à¸£à¸²à¸¢à¸à¸²à¸£\n'+details(low,x=>'â€¢ '+x.name+': à¹€à¸«à¸¥à¸·à¸­ '+fmtInt(+x.qty||0)+' à¸Šà¸´à¹‰à¸™ / à¹€à¸à¸“à¸‘à¹Œà¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™ â‰¤ '+fmtInt(+x.threshold||0)+' à¸Šà¸´à¹‰à¸™'));
+  if(under.length) bannerParts.push('à¸•à¹ˆà¸³à¸à¸§à¹ˆà¸²à¸¢à¸­à¸”à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ '+under.length+' à¸£à¸²à¸¢à¸à¸²à¸£\n'+details(under,x=>'â€¢ '+x.name+': à¸‚à¸²à¸” '+fmtInt(Math.max(0,(+x.target_qty||0)-(+x.qty||0)))+' à¸Šà¸´à¹‰à¸™ (à¸„à¸§à¸£à¸¡à¸µ '+fmtInt(+x.target_qty||0)+' à¸Šà¸´à¹‰à¸™)'));
   const alertCount=new Set([...out,...low,...under].map(x=>x.id||x.name)).size;
   if(bannerParts.length){
     banner.style.display='flex';
-    document.getElementById('lowBannerTitle').textContent='แจ้งเตือนสต็อก — ต้องตรวจสอบ '+alertCount+' รายการ';
+    document.getElementById('lowBannerTitle').textContent='à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™à¸ªà¸•à¹‡à¸­à¸ â€” à¸•à¹‰à¸­à¸‡à¸•à¸£à¸§à¸ˆà¸ªà¸­à¸š '+alertCount+' à¸£à¸²à¸¢à¸à¸²à¸£';
     document.getElementById('lowBannerText').textContent=bannerParts.join('\n\n');
   } else { banner.style.display='none'; }
 }
 
-/* ════════════════ CHART ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CHART â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderChart(){
   const ctx=document.getElementById('chartMonthly').getContext('2d');
   const months=[], labels=[];
@@ -1866,7 +1867,7 @@ function renderChart(){
   monthChart=new Chart(ctx,{
     type:'bar',
     data:{labels,datasets:[{
-      label:'จำนวนชิ้นที่เบิก',
+      label:'à¸ˆà¸³à¸™à¸§à¸™à¸Šà¸´à¹‰à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸',
       data:counts,
       backgroundColor:'rgba(36,90,146,0.75)',
       borderColor:'#9a7658',
@@ -1876,13 +1877,13 @@ function renderChart(){
     }]},
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`เบิก ${fmtInt(ctx.parsed.y)} ชิ้น`}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`à¹€à¸šà¸´à¸ ${fmtInt(ctx.parsed.y)} à¸Šà¸´à¹‰à¸™`}}},
       scales:{y:{beginAtZero:true,ticks:{font:{size:11}},grid:{color:'#e5e7eb'}},x:{ticks:{font:{size:11}},grid:{display:false}}}
     }
   });
 }
 
-/* ════════════════ STOCK ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STOCK â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function getFilteredStockItems(){
   const kw=(document.getElementById('search').value||'').toLowerCase().trim();
   const fs=document.getElementById('filterStatus').value;
@@ -1898,8 +1899,8 @@ function getFilteredStockItems(){
     if(fs==='ok') return qty>0 && !(thr>0&&qty<=thr) && !(target>0&&qty<target);
     return true;
   }).sort((a,b)=>{
-    const ca=(String(a.category||'').trim()||'ไม่ระบุหมวดหมู่');
-    const cb=(String(b.category||'').trim()||'ไม่ระบุหมวดหมู่');
+    const ca=(String(a.category||'').trim()||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ');
+    const cb=(String(b.category||'').trim()||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ');
     return ca.localeCompare(cb,'th') || String(a.name||'').localeCompare(String(b.name||''),'th');
   });
 }
@@ -1908,7 +1909,7 @@ function renderStock(){
   const filtered=getFilteredStockItems();
   const categoryCounts={};
   filtered.forEach(item=>{
-    const category=(String(item.category||'').trim()||'ไม่ระบุหมวดหมู่');
+    const category=(String(item.category||'').trim()||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ');
     categoryCounts[category]=(categoryCounts[category]||0)+1;
   });
   tb.innerHTML='';
@@ -1916,11 +1917,11 @@ function renderStock(){
   let lastCategory='';
   let rowNo=0;
   filtered.forEach(x=>{
-    const category=(String(x.category||'').trim()||'ไม่ระบุหมวดหมู่');
+    const category=(String(x.category||'').trim()||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ');
     if(category!==lastCategory){
       const groupRow=document.createElement('tr');
       groupRow.className='stock-group-row';
-      groupRow.innerHTML=`<td colspan="13">หมวดหมู่: ${esc(category)} <span class="text-muted" style="font-weight:500;">(${categoryCounts[category]} รายการ)</span></td>`;
+      groupRow.innerHTML=`<td colspan="13">à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ: ${esc(category)} <span class="text-muted" style="font-weight:500;">(${categoryCounts[category]} à¸£à¸²à¸¢à¸à¸²à¸£)</span></td>`;
       tb.appendChild(groupRow);
       lastCategory=category;
     }
@@ -1933,21 +1934,21 @@ function renderStock(){
     if(isOut) tr.style.background='#fef2f2';
     else if(isLow) tr.style.background='#fffbeb';
     let qtyBadge=`<strong>${fmtInt(qty)}</strong>`;
-    if(isOut) qtyBadge=`<span class="tag tag-danger">หมดสต็อก (0)</span>`;
-    else if(isLow) qtyBadge=`<span class="tag tag-warn">เหลือ ${fmtInt(qty)}</span>`;
+    if(isOut) qtyBadge=`<span class="tag tag-danger">à¸«à¸¡à¸”à¸ªà¸•à¹‡à¸­à¸ (0)</span>`;
+    else if(isLow) qtyBadge=`<span class="tag tag-warn">à¹€à¸«à¸¥à¸·à¸­ ${fmtInt(qty)}</span>`;
 
     let targetCell='<span class="text-muted">-</span>';
     let statusParts=[];
-    if(isOut) statusParts.push('<span class="tag tag-danger">หมดสต็อก</span>');
-    else if(isLow) statusParts.push(`<span class="tag tag-warn">ใกล้หมด · แจ้งเตือน ≤ ${fmtInt(thr)}</span>`);
+    if(isOut) statusParts.push('<span class="tag tag-danger">à¸«à¸¡à¸”à¸ªà¸•à¹‡à¸­à¸</span>');
+    else if(isLow) statusParts.push(`<span class="tag tag-warn">à¹ƒà¸à¸¥à¹‰à¸«à¸¡à¸” Â· à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™ â‰¤ ${fmtInt(thr)}</span>`);
     if(target>0){
       targetCell=fmtInt(target);
-      if(diff<0) statusParts.push(`<span class="tag tag-danger">ขาด ${fmtInt(Math.abs(diff))} ถึงยอด ${fmtInt(target)}</span>`);
-      else if(diff===0) statusParts.push('<span class="tag tag-warn">พอดียอดที่ต้องมี</span>');
+      if(diff<0) statusParts.push(`<span class="tag tag-danger">à¸‚à¸²à¸” ${fmtInt(Math.abs(diff))} à¸–à¸¶à¸‡à¸¢à¸­à¸” ${fmtInt(target)}</span>`);
+      else if(diff===0) statusParts.push('<span class="tag tag-warn">à¸žà¸­à¸”à¸µà¸¢à¸­à¸”à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ</span>');
     }
-    const statusCell=statusParts.length?statusParts.join('<br>'):'<span class="tag tag-ok">ปกติ</span>';
+    const statusCell=statusParts.length?statusParts.join('<br>'):'<span class="tag tag-ok">à¸›à¸à¸•à¸´</span>';
 
-    const shopBrand=[x.shop?`ร้าน: ${x.shop}`:'',x.brand?`ยี่ห้อ/รุ่น: ${x.brand}`:''].filter(Boolean).join(' | ');
+    const shopBrand=[x.shop?`à¸£à¹‰à¸²à¸™: ${x.shop}`:'',x.brand?`à¸¢à¸µà¹ˆà¸«à¹‰à¸­/à¸£à¸¸à¹ˆà¸™: ${x.brand}`:''].filter(Boolean).join(' | ');
     tr.innerHTML=`
       <td class="text-muted">${rowNo}</td>
       <td><strong${shopBrand?` title="${esc(shopBrand)}"`:''}>${esc(x.name)}</strong></td>
@@ -1962,48 +1963,48 @@ function renderStock(){
       <td class="text-muted" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(x.note||'-')}</td>
       <td>${renderThumb(x.images)}</td>
       <td class="text-center stock-actions-cell">
-        <button class="btn-primary btn-xs btn-edit-row" data-idx="${realIdx}">แก้ไข</button>
-        <button class="btn-ghost btn-xs btn-del-row" data-idx="${realIdx}" style="color:var(--danger);border-color:var(--danger);">ลบ</button>
+        <button class="btn-primary btn-xs btn-edit-row" data-idx="${realIdx}">à¹à¸à¹‰à¹„à¸‚</button>
+        <button class="btn-ghost btn-xs btn-del-row" data-idx="${realIdx}" style="color:var(--danger);border-color:var(--danger);">à¸¥à¸š</button>
       </td>`;
     tb.appendChild(tr);
   });
 }
 
-/* ════════════════ HISTORY ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• HISTORY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function printStockReport(){
   const filtered=getFilteredStockItems();
-  if(!filtered.length){ toast('ไม่พบรายการสต็อกตามเงื่อนไขที่เลือก','warn'); return; }
+  if(!filtered.length){ toast('à¹„à¸¡à¹ˆà¸žà¸šà¸£à¸²à¸¢à¸à¸²à¸£à¸ªà¸•à¹‡à¸­à¸à¸•à¸²à¸¡à¹€à¸‡à¸·à¹ˆà¸­à¸™à¹„à¸‚à¸—à¸µà¹ˆà¹€à¸¥à¸·à¸­à¸','warn'); return; }
   const statusEl=document.getElementById('filterStatus');
   const categoryEl=document.getElementById('filterCategory');
   const search=(document.getElementById('search').value||'').trim();
-  const filterLabel=statusEl.options[statusEl.selectedIndex]?.textContent||'ทั้งหมด';
-  const categoryLabel=categoryEl.options[categoryEl.selectedIndex]?.textContent||'ทุกหมวดหมู่';
+  const filterLabel=statusEl.options[statusEl.selectedIndex]?.textContent||'à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”';
+  const categoryLabel=categoryEl.options[categoryEl.selectedIndex]?.textContent||'à¸—à¸¸à¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ';
   const categoryCounts={};
   filtered.forEach(x=>{
-    const category=(String(x.category||'').trim()||'ไม่ระบุหมวดหมู่');
+    const category=(String(x.category||'').trim()||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ');
     categoryCounts[category]=(categoryCounts[category]||0)+1;
   });
   let lastCategory='', rowNo=0;
   const rowsHtml=filtered.map(x=>{
-    const category=(String(x.category||'').trim()||'ไม่ระบุหมวดหมู่');
+    const category=(String(x.category||'').trim()||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ');
     const qty=+x.qty||0, threshold=+x.threshold||0, target=+x.target_qty||0;
     const isOut=qty<=0, isLow=threshold>0&&qty>0&&qty<=threshold;
-    const status=isOut?'หมดสต็อก':isLow?'ใกล้หมด':target>0&&qty<target?'ต่ำกว่ายอดที่ต้องมี':'ปกติ';
-    const statusClass=isOut?'danger':isLow?'warn':status==='ปกติ'?'ok':'danger';
+    const status=isOut?'à¸«à¸¡à¸”à¸ªà¸•à¹‡à¸­à¸':isLow?'à¹ƒà¸à¸¥à¹‰à¸«à¸¡à¸”':target>0&&qty<target?'à¸•à¹ˆà¸³à¸à¸§à¹ˆà¸²à¸¢à¸­à¸”à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ':'à¸›à¸à¸•à¸´';
+    const statusClass=isOut?'danger':isLow?'warn':status==='à¸›à¸à¸•à¸´'?'ok':'danger';
     let group='';
     if(category!==lastCategory){
-      group=`<tr class="group"><td colspan="8">หมวดหมู่: ${esc(category)} (${categoryCounts[category]} รายการ)</td></tr>`;
+      group=`<tr class="group"><td colspan="8">à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ: ${esc(category)} (${categoryCounts[category]} à¸£à¸²à¸¢à¸à¸²à¸£)</td></tr>`;
       lastCategory=category;
     }
     rowNo++;
     return group+`<tr><td>${rowNo}</td><td><b>${esc(x.name)}</b></td><td>${esc(category)}</td><td class="num">${fmtInt(qty)}</td><td class="num">${target>0?fmtInt(target):'-'}</td><td><span class="status ${statusClass}">${status}</span></td><td class="num">${threshold>0?fmtInt(threshold):'-'}</td><td>${esc(x.note||'-')}</td></tr>`;
   }).join('');
   const printWindow=window.open('','_blank','width=1100,height=800');
-  if(!printWindow){ toast('เบราว์เซอร์บล็อกหน้าต่างพิมพ์ กรุณาอนุญาต Popup แล้วลองใหม่','error'); return; }
+  if(!printWindow){ toast('à¹€à¸šà¸£à¸²à¸§à¹Œà¹€à¸‹à¸­à¸£à¹Œà¸šà¸¥à¹‡à¸­à¸à¸«à¸™à¹‰à¸²à¸•à¹ˆà¸²à¸‡à¸žà¸´à¸¡à¸žà¹Œ à¸à¸£à¸¸à¸“à¸²à¸­à¸™à¸¸à¸à¸²à¸• Popup à¹à¸¥à¹‰à¸§à¸¥à¸­à¸‡à¹ƒà¸«à¸¡à¹ˆ','error'); return; }
   printWindow.document.open();
-  printWindow.document.write(`<!doctype html><html lang="th"><head><meta charset="UTF-8"><title>รายงานสต็อกคงเหลือ</title><style>
+  printWindow.document.write(`<!doctype html><html lang="th"><head><meta charset="UTF-8"><title>à¸£à¸²à¸¢à¸‡à¸²à¸™à¸ªà¸•à¹‡à¸­à¸à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­</title><style>
     @page{size:A4 landscape;margin:12mm;}*{box-sizing:border-box;}body{font-family:Tahoma,Arial,sans-serif;color:#111827;margin:0;font-size:11px;}h1{text-align:center;margin:0 0 12px;color:#245a92;font-size:20px;}.meta{display:flex;gap:18px;flex-wrap:wrap;border:1px solid #cbd5e1;padding:8px;margin-bottom:12px;}.meta b{color:#374151;}table{width:100%;border-collapse:collapse;}th{background:#e5edf6;border:1px solid #cbd5e1;padding:7px;text-align:left;}td{border:1px solid #dbe3ec;padding:6px;vertical-align:top;}.num{text-align:right;white-space:nowrap;}.group td{background:#dceaf8;color:#245a92;font-weight:700;border-top:2px solid #9db9d5;}.status{display:inline-block;padding:3px 6px;border-radius:4px;font-weight:700;}.status.danger{background:#fee2e2;color:#991b1b;}.status.warn{background:#ffedd5;color:#9a3412;}.status.ok{background:#dcfce7;color:#166534;}.foot{text-align:right;margin-top:10px;color:#6b7280;}
-  </style></head><body><h1>รายงานสต็อกคงเหลือ</h1><div class="meta"><span><b>สาขา:</b> ${esc(STORE_ID)}</span><span><b>ตัวกรองสถานะ:</b> ${esc(filterLabel)}</span><span><b>หมวดหมู่:</b> ${esc(categoryLabel)}</span>${search?`<span><b>ค้นหา:</b> ${esc(search)}</span>`:''}<span><b>วันที่พิมพ์:</b> ${esc(thaiDate(todayStr()))}</span></div><table><thead><tr><th>#</th><th>ชื่ออุปกรณ์</th><th>หมวดหมู่</th><th class="num">คงเหลือ</th><th class="num">ยอดที่ต้องมี</th><th>สถานะ</th><th class="num">เกณฑ์แจ้งเตือน</th><th>หมายเหตุ</th></tr></thead><tbody>${rowsHtml}</tbody></table><div class="foot">รวม ${filtered.length} รายการ · เอกสารจากระบบ Store-10</div></body></html>`);
+  </style></head><body><h1>à¸£à¸²à¸¢à¸‡à¸²à¸™à¸ªà¸•à¹‡à¸­à¸à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­</h1><div class="meta"><span><b>à¸ªà¸²à¸‚à¸²:</b> ${esc(STORE_ID)}</span><span><b>à¸•à¸±à¸§à¸à¸£à¸­à¸‡à¸ªà¸–à¸²à¸™à¸°:</b> ${esc(filterLabel)}</span><span><b>à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ:</b> ${esc(categoryLabel)}</span>${search?`<span><b>à¸„à¹‰à¸™à¸«à¸²:</b> ${esc(search)}</span>`:''}<span><b>à¸§à¸±à¸™à¸—à¸µà¹ˆà¸žà¸´à¸¡à¸žà¹Œ:</b> ${esc(thaiDate(todayStr()))}</span></div><table><thead><tr><th>#</th><th>à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ</th><th>à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ</th><th class="num">à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­</th><th class="num">à¸¢à¸­à¸”à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ</th><th>à¸ªà¸–à¸²à¸™à¸°</th><th class="num">à¹€à¸à¸“à¸‘à¹Œà¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™</th><th>à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸</th></tr></thead><tbody>${rowsHtml}</tbody></table><div class="foot">à¸£à¸§à¸¡ ${filtered.length} à¸£à¸²à¸¢à¸à¸²à¸£ Â· à¹€à¸­à¸à¸ªà¸²à¸£à¸ˆà¸²à¸à¸£à¸°à¸šà¸š Store-10</div></body></html>`);
   printWindow.document.close();
   printWindow.focus();
   const printNow=()=>{ printWindow.print(); setTimeout(()=>printWindow.close(),1000); };
@@ -2047,21 +2048,21 @@ function applyHistoryFilter(){
       <div class="hist-info">
         <div class="hist-name">${esc(x.name)}</div>
         <div class="hist-meta">
-          แผนกที่เบิก: <b>${esc(x.issue_department_name||departmentLabel(x.issue_department)||'ไม่ระบุ')}</b> · แผนกที่จ่าย: <b>${esc(x.department_name||departmentLabel(x.department)||'ไม่ระบุ')}</b> · ผู้เบิก: <b>${esc(x.by)}</b> · วันที่เบิก: ${thaiDate(nd)}
-          ${x.note?`<br>หมายเหตุ: ${esc(x.note)}`:''}
-          <br>บันทึกเมื่อ: ${ts}
+          à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸: <b>${esc(x.issue_department_name||departmentLabel(x.issue_department)||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸')}</b> Â· à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸ˆà¹ˆà¸²à¸¢: <b>${esc(x.department_name||departmentLabel(x.department)||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸')}</b> Â· à¸œà¸¹à¹‰à¹€à¸šà¸´à¸: <b>${esc(x.by)}</b> Â· à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸: ${thaiDate(nd)}
+          ${x.note?`<br>à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸: ${esc(x.note)}`:''}
+          <br>à¸šà¸±à¸™à¸—à¸¶à¸à¹€à¸¡à¸·à¹ˆà¸­: ${ts}
         </div>
-        ${x.images&&x.images.length?`<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;">${x.images.map(u=>`<img class="img-thumb" src="${u}" onclick="openLightbox('${u.replace(/'/g,'%27')}')" title="คลิกเพื่อขยาย">`).join('')}</div>`:''}
+        ${x.images&&x.images.length?`<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;">${x.images.map(u=>`<img class="img-thumb" src="${u}" onclick="openLightbox('${u.replace(/'/g,'%27')}')" title="à¸„à¸¥à¸´à¸à¹€à¸žà¸·à¹ˆà¸­à¸‚à¸¢à¸²à¸¢">`).join('')}</div>`:''}
       </div>
       <div class="hist-actions">
-        <div style="text-align:right;"><div class="hist-qty">${fmtInt(x.qty)}</div><div class="hist-qty-label">ชิ้น</div></div>
-        <button class="btn-ghost btn-xs btn-undo-hist" data-id="${x.id||''}" data-name="${esc(x.name)}" data-qty="${x.qty}" style="color:var(--warning);border-color:var(--warning);">↩ ยกเลิกเบิก</button>
+        <div style="text-align:right;"><div class="hist-qty">${fmtInt(x.qty)}</div><div class="hist-qty-label">à¸Šà¸´à¹‰à¸™</div></div>
+        <button class="btn-ghost btn-xs btn-undo-hist" data-id="${x.id||''}" data-name="${esc(x.name)}" data-qty="${x.qty}" style="color:var(--warning);border-color:var(--warning);">â†© à¸¢à¸à¹€à¸¥à¸´à¸à¹€à¸šà¸´à¸</button>
       </div>`;
     div.appendChild(d);
   });
 }
 
-/* ════════════════ DROPDOWN / DATALIST ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• DROPDOWN / DATALIST â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function updateDropdown(){
   const dl=document.getElementById('issueNameList');
   if(dl){
@@ -2069,7 +2070,7 @@ function updateDropdown(){
     items.forEach(x=>{
       const o=document.createElement('option');
       o.value=x.name;
-      o.label=x.name+' (เหลือ '+(x.qty||0)+' ชิ้น)';
+      o.label=x.name+' (à¹€à¸«à¸¥à¸·à¸­ '+(x.qty||0)+' à¸Šà¸´à¹‰à¸™)';
       dl.appendChild(o);
     });
   }
@@ -2087,12 +2088,12 @@ function updateStockHint(){
   const item=items.find(x=>x.name===v);
   const h=document.getElementById('stockHint');
   if(item){
-    let txt='คงเหลือ '+(item.qty||0)+' ชิ้น';
-    if(+item.target_qty>0) txt+=' (ยอดที่ต้องมี '+item.target_qty+' ชิ้น)';
+    let txt='à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­ '+(item.qty||0)+' à¸Šà¸´à¹‰à¸™';
+    if(+item.target_qty>0) txt+=' (à¸¢à¸­à¸”à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ '+item.target_qty+' à¸Šà¸´à¹‰à¸™)';
     const issueDepartment=item.issue_department||'';
     const usageDepartment=item.usage_department||item.default_department||'';
-    if(issueDepartment) txt+=' · แผนกที่เบิก: '+(item.issue_department_name||departmentLabel(issueDepartment));
-    if(usageDepartment) txt+=' · ใช้ที่: '+(item.usage_department_name||item.default_department_name||departmentLabel(usageDepartment));
+    if(issueDepartment) txt+=' Â· à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸: '+(item.issue_department_name||departmentLabel(issueDepartment));
+    if(usageDepartment) txt+=' Â· à¹ƒà¸Šà¹‰à¸—à¸µà¹ˆ: '+(item.usage_department_name||item.default_department_name||departmentLabel(usageDepartment));
     const issueSelect=document.getElementById('issue_department');
     const usageSelect=document.getElementById('use_department');
     if(issueSelect&&!issueSelect.value&&issueDepartment) issueSelect.value=departmentDisplay(issueDepartment);
@@ -2113,7 +2114,7 @@ function updateNameDatalist(){
   brandSet.forEach(v=>{ const o=document.createElement('option');o.value=v;bl.appendChild(o); });
 }
 
-/* ════════════════ CATEGORIES ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CATEGORIES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function allCategories(){
   const extra=customCategories.filter(c=>c && !DEFAULT_CATEGORIES.includes(c));
   return [...DEFAULT_CATEGORIES, ...extra];
@@ -2122,30 +2123,30 @@ function populateCategorySelects(){
   ['category','edit_category'].forEach(id=>{
     const sel=document.getElementById(id); if(!sel) return;
     const current=sel.value;
-    sel.innerHTML='<option value="">-- เลือกหมวดหมู่ --</option>'
+    sel.innerHTML='<option value="">-- à¹€à¸¥à¸·à¸­à¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ --</option>'
       + allCategories().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('')
-      + `<option value="${CATEGORY_ADD_NEW}">➕ เพิ่มหมวดหมู่ใหม่...</option>`;
+      + `<option value="${CATEGORY_ADD_NEW}">âž• à¹€à¸žà¸´à¹ˆà¸¡à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆà¹ƒà¸«à¸¡à¹ˆ...</option>`;
     if(current && current!==CATEGORY_ADD_NEW) sel.value=current;
   });
   const fc=document.getElementById('filterCategory');
   if(fc){
     const current=fc.value;
-    fc.innerHTML='<option value="">ทุกหมวดหมู่</option>'+allCategories().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+    fc.innerHTML='<option value="">à¸—à¸¸à¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ</option>'+allCategories().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
     fc.value=current;
   }
 }
 async function handleCategorySelectChange(selectId){
-  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
+  if(!isAdmin()){ toast('à¸šà¸±à¸à¸Šà¸µà¸™à¸µà¹‰à¸”à¸¹à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸”à¹‰à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§','error'); return; }
   const sel=document.getElementById(selectId);
   if(sel.value!==CATEGORY_ADD_NEW) return;
-  const name=prompt('ชื่อหมวดหมู่ใหม่:');
+  const name=prompt('à¸Šà¸·à¹ˆà¸­à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆà¹ƒà¸«à¸¡à¹ˆ:');
   const trimmed=(name||'').trim();
   if(!trimmed){ sel.value=''; return; }
   if(!allCategories().includes(trimmed)){
     customCategories=[...customCategories, trimmed];
     try{
       await col('meta').doc('categories').set({ list: customCategories }, { merge:true });
-    } catch(err){ toast('บันทึกหมวดหมู่ใหม่ไม่สำเร็จ: '+err.message,'error'); }
+    } catch(err){ toast('à¸šà¸±à¸™à¸—à¸¶à¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆà¹ƒà¸«à¸¡à¹ˆà¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: '+err.message,'error'); }
   }
   populateCategorySelects();
   sel.value=trimmed;
@@ -2157,20 +2158,20 @@ function listenDepartments(){
     }else{
       DEPARTMENTS=DEFAULT_DEPARTMENTS.map(x=>({...x}));
       if(isAdmin()){
-        try{ await persistDepartments(); }catch(err){ console.warn('บันทึกรายการแผนกเริ่มต้นไม่สำเร็จ',err); }
+        try{ await persistDepartments(); }catch(err){ console.warn('à¸šà¸±à¸™à¸—à¸¶à¸à¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸à¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ',err); }
       }
     }
     writeLocalCache('departments',DEPARTMENTS);
     populateDepartments();
     populatePDFDepartmentSelect();
-  }, ()=>{ /* ถ้าอ่านไม่ได้ ใช้รายการแผนกจาก cache/ค่าเริ่มต้นไปก่อน */ });
+  }, ()=>{ /* à¸–à¹‰à¸²à¸­à¹ˆà¸²à¸™à¹„à¸¡à¹ˆà¹„à¸”à¹‰ à¹ƒà¸Šà¹‰à¸£à¸²à¸¢à¸à¸²à¸£à¹à¸œà¸™à¸à¸ˆà¸²à¸ cache/à¸„à¹ˆà¸²à¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™à¹„à¸›à¸à¹ˆà¸­à¸™ */ });
 }
 function listenCategories(){
   col('meta').doc('categories').onSnapshot(doc=>{
     customCategories = (doc.exists && Array.isArray(doc.data().list)) ? doc.data().list : [];
     writeLocalCache('categories',customCategories);
     populateCategorySelects();
-  }, ()=>{ /* ถ้าอ่านไม่ได้ ใช้ค่าเริ่มต้นไปก่อน */ });
+  }, ()=>{ /* à¸–à¹‰à¸²à¸­à¹ˆà¸²à¸™à¹„à¸¡à¹ˆà¹„à¸”à¹‰ à¹ƒà¸Šà¹‰à¸„à¹ˆà¸²à¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™à¹„à¸›à¸à¹ˆà¸­à¸™ */ });
 }
 function checkExistingName(){
   const val=document.getElementById('name').value.trim();
@@ -2178,7 +2179,7 @@ function checkExistingName(){
   if(!val){ hint.textContent=''; hint.className='hint'; return; }
   const found=items.find(x=>x.name===val);
   if(found){
-    hint.textContent=`⚡ มีอยู่แล้ว — จำนวนจะถูกเพิ่มเข้าสต็อก (คงเหลือ ${found.qty||0} ชิ้น)`;
+    hint.textContent=`âš¡ à¸¡à¸µà¸­à¸¢à¸¹à¹ˆà¹à¸¥à¹‰à¸§ â€” à¸ˆà¸³à¸™à¸§à¸™à¸ˆà¸°à¸–à¸¹à¸à¹€à¸žà¸´à¹ˆà¸¡à¹€à¸‚à¹‰à¸²à¸ªà¸•à¹‡à¸­à¸ (à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­ ${found.qty||0} à¸Šà¸´à¹‰à¸™)`;
     hint.className='hint hint-warn';
     if(!document.getElementById('price').value) document.getElementById('price').value=found.price||'';
     if(!document.getElementById('threshold').value) document.getElementById('threshold').value=found.threshold||'';
@@ -2188,14 +2189,14 @@ function checkExistingName(){
     if(!document.getElementById('brand').value) document.getElementById('brand').value=found.brand||'';
     if(!document.getElementById('category').value) document.getElementById('category').value=found.category||'';
   } else {
-    hint.textContent='✨ สินค้าใหม่ — จะเพิ่มเข้าระบบ';
+    hint.textContent='âœ¨ à¸ªà¸´à¸™à¸„à¹‰à¸²à¹ƒà¸«à¸¡à¹ˆ â€” à¸ˆà¸°à¹€à¸žà¸´à¹ˆà¸¡à¹€à¸‚à¹‰à¸²à¸£à¸°à¸šà¸š';
     hint.className='hint hint-ok';
   }
 }
 
-/* ════════════════ SAVE ITEM ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SAVE ITEM â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 async function saveItem(){
-  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
+  if(!isAdmin()){ toast('à¸šà¸±à¸à¸Šà¸µà¸™à¸µà¹‰à¸”à¸¹à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸”à¹‰à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§','error'); return; }
   const n=document.getElementById('name').value.trim();
   const q=+document.getElementById('qty').value||0;
   const p=+document.getElementById('price').value||0;
@@ -2208,16 +2209,16 @@ async function saveItem(){
   const category=document.getElementById('category').value;
   const issueDepartment=document.getElementById('default_issue_department').value;
   const usageDepartment=document.getElementById('default_usage_department').value;
-  if(!n){ toast('กรุณากรอกชื่ออุปกรณ์','error'); return; }
-  if(q<0){ toast('จำนวนต้องไม่ติดลบ','error'); return; }
+  if(!n){ toast('à¸à¸£à¸¸à¸“à¸²à¸à¸£à¸­à¸à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ','error'); return; }
+  if(q<0){ toast('à¸ˆà¸³à¸™à¸§à¸™à¸•à¹‰à¸­à¸‡à¹„à¸¡à¹ˆà¸•à¸´à¸”à¸¥à¸š','error'); return; }
   const btn=document.getElementById('btnSaveItem');
-  btn.disabled=true; btn.textContent='⏳ กำลังบันทึก...';
+  btn.disabled=true; btn.textContent='â³ à¸à¸³à¸¥à¸±à¸‡à¸šà¸±à¸™à¸—à¸¶à¸...';
   try{
     const newUrls=await uploadImages(addImgFiles,'items','addUploadBar','addUploadProgress');
     const found=items.find(x=>x.name===n);
     if(found){
       const merged=[...(found.images||[]),...newUrls];
-      // เก็บข้อมูลเดิมไว้ ถ้าไม่ได้กรอกค่าใหม่มาทับ
+      // à¹€à¸à¹‡à¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸”à¸´à¸¡à¹„à¸§à¹‰ à¸–à¹‰à¸²à¹„à¸¡à¹ˆà¹„à¸”à¹‰à¸à¸£à¸­à¸à¸„à¹ˆà¸²à¹ƒà¸«à¸¡à¹ˆà¸¡à¸²à¸—à¸±à¸š
       await col('items').doc(found.id).update({
         qty:(+found.qty||0)+q, price:p, threshold:t, target_qty:target, date_add:d, note,
         shop: shop||found.shop||'', brand: brand||found.brand||'', category: category||found.category||'',
@@ -2233,12 +2234,12 @@ async function saveItem(){
       await col('items').add({ name:n, qty:q, price:p, threshold:t, target_qty:target, date_add:d, note, shop, brand, category, issue_department:issueDepartment, issue_department_name:issueDepartment?departmentLabel(issueDepartment):'', usage_department:usageDepartment, usage_department_name:usageDepartment?departmentLabel(usageDepartment):'', default_department:usageDepartment, default_department_name:usageDepartment?departmentLabel(usageDepartment):'', images:newUrls });
     }
     clearAddForm();
-    toast(`บันทึก '${n}' เรียบร้อย ✔`,'success');
-  } catch(err){ toast('เกิดข้อผิดพลาด: '+err.message,'error'); }
-  btn.disabled=false; btn.textContent='💾 บันทึก';
+    toast(`à¸šà¸±à¸™à¸—à¸¶à¸ '${n}' à¹€à¸£à¸µà¸¢à¸šà¸£à¹‰à¸­à¸¢ âœ”`,'success');
+  } catch(err){ toast('à¹€à¸à¸´à¸”à¸‚à¹‰à¸­à¸œà¸´à¸”à¸žà¸¥à¸²à¸”: '+err.message,'error'); }
+  btn.disabled=false; btn.textContent='ðŸ’¾ à¸šà¸±à¸™à¸—à¸¶à¸';
 }
 
-/* ════════════════ USE ITEM ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• USE ITEM â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function getIssueItem(name){
   return items.find(x=>x.name===name);
 }
@@ -2250,13 +2251,13 @@ function clearIssueEntry(){
 function addIssueRow(){
   const name=document.getElementById('issue_name').value.trim();
   const qty=+document.getElementById('issue_qty').value||0;
-  if(!name){ toast('กรุณาพิมพ์หรือเลือกชื่ออุปกรณ์','error'); return; }
-  if(qty<=0){ toast('จำนวนต้องมากกว่า 0','error'); return; }
+  if(!name){ toast('à¸à¸£à¸¸à¸“à¸²à¸žà¸´à¸¡à¸žà¹Œà¸«à¸£à¸·à¸­à¹€à¸¥à¸·à¸­à¸à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ','error'); return; }
+  if(qty<=0){ toast('à¸ˆà¸³à¸™à¸§à¸™à¸•à¹‰à¸­à¸‡à¸¡à¸²à¸à¸à¸§à¹ˆà¸² 0','error'); return; }
   const item=getIssueItem(name);
-  if(!item){ toast('ไม่พบสินค้าในสต็อก','error'); return; }
+  if(!item){ toast('à¹„à¸¡à¹ˆà¸žà¸šà¸ªà¸´à¸™à¸„à¹‰à¸²à¹ƒà¸™à¸ªà¸•à¹‡à¸­à¸','error'); return; }
   const found=issueRows.find(x=>x.name===name);
   const nextQty=(found?found.qty:0)+qty;
-  if((+item.qty||0)<nextQty){ toast(`สินค้าไม่พอ (คงเหลือ ${item.qty} ชิ้น)`,'error'); return; }
+  if((+item.qty||0)<nextQty){ toast(`à¸ªà¸´à¸™à¸„à¹‰à¸²à¹„à¸¡à¹ˆà¸žà¸­ (à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­ ${item.qty} à¸Šà¸´à¹‰à¸™)`,'error'); return; }
   if(found) found.qty=nextQty;
   else issueRows.push({name,qty});
   clearIssueEntry();
@@ -2279,19 +2280,19 @@ function renderIssueRows(){
     const item=getIssueItem(row.name);
     const stock=item?(+item.qty||0):0;
     const ok=item && stock>=row.qty;
-    const status=!item?'ไม่พบในสต็อก':ok?'พร้อมเบิก':'สินค้าไม่พอ';
+    const status=!item?'à¹„à¸¡à¹ˆà¸žà¸šà¹ƒà¸™à¸ªà¸•à¹‡à¸­à¸':ok?'à¸žà¸£à¹‰à¸­à¸¡à¹€à¸šà¸´à¸':'à¸ªà¸´à¸™à¸„à¹‰à¸²à¹„à¸¡à¹ˆà¸žà¸­';
     const statusClass=!item||!ok?'hint-err':'hint-ok';
     return `<tr>
       <td>${esc(row.name)}</td>
       <td class="text-right">${fmtInt(stock)}</td>
       <td class="text-right"><input type="number" min="1" value="${row.qty}" data-idx="${idx}" class="issue-row-qty"></td>
       <td class="${statusClass}">${status}</td>
-      <td class="text-right"><button class="btn-ghost btn-xs btn-remove-issue" data-idx="${idx}">ลบ</button></td>
+      <td class="text-right"><button class="btn-ghost btn-xs btn-remove-issue" data-idx="${idx}">à¸¥à¸š</button></td>
     </tr>`;
   }).join('');
   const totalQty=issueRows.reduce((s,x)=>s+(+x.qty||0),0);
-  document.getElementById('issueRowsEmpty').textContent=issueRows.length?'พร้อมบันทึกรายการเบิก':'ยังไม่มีรายการที่เลือก';
-  document.getElementById('issueRowsTotal').textContent=`รวม ${fmtInt(issueRows.length)} รายการ / ${fmtInt(totalQty)} ชิ้น`;
+  document.getElementById('issueRowsEmpty').textContent=issueRows.length?'à¸žà¸£à¹‰à¸­à¸¡à¸šà¸±à¸™à¸—à¸¶à¸à¸£à¸²à¸¢à¸à¸²à¸£à¹€à¸šà¸´à¸':'à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸£à¸²à¸¢à¸à¸²à¸£à¸—à¸µà¹ˆà¹€à¸¥à¸·à¸­à¸';
+  document.getElementById('issueRowsTotal').textContent=`à¸£à¸§à¸¡ ${fmtInt(issueRows.length)} à¸£à¸²à¸¢à¸à¸²à¸£ / ${fmtInt(totalQty)} à¸Šà¸´à¹‰à¸™`;
 }
 function collectIssueRows(){
   const rows=issueRows.map(x=>({...x}));
@@ -2305,33 +2306,33 @@ function collectIssueRows(){
   return rows;
 }
 function validateIssueRows(rows){
-  if(!rows.length) return 'กรุณาเพิ่มรายการเบิกอย่างน้อย 1 รายการ';
+  if(!rows.length) return 'à¸à¸£à¸¸à¸“à¸²à¹€à¸žà¸´à¹ˆà¸¡à¸£à¸²à¸¢à¸à¸²à¸£à¹€à¸šà¸´à¸à¸­à¸¢à¹ˆà¸²à¸‡à¸™à¹‰à¸­à¸¢ 1 à¸£à¸²à¸¢à¸à¸²à¸£';
   const totals={};
   for(const row of rows){
-    if(!row.name) return 'กรุณาระบุชื่ออุปกรณ์ให้ครบ';
-    if((+row.qty||0)<=0) return 'จำนวนเบิกต้องมากกว่า 0 ทุกรายการ';
+    if(!row.name) return 'à¸à¸£à¸¸à¸“à¸²à¸£à¸°à¸šà¸¸à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œà¹ƒà¸«à¹‰à¸„à¸£à¸š';
+    if((+row.qty||0)<=0) return 'à¸ˆà¸³à¸™à¸§à¸™à¹€à¸šà¸´à¸à¸•à¹‰à¸­à¸‡à¸¡à¸²à¸à¸à¸§à¹ˆà¸² 0 à¸—à¸¸à¸à¸£à¸²à¸¢à¸à¸²à¸£';
     totals[row.name]=(totals[row.name]||0)+(+row.qty||0);
   }
   for(const name of Object.keys(totals)){
     const item=getIssueItem(name);
-    if(!item) return `ไม่พบสินค้า '${name}' ในสต็อก`;
-    if((+item.qty||0)<totals[name]) return `สินค้า '${name}' ไม่พอ (คงเหลือ ${item.qty} ชิ้น)`;
+    if(!item) return `à¹„à¸¡à¹ˆà¸žà¸šà¸ªà¸´à¸™à¸„à¹‰à¸² '${name}' à¹ƒà¸™à¸ªà¸•à¹‡à¸­à¸`;
+    if((+item.qty||0)<totals[name]) return `à¸ªà¸´à¸™à¸„à¹‰à¸² '${name}' à¹„à¸¡à¹ˆà¸žà¸­ (à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­ ${item.qty} à¸Šà¸´à¹‰à¸™)`;
   }
   return '';
 }
 async function useItem(){
-  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
+  if(!isAdmin()){ toast('à¸šà¸±à¸à¸Šà¸µà¸™à¸µà¹‰à¸”à¸¹à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸”à¹‰à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§','error'); return; }
   const rows=collectIssueRows();
   const issueDepartmentInput=document.getElementById('issue_department').value.trim();
   const departmentInput=document.getElementById('use_department').value.trim();
   const by=document.getElementById('use_by').value.trim();
   const date=document.getElementById('use_date').value;
   const note=document.getElementById('use_note').value.trim();
-  if(!issueDepartmentInput||!departmentInput||!by||!date){ toast('กรุณาเลือกหรือพิมพ์แผนกที่เบิกและแผนกที่นำไปใช้ พร้อมกรอกผู้จ่ายและวันที่เบิก','error'); return; }
+  if(!issueDepartmentInput||!departmentInput||!by||!date){ toast('à¸à¸£à¸¸à¸“à¸²à¹€à¸¥à¸·à¸­à¸à¸«à¸£à¸·à¸­à¸žà¸´à¸¡à¸žà¹Œà¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸à¹à¸¥à¸°à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸™à¸³à¹„à¸›à¹ƒà¸Šà¹‰ à¸žà¸£à¹‰à¸­à¸¡à¸à¸£à¸­à¸à¸œà¸¹à¹‰à¸ˆà¹ˆà¸²à¸¢à¹à¸¥à¸°à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸','error'); return; }
   const rowError=validateIssueRows(rows);
   if(rowError){ toast(rowError,'error'); return; }
   const btn=document.getElementById('btnUseItem');
-  btn.disabled=true; btn.textContent='⏳ กำลังบันทึก...';
+  btn.disabled=true; btn.textContent='â³ à¸à¸³à¸¥à¸±à¸‡à¸šà¸±à¸™à¸—à¸¶à¸...';
   try{
     const issueDepartment=await ensureDepartmentValue(issueDepartmentInput);
     const department=await ensureDepartmentValue(departmentInput);
@@ -2355,38 +2356,38 @@ async function useItem(){
     });
     await batch.commit();
     clearIssueForm();
-    toast(`บันทึกการเบิก ${rows.length} รายการเรียบร้อย ✔`,'success');
-  } catch(err){ toast('เกิดข้อผิดพลาด: '+err.message,'error'); }
-  btn.disabled=false; btn.textContent='✔ บันทึกการเบิก';
+    toast(`à¸šà¸±à¸™à¸—à¸¶à¸à¸à¸²à¸£à¹€à¸šà¸´à¸ ${rows.length} à¸£à¸²à¸¢à¸à¸²à¸£à¹€à¸£à¸µà¸¢à¸šà¸£à¹‰à¸­à¸¢ âœ”`,'success');
+  } catch(err){ toast('à¹€à¸à¸´à¸”à¸‚à¹‰à¸­à¸œà¸´à¸”à¸žà¸¥à¸²à¸”: '+err.message,'error'); }
+  btn.disabled=false; btn.textContent='âœ” à¸šà¸±à¸™à¸—à¸¶à¸à¸à¸²à¸£à¹€à¸šà¸´à¸';
 }
 
-/* ════════════════ UNDO ISSUE ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• UNDO ISSUE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function undoIssue(histId, name, qty){
-  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
-  if(!histId){ toast('ไม่สามารถย้อนกลับได้ (ไม่มี ID)','error'); return; }
-  showConfirm('ยืนยันยกเลิกการเบิก',`ยืนยันยกเลิกการเบิก '${name}' จำนวน ${qty} ชิ้น? จำนวนสต็อกจะถูกคืนกลับ`,'ยกเลิกเบิก','btn-warning btn-sm',()=>{
+  if(!isAdmin()){ toast('à¸šà¸±à¸à¸Šà¸µà¸™à¸µà¹‰à¸”à¸¹à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸”à¹‰à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§','error'); return; }
+  if(!histId){ toast('à¹„à¸¡à¹ˆà¸ªà¸²à¸¡à¸²à¸£à¸–à¸¢à¹‰à¸­à¸™à¸à¸¥à¸±à¸šà¹„à¸”à¹‰ (à¹„à¸¡à¹ˆà¸¡à¸µ ID)','error'); return; }
+  showConfirm('à¸¢à¸·à¸™à¸¢à¸±à¸™à¸¢à¸à¹€à¸¥à¸´à¸à¸à¸²à¸£à¹€à¸šà¸´à¸',`à¸¢à¸·à¸™à¸¢à¸±à¸™à¸¢à¸à¹€à¸¥à¸´à¸à¸à¸²à¸£à¹€à¸šà¸´à¸ '${name}' à¸ˆà¸³à¸™à¸§à¸™ ${qty} à¸Šà¸´à¹‰à¸™? à¸ˆà¸³à¸™à¸§à¸™à¸ªà¸•à¹‡à¸­à¸à¸ˆà¸°à¸–à¸¹à¸à¸„à¸·à¸™à¸à¸¥à¸±à¸š`,'à¸¢à¸à¹€à¸¥à¸´à¸à¹€à¸šà¸´à¸','btn-warning btn-sm',()=>{
     const item=items.find(x=>x.name===name);
     const tasks=[];
     if(item) tasks.push(col('items').doc(item.id).update({ qty:(+item.qty||0)+(+qty||0) }));
     tasks.push(col('history').doc(histId).delete());
-    Promise.all(tasks).then(()=>toast('ยกเลิกการเบิกเรียบร้อย — สต็อกถูกคืนแล้ว','success'));
+    Promise.all(tasks).then(()=>toast('à¸¢à¸à¹€à¸¥à¸´à¸à¸à¸²à¸£à¹€à¸šà¸´à¸à¹€à¸£à¸µà¸¢à¸šà¸£à¹‰à¸­à¸¢ â€” à¸ªà¸•à¹‡à¸­à¸à¸–à¸¹à¸à¸„à¸·à¸™à¹à¸¥à¹‰à¸§','success'));
   });
 }
 
-/* ════════════════ DELETE ITEM ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• DELETE ITEM â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function deleteItem(idx){
-  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
+  if(!isAdmin()){ toast('à¸šà¸±à¸à¸Šà¸µà¸™à¸µà¹‰à¸”à¸¹à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸”à¹‰à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§','error'); return; }
   const x=items[idx]; if(!x) return;
-  showConfirm('ลบสินค้า',`ลบ '${x.name}' ออกจากสต็อก? ไม่สามารถกู้คืนได้`,'ลบ','btn-danger btn-sm',()=>{
-    col('items').doc(x.id).delete().then(()=>toast(`ลบ '${x.name}' เรียบร้อย`,'warn'));
+  showConfirm('à¸¥à¸šà¸ªà¸´à¸™à¸„à¹‰à¸²',`à¸¥à¸š '${x.name}' à¸­à¸­à¸à¸ˆà¸²à¸à¸ªà¸•à¹‡à¸­à¸? à¹„à¸¡à¹ˆà¸ªà¸²à¸¡à¸²à¸£à¸–à¸à¸¹à¹‰à¸„à¸·à¸™à¹„à¸”à¹‰`,'à¸¥à¸š','btn-danger btn-sm',()=>{
+    col('items').doc(x.id).delete().then(()=>toast(`à¸¥à¸š '${x.name}' à¹€à¸£à¸µà¸¢à¸šà¸£à¹‰à¸­à¸¢`,'warn'));
   });
 }
 
-/* ════════════════ SUMMARY ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SUMMARY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function itemMetaByName(name, record){
   const item=items.find(x=>x.name===name) || {};
   return {
-    category:(record&&record.category)||item.category||'ไม่ระบุหมวดหมู่',
+    category:(record&&record.category)||item.category||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ',
     shop:(record&&record.shop)||item.shop||'',
     brand:(record&&record.brand)||item.brand||'',
     price:(record&&record.unit_price!=null)?(+record.unit_price||0):(+item.price||0),
@@ -2403,11 +2404,11 @@ function showSummary(mode, ym){
   let label, filtered;
   if(mode==='day'){
     const targetDay=ym||today;
-    label=(targetDay===today?'วันนี้':'วันที่')+' ('+thaiDate(targetDay)+')';
+    label=(targetDay===today?'à¸§à¸±à¸™à¸™à¸µà¹‰':'à¸§à¸±à¸™à¸—à¸µà¹ˆ')+' ('+thaiDate(targetDay)+')';
     filtered=historyData.filter(x=>normalizeDate(x.date)===targetDay);
   } else if(mode==='year'){
     const targetYear=String(ym||new Date().getFullYear());
-    label='ปี '+((+targetYear||new Date().getFullYear())+543);
+    label='à¸›à¸µ '+((+targetYear||new Date().getFullYear())+543);
     filtered=historyData.filter(x=>normalizeDate(x.date)?.slice(0,4)===targetYear);
   } else {
     const targetYM=ym||thisM;
@@ -2419,21 +2420,21 @@ function showSummary(mode, ym){
   lastIssuedSummary={filtered, label};
   const pdfDepartmentSelect=document.getElementById('pdfDepartmentSelect');
   if(pdfDepartmentSelect) pdfDepartmentSelect.value='';
-  document.getElementById('sumLabel').textContent='📋 สรุปยอด — '+label;
+  document.getElementById('sumLabel').textContent='ðŸ“‹ à¸ªà¸£à¸¸à¸›à¸¢à¸­à¸” â€” '+label;
   const wrap=document.getElementById('summaryWrap');
   const empty=document.getElementById('sumEmpty');
-  if(!filtered.length){ wrap.style.display='none'; empty.style.display='block'; empty.querySelector('.empty-msg').textContent='ไม่พบการเบิกใน'+label; return; }
+  if(!filtered.length){ wrap.style.display='none'; empty.style.display='block'; empty.querySelector('.empty-msg').textContent='à¹„à¸¡à¹ˆà¸žà¸šà¸à¸²à¸£à¹€à¸šà¸´à¸à¹ƒà¸™'+label; return; }
   wrap.style.display='block'; empty.style.display='none';
   const totalQty=filtered.reduce((s,x)=>s+(+x.qty||0),0);
   const totalNow=items.reduce((s,x)=>s+(+x.qty||0),0);
   document.getElementById('sumBoxes').innerHTML=`
-    <div class="sum-box" style="background:#eff6ff;border:1px solid #bfdbfe;"><div class="lbl">จำนวนครั้ง</div><div class="val" style="color:var(--primary);">${fmtInt(filtered.length)}</div></div>
-    <div class="sum-box" style="background:#f0fdf4;border:1px solid #bbf7d0;"><div class="lbl">ชิ้นที่เบิกรวม</div><div class="val" style="color:var(--success);">${fmtInt(totalQty)}</div></div>
-    <div class="sum-box" style="background:#fffbeb;border:1px solid #fde68a;"><div class="lbl">สต็อกคงเหลือตอนนี้</div><div class="val" style="color:var(--warning);">${fmtInt(totalNow)}</div></div>`;
+    <div class="sum-box" style="background:#eff6ff;border:1px solid #bfdbfe;"><div class="lbl">à¸ˆà¸³à¸™à¸§à¸™à¸„à¸£à¸±à¹‰à¸‡</div><div class="val" style="color:var(--primary);">${fmtInt(filtered.length)}</div></div>
+    <div class="sum-box" style="background:#f0fdf4;border:1px solid #bbf7d0;"><div class="lbl">à¸Šà¸´à¹‰à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸à¸£à¸§à¸¡</div><div class="val" style="color:var(--success);">${fmtInt(totalQty)}</div></div>
+    <div class="sum-box" style="background:#fffbeb;border:1px solid #fde68a;"><div class="lbl">à¸ªà¸•à¹‡à¸­à¸à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­à¸•à¸­à¸™à¸™à¸µà¹‰</div><div class="val" style="color:var(--warning);">${fmtInt(totalNow)}</div></div>`;
   const byDepartment={}, byCategory={}, byItem={};
   filtered.forEach(x=>{
     const meta=itemMetaByName(x.name,x);
-    const department=x.department_name||departmentLabel(x.department)||'ไม่ระบุแผนก';
+    const department=x.department_name||departmentLabel(x.department)||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¹à¸œà¸™à¸';
     if(!byDepartment[department]) byDepartment[department]={qty:0,count:0};
     byDepartment[department].qty+=(+x.qty||0); byDepartment[department].count++;
     if(!byCategory[meta.category]) byCategory[meta.category]={qty:0,count:0};
@@ -2447,13 +2448,13 @@ function showSummary(mode, ym){
   const sorted=filtered.slice().sort((a,b)=>((normalizeDate(a.date)||'')+(a.time||'')).localeCompare((normalizeDate(b.date)||'')+(b.time||'')));
   document.getElementById('sumDetailBody').innerHTML=sorted.map(x=>{
     const meta=itemMetaByName(x.name,x);
-    const issueDepartment=x.issue_department_name||departmentLabel(x.issue_department)||'ไม่ระบุแผนก';
-    const department=x.department_name||departmentLabel(x.department)||'ไม่ระบุแผนก';
+    const issueDepartment=x.issue_department_name||departmentLabel(x.issue_department)||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¹à¸œà¸™à¸';
+    const department=x.department_name||departmentLabel(x.department)||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¹à¸œà¸™à¸';
     return `<tr><td>${thaiDate(normalizeDate(x.date))}</td><td>${esc(issueDepartment)}</td><td>${esc(department)}</td><td>${esc(meta.category)}</td><td>${esc(x.name)}</td><td class="text-right"><b>${fmtInt(x.qty)}</b></td><td>${esc(x.by)}</td><td class="text-muted">${esc(x.note||'-')}</td></tr>`;
   }).join('');
 }
 
-/* ════════════════ CSV EXPORT ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CSV EXPORT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function exportCSV(rows, headers, filename){
   const bom='\uFEFF';
   const lines=[headers.join(','),...rows.map(r=>r.map(c=>'"'+(String(c??'').replace(/"/g,'""'))+'"').join(','))];
@@ -2463,10 +2464,10 @@ function exportCSV(rows, headers, filename){
 function exportStockCSV(){
   const sorted=items.slice().sort((a,b)=>((a.category||'')+'|'+(a.name||'')).localeCompare((b.category||'')+'|'+(b.name||'')));
   exportCSV(sorted.map(x=>[
-      x.category||'ไม่ระบุหมวดหมู่',x.name,x.qty,x.price,(+x.qty||0)*(+x.price||0),
+      x.category||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ',x.name,x.qty,x.price,(+x.qty||0)*(+x.price||0),
       x.threshold,x.target_qty,x.date_add,x.shop,x.brand,x.note
     ]),
-    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนคงเหลือ','ราคา/หน่วย','มูลค่ารวม','แจ้งเตือนเมื่อ≤','ยอดที่ต้องมี','วันที่เพิ่มล่าสุด','ซื้อจากร้าน','ยี่ห้อ/รุ่น','หมายเหตุ'],
+    ['à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ','à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ','à¸ˆà¸³à¸™à¸§à¸™à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­','à¸£à¸²à¸„à¸²/à¸«à¸™à¹ˆà¸§à¸¢','à¸¡à¸¹à¸¥à¸„à¹ˆà¸²à¸£à¸§à¸¡','à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™à¹€à¸¡à¸·à¹ˆà¸­â‰¤','à¸¢à¸­à¸”à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ','à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸žà¸´à¹ˆà¸¡à¸¥à¹ˆà¸²à¸ªà¸¸à¸”','à¸‹à¸·à¹‰à¸­à¸ˆà¸²à¸à¸£à¹‰à¸²à¸™','à¸¢à¸µà¹ˆà¸«à¹‰à¸­/à¸£à¸¸à¹ˆà¸™','à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸'],
     'stock_export_'+todayStr()+'.csv');
 }
 function exportHistoryCSV(data){
@@ -2479,17 +2480,17 @@ function exportHistoryCSV(data){
       const meta=itemMetaByName(x.name,x);
       return [meta.category,x.name,x.qty,x.issue_department_name||departmentLabel(x.issue_department),x.department_name||departmentLabel(x.department),x.by,normalizeDate(x.date),x.time||'',x.note,meta.shop,meta.brand,meta.stock_qty,meta.price,(x.images||[]).join(' | ')];
     }),
-    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนกที่เบิก','แผนกที่จ่าย','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุการเบิก','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
+    ['à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ','à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ','à¸ˆà¸³à¸™à¸§à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸','à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸','à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸ˆà¹ˆà¸²à¸¢','à¸œà¸¹à¹‰à¹€à¸šà¸´à¸','à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸','à¹€à¸§à¸¥à¸²à¸šà¸±à¸™à¸—à¸¶à¸','à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸à¸à¸²à¸£à¹€à¸šà¸´à¸','à¸‹à¸·à¹‰à¸­à¸ˆà¸²à¸à¸£à¹‰à¸²à¸™','à¸¢à¸µà¹ˆà¸«à¹‰à¸­/à¸£à¸¸à¹ˆà¸™','à¸ªà¸•à¹‡à¸­à¸à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­à¸›à¸±à¸ˆà¸ˆà¸¸à¸šà¸±à¸™','à¸£à¸²à¸„à¸²/à¸«à¸™à¹ˆà¸§à¸¢','à¸£à¸¹à¸›à¸ à¸²à¸žà¸à¸²à¸£à¹€à¸šà¸´à¸'],
     'history_export_'+todayStr()+'.csv');
 }
 function exportSummaryCSV(summary){
-  if(!summary || !summary.filtered || !summary.filtered.length){ toast('ยังไม่มีข้อมูลสรุปให้ส่งออก','warn'); return; }
+  if(!summary || !summary.filtered || !summary.filtered.length){ toast('à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ªà¸£à¸¸à¸›à¹ƒà¸«à¹‰à¸ªà¹ˆà¸‡à¸­à¸­à¸','warn'); return; }
   const filtered=summary.filtered;
   const totalQty=filtered.reduce((s,x)=>s+(+x.qty||0),0);
   const byDepartment={}, byCategory={}, byItem={};
   filtered.forEach(x=>{
     const meta=itemMetaByName(x.name,x);
-    const department=x.department_name||departmentLabel(x.department)||'ไม่ระบุแผนก';
+    const department=x.department_name||departmentLabel(x.department)||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¹à¸œà¸™à¸';
     if(!byDepartment[department]) byDepartment[department]={qty:0,count:0};
     byDepartment[department].qty+=(+x.qty||0); byDepartment[department].count++;
     if(!byCategory[meta.category]) byCategory[meta.category]={qty:0,count:0};
@@ -2498,25 +2499,25 @@ function exportSummaryCSV(summary){
     byItem[x.name].qty+=(+x.qty||0); byItem[x.name].count++;
   });
   const rows=[
-    ['ส่วนสรุปรวม'],
-    ['ช่วงเวลา',summary.label],
-    ['จำนวนครั้ง',filtered.length],
-    ['ชิ้นที่เบิกรวม',totalQty],
+    ['à¸ªà¹ˆà¸§à¸™à¸ªà¸£à¸¸à¸›à¸£à¸§à¸¡'],
+    ['à¸Šà¹ˆà¸§à¸‡à¹€à¸§à¸¥à¸²',summary.label],
+    ['à¸ˆà¸³à¸™à¸§à¸™à¸„à¸£à¸±à¹‰à¸‡',filtered.length],
+    ['à¸Šà¸´à¹‰à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸à¸£à¸§à¸¡',totalQty],
     [],
-    ['สรุปตามแผนก'],
-    ['แผนก','จำนวนที่เบิก','จำนวนครั้ง'],
+    ['à¸ªà¸£à¸¸à¸›à¸•à¸²à¸¡à¹à¸œà¸™à¸'],
+    ['à¹à¸œà¸™à¸','à¸ˆà¸³à¸™à¸§à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸','à¸ˆà¸³à¸™à¸§à¸™à¸„à¸£à¸±à¹‰à¸‡'],
     ...Object.keys(byDepartment).sort().map(d=>[d,byDepartment[d].qty,byDepartment[d].count]),
     [],
-    ['สรุปตามหมวดหมู่'],
-    ['หมวดหมู่','จำนวนที่เบิก','จำนวนครั้ง'],
+    ['à¸ªà¸£à¸¸à¸›à¸•à¸²à¸¡à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ'],
+    ['à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ','à¸ˆà¸³à¸™à¸§à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸','à¸ˆà¸³à¸™à¸§à¸™à¸„à¸£à¸±à¹‰à¸‡'],
     ...Object.keys(byCategory).sort().map(c=>[c,byCategory[c].qty,byCategory[c].count]),
     [],
-    ['สรุปตามอุปกรณ์'],
-    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','จำนวนครั้ง'],
+    ['à¸ªà¸£à¸¸à¸›à¸•à¸²à¸¡à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ'],
+    ['à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ','à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ','à¸ˆà¸³à¸™à¸§à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸','à¸ˆà¸³à¸™à¸§à¸™à¸„à¸£à¸±à¹‰à¸‡'],
     ...Object.keys(byItem).sort().map(n=>[byItem[n].category,n,byItem[n].qty,byItem[n].count]),
     [],
-    ['รายการทั้งหมด'],
-    ['หมวดหมู่','ชื่ออุปกรณ์','จำนวนที่เบิก','แผนกที่เบิก','แผนกที่จ่าย','ผู้เบิก','วันที่เบิก','เวลาบันทึก','หมายเหตุ','ซื้อจากร้าน','ยี่ห้อ/รุ่น','สต็อกคงเหลือปัจจุบัน','ราคา/หน่วย','รูปภาพการเบิก'],
+    ['à¸£à¸²à¸¢à¸à¸²à¸£à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”'],
+    ['à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆ','à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ','à¸ˆà¸³à¸™à¸§à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸','à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸','à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸ˆà¹ˆà¸²à¸¢','à¸œà¸¹à¹‰à¹€à¸šà¸´à¸','à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸šà¸´à¸','à¹€à¸§à¸¥à¸²à¸šà¸±à¸™à¸—à¸¶à¸','à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸','à¸‹à¸·à¹‰à¸­à¸ˆà¸²à¸à¸£à¹‰à¸²à¸™','à¸¢à¸µà¹ˆà¸«à¹‰à¸­/à¸£à¸¸à¹ˆà¸™','à¸ªà¸•à¹‡à¸­à¸à¸„à¸‡à¹€à¸«à¸¥à¸·à¸­à¸›à¸±à¸ˆà¸ˆà¸¸à¸šà¸±à¸™','à¸£à¸²à¸„à¸²/à¸«à¸™à¹ˆà¸§à¸¢','à¸£à¸¹à¸›à¸ à¸²à¸žà¸à¸²à¸£à¹€à¸šà¸´à¸'],
     ...filtered.slice().sort((a,b)=>{
       const ma=itemMetaByName(a.name,a), mb=itemMetaByName(b.name,b);
       return (ma.category+'|'+(normalizeDate(a.date)||'')+'|'+(a.name||'')).localeCompare(mb.category+'|'+(normalizeDate(b.date)||'')+'|'+(b.name||''));
@@ -2525,19 +2526,19 @@ function exportSummaryCSV(summary){
       return [meta.category,x.name,x.qty,x.issue_department_name||departmentLabel(x.issue_department),x.department_name||departmentLabel(x.department),x.by,normalizeDate(x.date),x.time||'',x.note,meta.shop,meta.brand,meta.stock_qty,meta.price,(x.images||[]).join(' | ')];
     })
   ];
-  exportCSV(rows, ['รายงานสรุปการเบิก'], 'summary_export_'+todayStr()+'.csv');
+  exportCSV(rows, ['à¸£à¸²à¸¢à¸‡à¸²à¸™à¸ªà¸£à¸¸à¸›à¸à¸²à¸£à¹€à¸šà¸´à¸'], 'summary_export_'+todayStr()+'.csv');
 }
 
 function exportSummaryPDF(summary, departmentCode){
   if(!summary || !summary.filtered || !summary.filtered.length){
-    toast('ยังไม่มีข้อมูลสรุปให้ส่งออก','warn'); return;
+    toast('à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ªà¸£à¸¸à¸›à¹ƒà¸«à¹‰à¸ªà¹ˆà¸‡à¸­à¸­à¸','warn'); return;
   }
   if(!departmentCode){
-    toast('กรุณาเลือกแผนกก่อนส่งออก PDF','warn'); return;
+    toast('à¸à¸£à¸¸à¸“à¸²à¹€à¸¥à¸·à¸­à¸à¹à¸œà¸™à¸à¸à¹ˆà¸­à¸™à¸ªà¹ˆà¸‡à¸­à¸­à¸ PDF','warn'); return;
   }
   const selected=summary.filtered.filter(x=>matchesDepartment(x,departmentCode));
   if(!selected.length){
-    toast('ไม่พบรายการเบิกของแผนกที่เลือกในช่วงเวลานี้','warn'); return;
+    toast('à¹„à¸¡à¹ˆà¸žà¸šà¸£à¸²à¸¢à¸à¸²à¸£à¹€à¸šà¸´à¸à¸‚à¸­à¸‡à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸¥à¸·à¸­à¸à¹ƒà¸™à¸Šà¹ˆà¸§à¸‡à¹€à¸§à¸¥à¸²à¸™à¸µà¹‰','warn'); return;
   }
   const grouped={};
   selected.forEach(x=>{
@@ -2551,17 +2552,17 @@ function exportSummaryPDF(summary, departmentCode){
   const rows=Object.values(grouped).sort((a,b)=>a.name.localeCompare(b.name,'th'));
   const totalQty=rows.reduce((sum,x)=>sum+x.qty,0);
   const grandTotal=rows.reduce((sum,x)=>sum+x.total,0);
-  const selectedDepartment=departmentCode==='__all__'?'ทุกแผนก':departmentCode==='__unassigned__'?'ไม่ระบุแผนก':departmentLabel(departmentCode);
-  const paidDepartments=[...new Set(selected.map(x=>x.issue_department_name||departmentLabel(x.issue_department)||'ไม่ระบุแผนก'))].sort().join(', ')||'ไม่ระบุแผนก';
-  const usageDepartments=[...new Set(selected.map(x=>x.department_name||departmentLabel(x.department)||'ไม่ระบุแผนก'))].sort().join(', ')||'ไม่ระบุแผนก';
+  const selectedDepartment=departmentCode==='__all__'?'à¸—à¸¸à¸à¹à¸œà¸™à¸':departmentCode==='__unassigned__'?'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¹à¸œà¸™à¸':departmentLabel(departmentCode);
+  const paidDepartments=[...new Set(selected.map(x=>x.issue_department_name||departmentLabel(x.issue_department)||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¹à¸œà¸™à¸'))].sort().join(', ')||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¹à¸œà¸™à¸';
+  const usageDepartments=[...new Set(selected.map(x=>x.department_name||departmentLabel(x.department)||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¹à¸œà¸™à¸'))].sort().join(', ')||'à¹„à¸¡à¹ˆà¸£à¸°à¸šà¸¸à¹à¸œà¸™à¸';
   const printWindow=window.open('','_blank','width=900,height=800');
   if(!printWindow){
-    toast('เบราว์เซอร์บล็อกหน้าต่าง PDF กรุณาอนุญาต Popup แล้วลองใหม่','error'); return;
+    toast('à¹€à¸šà¸£à¸²à¸§à¹Œà¹€à¸‹à¸­à¸£à¹Œà¸šà¸¥à¹‡à¸­à¸à¸«à¸™à¹‰à¸²à¸•à¹ˆà¸²à¸‡ PDF à¸à¸£à¸¸à¸“à¸²à¸­à¸™à¸¸à¸à¸²à¸• Popup à¹à¸¥à¹‰à¸§à¸¥à¸­à¸‡à¹ƒà¸«à¸¡à¹ˆ','error'); return;
   }
   const rowsHtml=rows.map(x=>`<tr><td>${esc(x.name)}</td><td class="num">${fmtInt(x.qty)}</td><td class="num">${x.price==null?'-':fmt(x.price)}</td><td class="num">${fmt(x.total)}</td></tr>`).join('');
   const styles=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n');
   printWindow.document.open();
-  printWindow.document.write(`<!doctype html><html lang="th"><head><meta charset="UTF-8"><title>ใบสรุปการเบิก ${esc(selectedDepartment)}</title><style>${styles}</style><style>
+  printWindow.document.write(`<!doctype html><html lang="th"><head><meta charset="UTF-8"><title>à¹ƒà¸šà¸ªà¸£à¸¸à¸›à¸à¸²à¸£à¹€à¸šà¸´à¸ ${esc(selectedDepartment)}</title><style>${styles}</style><style>
     @page{size:A4;margin:14mm;}
     body{background:#fff!important;color:#111827;padding:0!important;font-family:Tahoma,Arial,sans-serif;}
     .receipt{max-width:180mm;margin:0 auto;}
@@ -2576,11 +2577,11 @@ function exportSummaryPDF(summary, departmentCode){
     .receipt-total .grand{font-size:17px;font-weight:700;color:#245a92;}
     .receipt-foot{margin-top:24px;text-align:center;color:#6b7280;font-size:10px;}
   </style></head><body><main class="receipt">
-    <h1>ใบสรุปการเบิกสินค้า</h1>
-    <div class="receipt-meta"><div><b>แผนกที่เบิก:</b> ${esc(paidDepartments)}</div><div><b>แผนกที่จ่าย:</b> ${esc(usageDepartments)}</div><div><b>สาขา:</b> ${esc(STORE_ID)}</div><div><b>ช่วงเวลา:</b> ${esc(summary.label)}</div><div><b>วันที่ออกเอกสาร:</b> ${esc(thaiDate(todayStr()))}</div></div>
-    <table><thead><tr><th>รายการสินค้า</th><th class="num">จำนวน</th><th class="num">ราคา/หน่วย</th><th class="num">รวมเงิน</th></tr></thead><tbody>${rowsHtml}</tbody></table>
-    <div class="receipt-total"><div><span>รวมจำนวน</span><b>${fmtInt(totalQty)} ชิ้น</b></div><div class="grand"><span>ยอดรวมทั้งสิ้น</span><b>${fmt(grandTotal)} บาท</b></div></div>
-    <div class="receipt-foot">เอกสารสรุปจากระบบ Store-10</div>
+    <h1>à¹ƒà¸šà¸ªà¸£à¸¸à¸›à¸à¸²à¸£à¹€à¸šà¸´à¸à¸ªà¸´à¸™à¸„à¹‰à¸²</h1>
+    <div class="receipt-meta"><div><b>à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¹€à¸šà¸´à¸:</b> ${esc(paidDepartments)}</div><div><b>à¹à¸œà¸™à¸à¸—à¸µà¹ˆà¸ˆà¹ˆà¸²à¸¢:</b> ${esc(usageDepartments)}</div><div><b>à¸ªà¸²à¸‚à¸²:</b> ${esc(STORE_ID)}</div><div><b>à¸Šà¹ˆà¸§à¸‡à¹€à¸§à¸¥à¸²:</b> ${esc(summary.label)}</div><div><b>à¸§à¸±à¸™à¸—à¸µà¹ˆà¸­à¸­à¸à¹€à¸­à¸à¸ªà¸²à¸£:</b> ${esc(thaiDate(todayStr()))}</div></div>
+    <table><thead><tr><th>à¸£à¸²à¸¢à¸à¸²à¸£à¸ªà¸´à¸™à¸„à¹‰à¸²</th><th class="num">à¸ˆà¸³à¸™à¸§à¸™</th><th class="num">à¸£à¸²à¸„à¸²/à¸«à¸™à¹ˆà¸§à¸¢</th><th class="num">à¸£à¸§à¸¡à¹€à¸‡à¸´à¸™</th></tr></thead><tbody>${rowsHtml}</tbody></table>
+    <div class="receipt-total"><div><span>à¸£à¸§à¸¡à¸ˆà¸³à¸™à¸§à¸™</span><b>${fmtInt(totalQty)} à¸Šà¸´à¹‰à¸™</b></div><div class="grand"><span>à¸¢à¸­à¸”à¸£à¸§à¸¡à¸—à¸±à¹‰à¸‡à¸ªà¸´à¹‰à¸™</span><b>${fmt(grandTotal)} à¸šà¸²à¸—</b></div></div>
+    <div class="receipt-foot">à¹€à¸­à¸à¸ªà¸²à¸£à¸ªà¸£à¸¸à¸›à¸ˆà¸²à¸à¸£à¸°à¸šà¸š Store-10</div>
   </main></body></html>`);
   printWindow.document.close();
   printWindow.focus();
@@ -2589,7 +2590,7 @@ function exportSummaryPDF(summary, departmentCode){
   else setTimeout(printNow,500);
 }
 
-/* ════════════════ CSV IMPORT ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CSV IMPORT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function backupCellValue(value){
   if(value===null||value===undefined) return '';
   if(typeof value==='object') return JSON.stringify(value);
@@ -2614,7 +2615,7 @@ function buildBackupPayload(){
 function exportBackupJSON(){
   const payload=buildBackupPayload();
   downloadBackupFile(JSON.stringify(payload,null,2),'store10_backup_'+todayStr()+'.json','application/json;charset=utf-8');
-  toast('ส่งออกไฟล์สำรอง JSON แล้ว','success');
+  toast('à¸ªà¹ˆà¸‡à¸­à¸­à¸à¹„à¸Ÿà¸¥à¹Œà¸ªà¸³à¸£à¸­à¸‡ JSON à¹à¸¥à¹‰à¸§','success');
 }
 function backupSheet(name, headers, rows){
   const head=headers.map(h=>`<th>${escapeBackupCell(h)}</th>`).join('');
@@ -2627,9 +2628,9 @@ function exportBackupExcel(){
   const historyHeaders=['id','name','qty','issue_department','issue_department_name','department','department_name','by','date','note','category','shop','brand','unit_price','images','batch_id','time'];
   const categoryRows=payload.categories.map((value,index)=>({id:String(index+1),value}));
   const metadataRows=[{store_id:payload.store_id,exported_at:payload.exported_at,items:payload.items.length,history:payload.history.length}];
-  const html=`<!doctype html><html><head><meta charset="UTF-8"><style>body{font-family:Arial,sans-serif;}table{border-collapse:collapse;margin:18px 0;}th{background:#dceaf8;font-weight:700;}th,td{border:1px solid #9db9d5;padding:5px;white-space:nowrap;}h1{color:#245a92;}h2{color:#374151;}</style></head><body><h1>Store-10 Backup</h1><p>ไฟล์สำรองข้อมูล เปิดดูด้วย Excel ได้</p><h2>metadata</h2>${backupSheet('metadata',['store_id','exported_at','items','history'],metadataRows)}<h2>items</h2>${backupSheet('items',itemHeaders,payload.items)}<h2>history</h2>${backupSheet('history',historyHeaders,payload.history)}<h2>categories</h2>${backupSheet('categories',['id','value'],categoryRows)}</body></html>`;
+  const html=`<!doctype html><html><head><meta charset="UTF-8"><style>body{font-family:Arial,sans-serif;}table{border-collapse:collapse;margin:18px 0;}th{background:#dceaf8;font-weight:700;}th,td{border:1px solid #9db9d5;padding:5px;white-space:nowrap;}h1{color:#245a92;}h2{color:#374151;}</style></head><body><h1>Store-10 Backup</h1><p>à¹„à¸Ÿà¸¥à¹Œà¸ªà¸³à¸£à¸­à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥ à¹€à¸›à¸´à¸”à¸”à¸¹à¸”à¹‰à¸§à¸¢ Excel à¹„à¸”à¹‰</p><h2>metadata</h2>${backupSheet('metadata',['store_id','exported_at','items','history'],metadataRows)}<h2>items</h2>${backupSheet('items',itemHeaders,payload.items)}<h2>history</h2>${backupSheet('history',historyHeaders,payload.history)}<h2>categories</h2>${backupSheet('categories',['id','value'],categoryRows)}</body></html>`;
   downloadBackupFile(html,'store10_backup_'+todayStr()+'.xls','application/vnd.ms-excel;charset=utf-8');
-  toast('ส่งออกไฟล์ Excel สำรองทั้งระบบแล้ว','success');
+  toast('à¸ªà¹ˆà¸‡à¸­à¸­à¸à¹„à¸Ÿà¸¥à¹Œ Excel à¸ªà¸³à¸£à¸­à¸‡à¸—à¸±à¹‰à¸‡à¸£à¸°à¸šà¸šà¹à¸¥à¹‰à¸§','success');
 }
 function parseBackupCell(key,value){
   if(value===undefined||value===null) return '';
@@ -2642,7 +2643,7 @@ function parseBackupCell(key,value){
 function readBackupXls(text){
   const doc=new DOMParser().parseFromString(text,'text/html');
   const tables=[...doc.querySelectorAll('table[data-sheet]')];
-  if(!tables.length) throw new Error('ไม่พบตารางสำรองของ Store-10 ในไฟล์ Excel');
+  if(!tables.length) throw new Error('à¹„à¸¡à¹ˆà¸žà¸šà¸•à¸²à¸£à¸²à¸‡à¸ªà¸³à¸£à¸­à¸‡à¸‚à¸­à¸‡ Store-10 à¹ƒà¸™à¹„à¸Ÿà¸¥à¹Œ Excel');
   const readTable=table=>{
     const headers=[...table.querySelectorAll('thead th')].map(th=>th.textContent.trim());
     return [...table.querySelectorAll('tbody tr')].map(tr=>{
@@ -2656,25 +2657,25 @@ function readBackupXls(text){
   return {format:'store10-backup',version:1,items:get('items'),history:get('history'),categories:categories.map(x=>x.value).filter(Boolean)};
 }
 function normalizeBackupPayload(payload){
-  if(!payload||!Array.isArray(payload.items)||!Array.isArray(payload.history)) throw new Error('ไฟล์สำรองไม่ครบ หรือไม่ใช่ไฟล์ของ Store-10');
+  if(!payload||!Array.isArray(payload.items)||!Array.isArray(payload.history)) throw new Error('à¹„à¸Ÿà¸¥à¹Œà¸ªà¸³à¸£à¸­à¸‡à¹„à¸¡à¹ˆà¸„à¸£à¸š à¸«à¸£à¸·à¸­à¹„à¸¡à¹ˆà¹ƒà¸Šà¹ˆà¹„à¸Ÿà¸¥à¹Œà¸‚à¸­à¸‡ Store-10');
   return {format:'store10-backup',version:payload.version||1,items:payload.items,history:payload.history,categories:Array.isArray(payload.categories)?payload.categories:[]};
 }
 function updateBackupPreview(payload,filename){
   backupRestoreData=payload;
-  document.getElementById('backupPreviewTitle').textContent='พร้อมนำเข้าข้อมูลสำรอง: '+filename;
-  document.getElementById('backupPreviewText').textContent=`สินค้า ${payload.items.length} รายการ · ประวัติการเบิก ${payload.history.length} รายการ · หมวดหมู่เพิ่มเติม ${payload.categories.length} รายการ (ระบบจะรวม/อัปเดตข้อมูลเดิม ไม่ลบข้อมูลเดิม)`;
+  document.getElementById('backupPreviewTitle').textContent='à¸žà¸£à¹‰à¸­à¸¡à¸™à¸³à¹€à¸‚à¹‰à¸²à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ªà¸³à¸£à¸­à¸‡: '+filename;
+  document.getElementById('backupPreviewText').textContent=`à¸ªà¸´à¸™à¸„à¹‰à¸² ${payload.items.length} à¸£à¸²à¸¢à¸à¸²à¸£ Â· à¸›à¸£à¸°à¸§à¸±à¸•à¸´à¸à¸²à¸£à¹€à¸šà¸´à¸ ${payload.history.length} à¸£à¸²à¸¢à¸à¸²à¸£ Â· à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆà¹€à¸žà¸´à¹ˆà¸¡à¹€à¸•à¸´à¸¡ ${payload.categories.length} à¸£à¸²à¸¢à¸à¸²à¸£ (à¸£à¸°à¸šà¸šà¸ˆà¸°à¸£à¸§à¸¡/à¸­à¸±à¸›à¹€à¸”à¸•à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸”à¸´à¸¡ à¹„à¸¡à¹ˆà¸¥à¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸”à¸´à¸¡)`;
   document.getElementById('backupPreview').style.display='block';
 }
 function handleBackupFile(file){
   if(!file) return;
   const ext=file.name.toLowerCase().split('.').pop();
-  if(!['json','xls'].includes(ext)){ toast('กรุณาเลือกไฟล์ .json หรือ .xls ที่ส่งออกจาก Store-10','error'); return; }
+  if(!['json','xls'].includes(ext)){ toast('à¸à¸£à¸¸à¸“à¸²à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œ .json à¸«à¸£à¸·à¸­ .xls à¸—à¸µà¹ˆà¸ªà¹ˆà¸‡à¸­à¸­à¸à¸ˆà¸²à¸ Store-10','error'); return; }
   const reader=new FileReader();
   reader.onload=e=>{
     try{
       const payload=ext==='json'?normalizeBackupPayload(JSON.parse(e.target.result)):normalizeBackupPayload(readBackupXls(e.target.result));
       updateBackupPreview(payload,file.name);
-    }catch(err){ backupRestoreData=null; toast('อ่านไฟล์สำรองไม่สำเร็จ: '+err.message,'error'); }
+    }catch(err){ backupRestoreData=null; toast('à¸­à¹ˆà¸²à¸™à¹„à¸Ÿà¸¥à¹Œà¸ªà¸³à¸£à¸­à¸‡à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: '+err.message,'error'); }
   };
   reader.readAsText(file,'UTF-8');
 }
@@ -2690,21 +2691,21 @@ async function writeBackupCollection(collectionName,records){
   }
 }
 async function applyBackupRestore(){
-  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
+  if(!isAdmin()){ toast('à¸šà¸±à¸à¸Šà¸µà¸™à¸µà¹‰à¸”à¸¹à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸”à¹‰à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§','error'); return; }
   if(!backupRestoreData) return;
   const payload=backupRestoreData;
   try{
     await writeBackupCollection('items',payload.items);
     await writeBackupCollection('history',payload.history);
     if(payload.categories.length) await col('meta').doc('categories').set({list:payload.categories},{merge:true});
-    toast(`กู้คืนสำเร็จ สินค้า ${payload.items.length} รายการ และประวัติ ${payload.history.length} รายการ`,'success');
+    toast(`à¸à¸¹à¹‰à¸„à¸·à¸™à¸ªà¸³à¹€à¸£à¹‡à¸ˆ à¸ªà¸´à¸™à¸„à¹‰à¸² ${payload.items.length} à¸£à¸²à¸¢à¸à¸²à¸£ à¹à¸¥à¸°à¸›à¸£à¸°à¸§à¸±à¸•à¸´ ${payload.history.length} à¸£à¸²à¸¢à¸à¸²à¸£`,'success');
     document.getElementById('backupPreview').style.display='none';
     document.getElementById('backupFile').value=''; backupRestoreData=null;
-  }catch(err){ toast('กู้คืนข้อมูลไม่สำเร็จ: '+err.message,'error'); }
+  }catch(err){ toast('à¸à¸¹à¹‰à¸„à¸·à¸™à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: '+err.message,'error'); }
 }
 function confirmBackupRestore(){
-  if(!backupRestoreData){ toast('กรุณาเลือกไฟล์สำรองก่อน','warn'); return; }
-  showConfirm('ยืนยันนำเข้าข้อมูลสำรอง','ระบบจะรวม/อัปเดตสินค้า ประวัติ และหมวดหมู่จากไฟล์ โดยไม่ลบข้อมูลเดิม','กู้คืนข้อมูล','btn-danger btn-sm',applyBackupRestore);
+  if(!backupRestoreData){ toast('à¸à¸£à¸¸à¸“à¸²à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œà¸ªà¸³à¸£à¸­à¸‡à¸à¹ˆà¸­à¸™','warn'); return; }
+  showConfirm('à¸¢à¸·à¸™à¸¢à¸±à¸™à¸™à¸³à¹€à¸‚à¹‰à¸²à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ªà¸³à¸£à¸­à¸‡','à¸£à¸°à¸šà¸šà¸ˆà¸°à¸£à¸§à¸¡/à¸­à¸±à¸›à¹€à¸”à¸•à¸ªà¸´à¸™à¸„à¹‰à¸² à¸›à¸£à¸°à¸§à¸±à¸•à¸´ à¹à¸¥à¸°à¸«à¸¡à¸§à¸”à¸«à¸¡à¸¹à¹ˆà¸ˆà¸²à¸à¹„à¸Ÿà¸¥à¹Œ à¹‚à¸”à¸¢à¹„à¸¡à¹ˆà¸¥à¸šà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸”à¸´à¸¡','à¸à¸¹à¹‰à¸„à¸·à¸™à¸‚à¹‰à¸­à¸¡à¸¹à¸¥','btn-danger btn-sm',applyBackupRestore);
 }
 function parseCSV(text){
   const lines=text.trim().split('\n');
@@ -2720,40 +2721,40 @@ function parseCSV(text){
   return rows;
 }
 function handleCSVFile(file){
-  if(!file||!file.name.endsWith('.csv')){ toast('กรุณาเลือกไฟล์ .csv เท่านั้น','error'); return; }
+  if(!file||!file.name.endsWith('.csv')){ toast('à¸à¸£à¸¸à¸“à¸²à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œ .csv à¹€à¸—à¹ˆà¸²à¸™à¸±à¹‰à¸™','error'); return; }
   const reader=new FileReader();
   reader.onload=e=>{
     const rows=parseCSV(e.target.result);
     importRows=rows;
     const today=todayStr();
-    document.getElementById('importPreviewTitle').textContent=`ตัวอย่าง ${rows.length} รายการ`;
+    document.getElementById('importPreviewTitle').textContent=`à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡ ${rows.length} à¸£à¸²à¸¢à¸à¸²à¸£`;
     document.getElementById('importPreviewBody').innerHTML=rows.map(r=>{
-      const exists=items.find(x=>x.name===(r.name||r['ชื่ออุปกรณ์']||''));
-      const name=r.name||r['ชื่ออุปกรณ์']||'';
-      const qty=r.qty||r['จำนวน']||'0';
-      const price=r.price||r['ราคา']||'0';
-      const thr=r.threshold||r['แจ้งเตือนเมื่อ≤']||'0';
-      const note=r.note||r['หมายเหตุ']||'';
-      return `<tr><td>${esc(name)}</td><td class="text-right">${qty}</td><td class="text-right">${price}</td><td class="text-right">${thr}</td><td>${esc(note)}</td><td>${exists?'<span class="tag tag-warn">เพิ่มจำนวน</span>':'<span class="tag tag-ok">ใหม่</span>'}</td></tr>`;
+      const exists=items.find(x=>x.name===(r.name||r['à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ']||''));
+      const name=r.name||r['à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ']||'';
+      const qty=r.qty||r['à¸ˆà¸³à¸™à¸§à¸™']||'0';
+      const price=r.price||r['à¸£à¸²à¸„à¸²']||'0';
+      const thr=r.threshold||r['à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™à¹€à¸¡à¸·à¹ˆà¸­â‰¤']||'0';
+      const note=r.note||r['à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸']||'';
+      return `<tr><td>${esc(name)}</td><td class="text-right">${qty}</td><td class="text-right">${price}</td><td class="text-right">${thr}</td><td>${esc(note)}</td><td>${exists?'<span class="tag tag-warn">à¹€à¸žà¸´à¹ˆà¸¡à¸ˆà¸³à¸™à¸§à¸™</span>':'<span class="tag tag-ok">à¹ƒà¸«à¸¡à¹ˆ</span>'}</td></tr>`;
     }).join('');
     document.getElementById('importPreview').style.display='block';
   };
   reader.readAsText(file,'UTF-8');
 }
 function doImport(){
-  if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
-  if(!importRows.length){ toast('ไม่มีข้อมูลที่จะนำเข้า','error'); return; }
+  if(!isAdmin()){ toast('à¸šà¸±à¸à¸Šà¸µà¸™à¸µà¹‰à¸”à¸¹à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸”à¹‰à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§','error'); return; }
+  if(!importRows.length){ toast('à¹„à¸¡à¹ˆà¸¡à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸—à¸µà¹ˆà¸ˆà¸°à¸™à¸³à¹€à¸‚à¹‰à¸²','error'); return; }
   const today=todayStr();
   let count=0;
   const batch=db.batch();
   importRows.forEach(r=>{
-    const name=(r.name||r['ชื่ออุปกรณ์']||'').trim();
+    const name=(r.name||r['à¸Šà¸·à¹ˆà¸­à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ']||'').trim();
     if(!name) return;
-    const qty=+r.qty||+r['จำนวน']||0;
-    const price=+r.price||+r['ราคา']||0;
-    const thr=+r.threshold||+r['แจ้งเตือนเมื่อ≤']||0;
-    const target=+r.target_qty||+r['ยอดที่ต้องมี']||0;
-    const note=r.note||r['หมายเหตุ']||'';
+    const qty=+r.qty||+r['à¸ˆà¸³à¸™à¸§à¸™']||0;
+    const price=+r.price||+r['à¸£à¸²à¸„à¸²']||0;
+    const thr=+r.threshold||+r['à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™à¹€à¸¡à¸·à¹ˆà¸­â‰¤']||0;
+    const target=+r.target_qty||+r['à¸¢à¸­à¸”à¸—à¸µà¹ˆà¸•à¹‰à¸­à¸‡à¸¡à¸µ']||0;
+    const note=r.note||r['à¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸']||'';
     const exists=items.find(x=>x.name===name);
     if(exists){
       batch.update(col('items').doc(exists.id),{ qty:(+exists.qty||0)+qty });
@@ -2764,14 +2765,14 @@ function doImport(){
     count++;
   });
   batch.commit().then(()=>{
-    toast(`นำเข้าสำเร็จ ${count} รายการ ✔`,'success');
+    toast(`à¸™à¸³à¹€à¸‚à¹‰à¸²à¸ªà¸³à¹€à¸£à¹‡à¸ˆ ${count} à¸£à¸²à¸¢à¸à¸²à¸£ âœ”`,'success');
     document.getElementById('importPreview').style.display='none';
     document.getElementById('csvFile').value='';
     importRows=[];
   });
 }
 
-/* ════════════════ EDIT POPUP ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• EDIT POPUP â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function openEditPopup(idx){
   const x=items[idx]; if(!x) return;
   document.getElementById('edit_name').value=x.name;
@@ -2803,7 +2804,7 @@ function refreshEditExisting(){
   });
 }
 
-/* ════════════════ CLEAR ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CLEAR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function clearAddForm(){
   ['name','qty','price','threshold','target_qty','date_add','note','shop','brand','category','default_issue_department','default_usage_department'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('date_add').value=todayStr();
@@ -2822,10 +2823,10 @@ function clearIssueForm(){
   document.getElementById('issueImgFile').value='';
 }
 
-/* ════════════════ ESCAPE ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ESCAPE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-/* ════════════════ YEAR SELECT ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• YEAR SELECT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function populateYearSelect(){
   const sel=document.getElementById('pickYear');
   const summaryYear=document.getElementById('pickSummaryYear');
@@ -2841,7 +2842,7 @@ function populateYearSelect(){
   if(summaryYear) summaryYear.value=String(cur);
 }
 
-/* ════════════════ REALTIME ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• REALTIME â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function listenRealtime(){
   const itemUnsub=col('items').onSnapshot({includeMetadataChanges:true},snap=>{
     items=[];
@@ -2874,11 +2875,11 @@ function listenRealtime(){
   }
 }
 
-/* ════════════════ PWA SETUP ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• PWA SETUP â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function setupPWA(){
-  // Register the real service worker file (sw.js) — enables installability + offline cache
+  // Register the real service worker file (sw.js) â€” enables installability + offline cache
   if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js').catch(()=>{ /* ไม่รองรับใน context นี้ ข้ามไป */ });
+    navigator.serviceWorker.register('sw.js').catch(()=>{ /* à¹„à¸¡à¹ˆà¸£à¸­à¸‡à¸£à¸±à¸šà¹ƒà¸™ context à¸™à¸µà¹‰ à¸‚à¹‰à¸²à¸¡à¹„à¸› */ });
   }
 
   // Install button logic
@@ -2891,22 +2892,22 @@ function setupPWA(){
   });
   btn.addEventListener('click', async ()=>{
     if(!deferredPrompt){
-      toast('เบราว์เซอร์นี้อาจไม่รองรับการติดตั้ง หรือเว็บต้องเปิดผ่าน https/localhost','warn');
+      toast('à¹€à¸šà¸£à¸²à¸§à¹Œà¹€à¸‹à¸­à¸£à¹Œà¸™à¸µà¹‰à¸­à¸²à¸ˆà¹„à¸¡à¹ˆà¸£à¸­à¸‡à¸£à¸±à¸šà¸à¸²à¸£à¸•à¸´à¸”à¸•à¸±à¹‰à¸‡ à¸«à¸£à¸·à¸­à¹€à¸§à¹‡à¸šà¸•à¹‰à¸­à¸‡à¹€à¸›à¸´à¸”à¸œà¹ˆà¸²à¸™ https/localhost','warn');
       return;
     }
     deferredPrompt.prompt();
     const choice=await deferredPrompt.userChoice;
-    if(choice.outcome==='accepted') toast('ติดตั้งแอปเรียบร้อย ✔','success');
+    if(choice.outcome==='accepted') toast('à¸•à¸´à¸”à¸•à¸±à¹‰à¸‡à¹à¸­à¸›à¹€à¸£à¸µà¸¢à¸šà¸£à¹‰à¸­à¸¢ âœ”','success');
     deferredPrompt=null;
     btn.style.display='none';
   });
   window.addEventListener('appinstalled', ()=>{
     btn.style.display='none';
-    toast('ติดตั้งแอปลงเครื่องเรียบร้อยแล้ว 📲','success');
+    toast('à¸•à¸´à¸”à¸•à¸±à¹‰à¸‡à¹à¸­à¸›à¸¥à¸‡à¹€à¸„à¸£à¸·à¹ˆà¸­à¸‡à¹€à¸£à¸µà¸¢à¸šà¸£à¹‰à¸­à¸¢à¹à¸¥à¹‰à¸§ ðŸ“²','success');
   });
 }
 
-/* ════════════════ INIT ════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• INIT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener('DOMContentLoaded',()=>{
   setupPWA();
   setupNav();
@@ -3030,11 +3031,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('btnCloseEdit').onclick=()=>document.getElementById('popupEdit').style.display='none';
   document.getElementById('popupEdit').onclick=function(e){ if(e.target===this) this.style.display='none'; };
   document.getElementById('btnSaveEdit').onclick=async ()=>{
-    if(!isAdmin()){ toast('บัญชีนี้ดูข้อมูลได้อย่างเดียว','error'); return; }
+    if(!isAdmin()){ toast('à¸šà¸±à¸à¸Šà¸µà¸™à¸µà¹‰à¸”à¸¹à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹„à¸”à¹‰à¸­à¸¢à¹ˆà¸²à¸‡à¹€à¸”à¸µà¸¢à¸§','error'); return; }
     const idx=+document.getElementById('edit_idx').value;
     const x=items[idx]; if(!x) return;
     const btn=document.getElementById('btnSaveEdit');
-    btn.disabled=true; btn.textContent='⏳ กำลังบันทึก...';
+    btn.disabled=true; btn.textContent='â³ à¸à¸³à¸¥à¸±à¸‡à¸šà¸±à¸™à¸—à¸¶à¸...';
     try{
       const newUrls=await uploadImages(editImgFiles,'items','editUploadBar','editUploadProgress');
       const allUrls=[...editImgUrls,...newUrls];
@@ -3056,9 +3057,9 @@ document.addEventListener('DOMContentLoaded',()=>{
         images:allUrls
       });
       document.getElementById('popupEdit').style.display='none';
-      toast('แก้ไขเรียบร้อย ✔','success');
-    } catch(err){ toast('เกิดข้อผิดพลาด: '+err.message,'error'); }
-    btn.disabled=false; btn.textContent='💾 บันทึก';
+      toast('à¹à¸à¹‰à¹„à¸‚à¹€à¸£à¸µà¸¢à¸šà¸£à¹‰à¸­à¸¢ âœ”','success');
+    } catch(err){ toast('à¹€à¸à¸´à¸”à¸‚à¹‰à¸­à¸œà¸´à¸”à¸žà¸¥à¸²à¸”: '+err.message,'error'); }
+    btn.disabled=false; btn.textContent='ðŸ’¾ à¸šà¸±à¸™à¸—à¸¶à¸';
   };
 
   // import
@@ -3078,7 +3079,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('btnConfirmImport').onclick=doImport;
   document.getElementById('btnCancelImport').onclick=()=>{ document.getElementById('importPreview').style.display='none'; document.getElementById('csvFile').value=''; importRows=[]; };
   document.getElementById('btnDownloadTemplate').onclick=()=>{
-    exportCSV([['ถุงมือหนัง','20','150','5','30','สำหรับกิจกรรม ATV']],
+    exportCSV([['à¸–à¸¸à¸‡à¸¡à¸·à¸­à¸«à¸™à¸±à¸‡','20','150','5','30','à¸ªà¸³à¸«à¸£à¸±à¸šà¸à¸´à¸ˆà¸à¸£à¸£à¸¡ ATV']],
       ['name','qty','price','threshold','target_qty','note'],'stock_template.csv');
   };
 
@@ -3086,7 +3087,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     e.preventDefault();
     const btn=document.getElementById('btnLogin');
     const error=document.getElementById('loginError');
-    btn.disabled=true; btn.textContent='กำลังเข้าสู่ระบบ...';
+    btn.disabled=true; btn.textContent='à¸à¸³à¸¥à¸±à¸‡à¹€à¸‚à¹‰à¸²à¸ªà¸¹à¹ˆà¸£à¸°à¸šà¸š...';
     if(error) error.textContent='';
     try{
       await auth.signInWithEmailAndPassword(
@@ -3096,7 +3097,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     }catch(err){
       if(error) error.textContent=authErrorMessage(err);
     }finally{
-      btn.disabled=false; btn.textContent='เข้าสู่ระบบ';
+      btn.disabled=false; btn.textContent='à¹€à¸‚à¹‰à¸²à¸ªà¸¹à¹ˆà¸£à¸°à¸šà¸š';
     }
   });
   document.getElementById('btnSignOut').onclick=()=>auth.signOut();
