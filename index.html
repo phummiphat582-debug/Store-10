@@ -1077,7 +1077,12 @@ body.viewer-mode #view-stock .page-sub:after{content:' · โหมดดูอ�
 /* ════════════════ SUPABASE ════════════════ */
 const SUPABASE_URL = 'https://kpzohxkumnzwbthclnvm.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_6TSVpQgIZ7T-jKxgYHO7Kw_t0JhsocC';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Keep the auth session in memory only. A full page refresh must require login
+// again; the browser may still remember/autofill the credentials because the
+// login fields use autocomplete="username" and autocomplete="current-password".
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { persistSession: false }
+});
 const auth = {
   async signInWithEmailAndPassword(email,password){
     const {error}=await supabaseClient.auth.signInWithPassword({email,password});
